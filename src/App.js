@@ -1,5 +1,8 @@
 import React from 'react';
 
+/** Fonts */
+import 'typeface-roboto';
+
 /** React Router */
 import { Router, Route } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
@@ -9,13 +12,16 @@ import { Hub, Auth, API, graphqlOperation } from 'aws-amplify'
 import { Authenticator } from 'aws-amplify-react'
 
 /** GraphQL Operations */
-import {getUser} from './graphql/queries'
-import {createUser} from './graphql/mutations'
+import { getUser } from './graphql/queries'
+import { createUser } from './graphql/mutations'
+
 /** Components */
+import Navbar from './components/Navbar'
 
 /** Context elements */
 export const UserContext = React.createContext()
 export const history = createBrowserHistory()
+
 
 // ___  _      __   __  ___                    
 // / _ \(_)__ _/ /  / /_/ _ \___  ___  ___  ____
@@ -71,8 +77,8 @@ class App extends React.Component {
     const getUserInput = {
       id: signInData.signInUserSession.idToken.payload.sub
     }
-    const {data} = await API.graphql(graphqlOperation(getUser, getUserInput))
-    if(!data.getUser) {
+    const { data } = await API.graphql(graphqlOperation(getUser, getUserInput))
+    if (!data.getUser) {
       try {
         const registerUserInput = {
           ...getUserInput,
@@ -81,10 +87,10 @@ class App extends React.Component {
           phonenumber: signInData.signInUserSession.idToken.payload.phone_number,
           type: "donor"
         }
-        const newUser = await API.graphql(graphqlOperation(createUser, {input: registerUserInput}))
-        console.log({newUser})
+        const newUser = await API.graphql(graphqlOperation(createUser, { input: registerUserInput }))
+        console.log({ newUser })
       } catch (err) {
-        console.error("User Creation failed!",err)
+        console.error("User Creation failed!", err)
       }
     }
   }
@@ -104,7 +110,7 @@ class App extends React.Component {
         break
       case 'signOut':
         console.log('The user signed out')
-        this.setState({ user: null})
+        this.setState({ user: null })
         break
       case 'signIn_failure':
         console.log('The user failed to sign in')
@@ -115,14 +121,19 @@ class App extends React.Component {
   }
 
   render() {
-    const {user, userAttributes} = this.state
-    return !user ? <Authenticator/> : (
-      <UserContext.Provider value={{user, userAttributes}}>
+    const { user, userAttributes } = this.state
+    return !user ? <Authenticator /> : (
+      <UserContext.Provider value={{ user, userAttributes }}>
         <Router history={history}>
           <>
-            <Route exact path="/" component={
-              () => <button onClick={this.handleSignOut}> Sign Out </button>
-            }/>
+            {/** Always present Navigation Bar */}
+            <Navbar user={user} handleSignout={this.handleSignOut}/>
+            {/** Application Routes */}
+            <div className="app-container">
+              <Route exact path="/" component={
+                () => <h1> App </h1>
+              } />
+            </div>
           </>
         </Router>
       </UserContext.Provider>
