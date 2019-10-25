@@ -1,0 +1,9 @@
+{
+	"auth": {
+		"donorsapp77758946": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}
