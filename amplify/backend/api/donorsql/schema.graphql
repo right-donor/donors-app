@@ -1,0 +1,84 @@
+
+type User @model @searchable {
+  id: ID!
+  firstname: String
+  lastname: String
+  birthday: AWSDate
+  username: String
+  email: String
+  phonenumber: String
+  photo: S3Object
+  blood: BloodData
+  type: String
+  canDonateFrom: AWSDate
+  donations: [Donation] @connection(name: "DonorDonation")
+  patients: [Patient] @connection(name: "DoctorPatient")
+  interviews: [Interview]
+}
+
+type Interview {
+  date: AWSDate!
+  weight: Float!
+  recentSickness: Boolean!
+  recentAntibiotics: Boolean!
+  recentPregnancy: Boolean!
+  recentAlcohol:Boolean!
+  recentVaccines: Boolean!
+  recentTattoos: Boolean!
+  recentMenstrualCycle: Boolean!
+  diabetic: Boolean!
+  hypertension:Boolean!
+  bloodresults: BloodResults
+}
+
+type BloodResults {
+  vih: Boolean!
+  hepatitisB: Boolean!
+  hepatitisC: Boolean!
+  syphilis: Boolean!
+  chagas: Boolean!
+}
+
+type Donation @model @searchable{
+  id: ID!
+  dateNeeded: AWSDate!
+  dateFulfilled: AWSDate
+  donatedBy: User @connection(name: "DonorDonation")
+  assignedTo: Patient @connection(name: "PatientDonation")
+  bloodBagId: String
+  bloodType: BloodData!
+  bagAmount: Int!
+  hospital: Hospital!
+}
+
+type Patient @model @searchable {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  birthday: AWSDate!
+  photo: S3Object!
+  blood: BloodData
+  donations: [Donation] @connection(name: "PatientDonation")
+  doctor: User @connection(name: "DoctorPatient")
+  hospital: Hospital
+}
+
+type Hospital {
+  name: String
+  city: String
+  country: String
+  address_line1: String
+  address_state: String
+  address_zip: String
+}
+
+type BloodData {
+  type: String
+  rh: String
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}

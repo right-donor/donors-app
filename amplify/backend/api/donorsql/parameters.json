@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "donorsql",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authdonorsapp77758946",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
