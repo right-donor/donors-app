@@ -2,10 +2,15 @@ import React from 'react';
 
 /** React Router */
 import { Router, Route } from 'react-router-dom'
+import createBrowserHistory from 'history/createBrowserHistory'
 
 /** AWS Amplify Components */
-import { Hub, Auth } from 'aws-amplify'
+import { Hub, Auth, API, graphqlOperation } from 'aws-amplify'
 import { Authenticator } from 'aws-amplify-react'
+
+/** Context elements */
+export const UserContext = React.createContext()
+export const history = createBrowserHistory()
 
 class App extends React.Component {
   state = {
@@ -59,7 +64,14 @@ class App extends React.Component {
   render() {
     const {user, userAttributes} = this.state
     return !user ? <Authenticator/> : (
-      <h1> Logged </h1>
+      <UserContext.Provider value={{user, userAttributes}}>
+        <Router history={history}>
+          <>
+            {/** Navigation Bar */}
+            
+          </>
+        </Router>
+      </UserContext.Provider>
     )
   }
 }
