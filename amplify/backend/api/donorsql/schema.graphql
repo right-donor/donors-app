@@ -4,9 +4,9 @@ type User @model @searchable {
   firstname: String
   lastname: String
   birthday: AWSDate
-  username: String
-  email: String
-  phonenumber: String
+  username: String!
+  email: String!
+  phonenumber: String!
   photo: S3Object
   blood: BloodData
   type: String

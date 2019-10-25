@@ -7,6 +7,7 @@ export const getUser = `query GetUser($id: ID!) {
     firstname
     lastname
     birthday
+    username
     email
     phonenumber
     photo {
@@ -18,6 +19,7 @@ export const getUser = `query GetUser($id: ID!) {
       type
       rh
     }
+    type
     canDonateFrom
     donations {
       items {
@@ -72,6 +74,7 @@ export const listUsers = `query ListUsers(
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -83,6 +86,7 @@ export const listUsers = `query ListUsers(
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -118,6 +122,7 @@ export const getDonation = `query GetDonation($id: ID!) {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -129,6 +134,7 @@ export const getDonation = `query GetDonation($id: ID!) {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -172,8 +178,10 @@ export const getDonation = `query GetDonation($id: ID!) {
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       hospital {
@@ -217,8 +225,10 @@ export const listDonations = `query ListDonations(
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       assignedTo {
@@ -276,6 +286,7 @@ export const getPatient = `query GetPatient($id: ID!) {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -287,6 +298,7 @@ export const getPatient = `query GetPatient($id: ID!) {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -347,8 +359,10 @@ export const listPatients = `query ListPatients(
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       hospital {
@@ -381,6 +395,7 @@ export const searchUsers = `query SearchUsers(
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -392,6 +407,7 @@ export const searchUsers = `query SearchUsers(
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -438,8 +454,10 @@ export const searchDonations = `query SearchDonations(
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       assignedTo {
@@ -501,8 +519,10 @@ export const searchPatients = `query SearchPatients(
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       hospital {

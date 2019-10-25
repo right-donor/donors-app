@@ -76,8 +76,9 @@ class App extends React.Component {
       try {
         const registerUserInput = {
           ...getUserInput,
+          username: signInData.username,
           email: signInData.signInUserSession.idToken.payload.email,
-          registered: true,
+          phonenumber: signInData.signInUserSession.idToken.payload.phone_number,
           type: "donor"
         }
         const newUser = await API.graphql(graphqlOperation(createUser, {input: registerUserInput}))
@@ -120,7 +121,7 @@ class App extends React.Component {
         <Router history={history}>
           <>
             <Route exact path="/" component={
-              () => <h1> Worked? </h1>
+              () => <button onClick={this.handleSignOut}> Sign Out </button>
             }/>
           </>
         </Router>

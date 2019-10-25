@@ -7,6 +7,7 @@ export const onCreateUser = `subscription OnCreateUser {
     firstname
     lastname
     birthday
+    username
     email
     phonenumber
     photo {
@@ -18,6 +19,7 @@ export const onCreateUser = `subscription OnCreateUser {
       type
       rh
     }
+    type
     canDonateFrom
     donations {
       items {
@@ -67,6 +69,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
     firstname
     lastname
     birthday
+    username
     email
     phonenumber
     photo {
@@ -78,6 +81,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
       type
       rh
     }
+    type
     canDonateFrom
     donations {
       items {
@@ -127,6 +131,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
     firstname
     lastname
     birthday
+    username
     email
     phonenumber
     photo {
@@ -138,6 +143,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
       type
       rh
     }
+    type
     canDonateFrom
     donations {
       items {
@@ -191,6 +197,7 @@ export const onCreateDonation = `subscription OnCreateDonation {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -202,6 +209,7 @@ export const onCreateDonation = `subscription OnCreateDonation {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -245,8 +253,10 @@ export const onCreateDonation = `subscription OnCreateDonation {
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       hospital {
@@ -285,6 +295,7 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -296,6 +307,7 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -339,8 +351,10 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       hospital {
@@ -379,6 +393,7 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -390,6 +405,7 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -433,8 +449,10 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
         firstname
         lastname
         birthday
+        username
         email
         phonenumber
+        type
         canDonateFrom
       }
       hospital {
@@ -493,6 +511,7 @@ export const onCreatePatient = `subscription OnCreatePatient {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -504,6 +523,7 @@ export const onCreatePatient = `subscription OnCreatePatient {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -566,6 +586,7 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -577,6 +598,7 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
@@ -639,6 +661,7 @@ export const onDeletePatient = `subscription OnDeletePatient {
       firstname
       lastname
       birthday
+      username
       email
       phonenumber
       photo {
@@ -650,6 +673,7 @@ export const onDeletePatient = `subscription OnDeletePatient {
         type
         rh
       }
+      type
       canDonateFrom
       donations {
         nextToken
