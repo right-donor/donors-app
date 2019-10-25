@@ -19,7 +19,11 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-
+/**
+ * Aplication Navigation Bar
+ * @param {Object} user User object from the Auth Component
+ * @param {function} handleSignout Handles Sign Out on the Auth Component 
+ */
 export default function Navbar({ user, handleSignout }) {
     const classes = useStyles()
     return (
