@@ -18,6 +18,9 @@ import { createUser } from './graphql/mutations'
 /** Components */
 import Navbar from './components/Navbar'
 
+/** Donor's pages */
+import DHomepage from './pages/donor/Homepage'
+
 /** Context elements */
 export const UserContext = React.createContext()
 export const history = createBrowserHistory()
@@ -31,6 +34,7 @@ export const history = createBrowserHistory()
 class App extends React.Component {
   state = {
     user: null,
+    dbuser: null,
     userAttributes: null
   }
 
@@ -88,10 +92,12 @@ class App extends React.Component {
           type: "donor"
         }
         const newUser = await API.graphql(graphqlOperation(createUser, { input: registerUserInput }))
-        console.log({ newUser })
+        this.setState({dbuser: newUser})
       } catch (err) {
         console.error("User Creation failed!", err)
       }
+    } else {
+      this.setState({dbuser: data})
     }
   }
 
@@ -130,9 +136,9 @@ class App extends React.Component {
             <Navbar user={user} handleSignout={this.handleSignOut}/>
             {/** Application Routes */}
             <div className="app-container">
-              <Route exact path="/" component={
-                () => <h1> App </h1>
-              } />
+                <Route exact path="/" component={
+                  () => <DHomepage user={user}/>
+                }/>
             </div>
           </>
         </Router>
