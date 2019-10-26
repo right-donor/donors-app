@@ -20,6 +20,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
       rh
     }
     type
+    city
     canDonateFrom
     donations {
       items {
@@ -82,6 +83,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       rh
     }
     type
+    city
     canDonateFrom
     donations {
       items {
@@ -144,6 +146,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
       rh
     }
     type
+    city
     canDonateFrom
     donations {
       items {
@@ -210,6 +213,7 @@ export const createDonation = `mutation CreateDonation($input: CreateDonationInp
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -257,6 +261,7 @@ export const createDonation = `mutation CreateDonation($input: CreateDonationInp
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -308,6 +313,7 @@ export const updateDonation = `mutation UpdateDonation($input: UpdateDonationInp
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -355,6 +361,7 @@ export const updateDonation = `mutation UpdateDonation($input: UpdateDonationInp
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -406,6 +413,7 @@ export const deleteDonation = `mutation DeleteDonation($input: DeleteDonationInp
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -453,6 +461,7 @@ export const deleteDonation = `mutation DeleteDonation($input: DeleteDonationInp
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -524,6 +533,7 @@ export const createPatient = `mutation CreatePatient($input: CreatePatientInput!
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -599,6 +609,7 @@ export const updatePatient = `mutation UpdatePatient($input: UpdatePatientInput!
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -674,6 +685,7 @@ export const deletePatient = `mutation DeletePatient($input: DeletePatientInput!
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken

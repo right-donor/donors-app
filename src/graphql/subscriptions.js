@@ -20,6 +20,7 @@ export const onCreateUser = `subscription OnCreateUser {
       rh
     }
     type
+    city
     canDonateFrom
     donations {
       items {
@@ -82,6 +83,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
       rh
     }
     type
+    city
     canDonateFrom
     donations {
       items {
@@ -144,6 +146,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
       rh
     }
     type
+    city
     canDonateFrom
     donations {
       items {
@@ -210,6 +213,7 @@ export const onCreateDonation = `subscription OnCreateDonation {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -257,6 +261,7 @@ export const onCreateDonation = `subscription OnCreateDonation {
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -308,6 +313,7 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -355,6 +361,7 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -406,6 +413,7 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -453,6 +461,7 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -524,6 +533,7 @@ export const onCreatePatient = `subscription OnCreatePatient {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -599,6 +609,7 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -674,6 +685,7 @@ export const onDeletePatient = `subscription OnDeletePatient {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken

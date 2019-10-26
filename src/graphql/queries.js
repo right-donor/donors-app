@@ -20,6 +20,7 @@ export const getUser = `query GetUser($id: ID!) {
       rh
     }
     type
+    city
     canDonateFrom
     donations {
       items {
@@ -87,6 +88,7 @@ export const listUsers = `query ListUsers(
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -135,6 +137,7 @@ export const getDonation = `query GetDonation($id: ID!) {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -182,6 +185,7 @@ export const getDonation = `query GetDonation($id: ID!) {
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -229,6 +233,7 @@ export const listDonations = `query ListDonations(
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       assignedTo {
@@ -299,6 +304,7 @@ export const getPatient = `query GetPatient($id: ID!) {
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -363,6 +369,7 @@ export const listPatients = `query ListPatients(
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {
@@ -408,6 +415,7 @@ export const searchUsers = `query SearchUsers(
         rh
       }
       type
+      city
       canDonateFrom
       donations {
         nextToken
@@ -458,6 +466,7 @@ export const searchDonations = `query SearchDonations(
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       assignedTo {
@@ -523,6 +532,7 @@ export const searchPatients = `query SearchPatients(
         email
         phonenumber
         type
+        city
         canDonateFrom
       }
       hospital {

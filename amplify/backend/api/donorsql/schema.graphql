@@ -10,6 +10,7 @@ type User @model @searchable {
   photo: S3Object
   blood: BloodData
   type: String
+  city: String
   canDonateFrom: AWSDateTime
   donations: [Donation] @connection(name: "DonorDonation")
   patients: [Patient] @connection(name: "DoctorPatient")

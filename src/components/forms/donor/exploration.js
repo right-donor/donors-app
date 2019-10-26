@@ -30,6 +30,7 @@ class Exploration extends React.Component {
             type: "",
             rh: ""
         },
+        city: "",
         imagePreview: "",
         image: "",
         uploading: false,
@@ -57,7 +58,6 @@ class Exploration extends React.Component {
             const uploadedFile = await Storage.put(filename, this.state.image.file, {
                 contentType: this.state.image.type,
                 progressCallback: progress => {
-                    console.log(`Uploaded: ${progress.loaded}/${progress.total}`)
                     const percentUploaded = Math.round((progress.loaded / progress.total) * 100)
                     this.setState({ percentUploaded })
                 }
@@ -77,11 +77,12 @@ class Exploration extends React.Component {
                 lastname: this.state.lastname,
                 birthday: this.state.birthday,
                 photo: this.state.photo,
+                city: this.state.city,
                 blood: this.state.blood,
                 canDonateFrom: new Date().toISOString()
             }
             //Commit it to the database
-            const result = await API.graphql(graphqlOperation(updateUser, { input }))
+            await API.graphql(graphqlOperation(updateUser, { input }))
             this.props.refresh()
         } catch (err) {
             alert(JSON.stringify(err))
@@ -122,6 +123,22 @@ class Exploration extends React.Component {
                             onChange={event => this.setState({ lastname: event.target.value })}
                             margin="normal"
                             variant="outlined" />
+                    </Grid>
+                    <Grid item>
+                    <InputLabel htmlFor="blood-type">
+                            City
+                    </InputLabel>
+                        <Select
+                            value={this.state.city}
+                            onChange={event => this.setState({city: event.target.value})}
+                            inputProps={{
+                                name: "city",
+                                id: "city"
+                            }}>
+                            <MenuItem value={"CDMX"}>CDMX</MenuItem>
+                            <MenuItem value={"Monterrey"}>Monterrey</MenuItem>
+                            <MenuItem value={"Guadalajara"}>Guadalajara</MenuItem>
+                        </Select>
                     </Grid>
                     <Grid item >
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
