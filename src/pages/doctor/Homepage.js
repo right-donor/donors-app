@@ -2,18 +2,35 @@ import React from 'react'
 
 /** GraphQL Statements */
 import {createPatient} from '../../graphql/mutations'
-import {listPatients, searchPatients} from '../../graphql/queries'
+import {listPatients, searchPatients, getUser} from '../../graphql/queries'
 import { API, graphqlOperation } from 'aws-amplify'
 
 /** Manmade components */
 import NewPatient from '../../components/forms/doctor/NewPatient'
 import PatientList from '../../components/PatientList'
 
+/** Element UI */
+import {Notification} from 'element-react'
+
 class Homepage extends React.Component {
     state = {
         searchTerm: "",
         searchResults: [],
-        isSearching: false
+        isSearching: false,
+        user: null
+    }
+
+    componentDidMount =  () => {
+        this.getUserInfo()
+    }
+
+    getUserInfo = async () => {
+        const user = await API.graphql(graphqlOperation(getUser, {id: this.props.user.username}))
+        this.setState({user: user.data.getUser})
+        Notification({
+            title: 'Welcome',
+            message: "Welcome back "+user.data.getUser.firstname+" "+user.data.getUser.lastname
+        })
     }
 
     handleSearchChange = searchTerm => this.setState({searchTerm})
@@ -45,7 +62,8 @@ class Homepage extends React.Component {
             isSearching={this.state.isSearching}
             searchTerm={this.state.searchTerm}
             handleSearchChange={this.handleSearchChange}
-            handleClearSearch={this.handleSearchClear}/>
+            handleClearSearch={this.handleSearchClear}
+            user={this.state.user}/>
            <PatientList searchResults={this.state.searchResults}/>
            </>
         )
