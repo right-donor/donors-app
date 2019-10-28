@@ -6,6 +6,7 @@ type User @model @searchable {
   birthday: AWSDateTime
   username: String!
   email: String!
+  gender: String
   phonenumber: String!
   photo: S3Object
   blood: BloodData
@@ -15,6 +16,7 @@ type User @model @searchable {
   donations: [Donation] @connection(name: "DonorDonation")
   patients: [Patient] @connection(name: "DoctorPatient")
   interviews: [Interview]
+  hospital: Hospital @connection(name: "DoctorHospital")
 }
 
 type Interview {
@@ -57,20 +59,23 @@ type Patient @model @searchable {
   firstname: String!
   lastname: String!
   birthday: AWSDateTime!
+  gender: String!
   photo: S3Object!
   blood: BloodData
   donations: [Donation] @connection(name: "PatientDonation")
   doctor: User @connection(name: "DoctorPatient")
-  hospital: Hospital
+  hospital: Hospital! @connection(name: "PatientHospital")
 }
 
-type Hospital {
-  name: String
-  city: String
-  country: String
-  address_line1: String
-  address_state: String
-  address_zip: String
+type Hospital @model {
+  id: ID!
+  name: String!
+  country: String!
+  address_line1: String!
+  address_state: String!
+  address_zip: String!
+  doctors: [User] @connection(name: "DoctorHospital")
+  patients: [Patient] @connection(name: "PatientHospital")
 }
 
 type BloodData {

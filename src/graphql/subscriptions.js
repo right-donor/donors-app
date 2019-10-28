@@ -9,6 +9,7 @@ export const onCreateUser = `subscription OnCreateUser {
     birthday
     username
     email
+    gender
     phonenumber
     photo {
       bucket
@@ -38,6 +39,7 @@ export const onCreateUser = `subscription OnCreateUser {
         firstname
         lastname
         birthday
+        gender
       }
       nextToken
     }
@@ -59,6 +61,20 @@ export const onCreateUser = `subscription OnCreateUser {
         hepatitisC
         syphilis
         chagas
+      }
+    }
+    hospital {
+      id
+      name
+      country
+      address_line1
+      address_state
+      address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
       }
     }
   }
@@ -72,6 +88,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
     birthday
     username
     email
+    gender
     phonenumber
     photo {
       bucket
@@ -101,6 +118,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
         firstname
         lastname
         birthday
+        gender
       }
       nextToken
     }
@@ -122,6 +140,20 @@ export const onUpdateUser = `subscription OnUpdateUser {
         hepatitisC
         syphilis
         chagas
+      }
+    }
+    hospital {
+      id
+      name
+      country
+      address_line1
+      address_state
+      address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
       }
     }
   }
@@ -135,6 +167,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
     birthday
     username
     email
+    gender
     phonenumber
     photo {
       bucket
@@ -164,6 +197,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
         firstname
         lastname
         birthday
+        gender
       }
       nextToken
     }
@@ -185,6 +219,20 @@ export const onDeleteUser = `subscription OnDeleteUser {
         hepatitisC
         syphilis
         chagas
+      }
+    }
+    hospital {
+      id
+      name
+      country
+      address_line1
+      address_state
+      address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
       }
     }
   }
@@ -202,6 +250,7 @@ export const onCreateDonation = `subscription OnCreateDonation {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -234,12 +283,21 @@ export const onCreateDonation = `subscription OnCreateDonation {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     assignedTo {
       id
       firstname
       lastname
       birthday
+      gender
       photo {
         bucket
         region
@@ -259,14 +317,15 @@ export const onCreateDonation = `subscription OnCreateDonation {
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
         canDonateFrom
       }
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state
@@ -280,12 +339,18 @@ export const onCreateDonation = `subscription OnCreateDonation {
     }
     bagAmount
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
     }
   }
 }
@@ -302,6 +367,7 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -334,12 +400,21 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     assignedTo {
       id
       firstname
       lastname
       birthday
+      gender
       photo {
         bucket
         region
@@ -359,14 +434,15 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
         canDonateFrom
       }
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state
@@ -380,12 +456,18 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
     }
     bagAmount
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
     }
   }
 }
@@ -402,6 +484,7 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -434,12 +517,21 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     assignedTo {
       id
       firstname
       lastname
       birthday
+      gender
       photo {
         bucket
         region
@@ -459,14 +551,15 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
         canDonateFrom
       }
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state
@@ -480,12 +573,18 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
     }
     bagAmount
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
     }
   }
 }
@@ -496,6 +595,7 @@ export const onCreatePatient = `subscription OnCreatePatient {
     firstname
     lastname
     birthday
+    gender
     photo {
       bucket
       region
@@ -522,6 +622,7 @@ export const onCreatePatient = `subscription OnCreatePatient {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -554,14 +655,28 @@ export const onCreatePatient = `subscription OnCreatePatient {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
     }
   }
 }
@@ -572,6 +687,7 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
     firstname
     lastname
     birthday
+    gender
     photo {
       bucket
       region
@@ -598,6 +714,7 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -630,14 +747,28 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
     }
   }
 }
@@ -648,6 +779,7 @@ export const onDeletePatient = `subscription OnDeletePatient {
     firstname
     lastname
     birthday
+    gender
     photo {
       bucket
       region
@@ -674,6 +806,7 @@ export const onDeletePatient = `subscription OnDeletePatient {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -706,14 +839,139 @@ export const onDeletePatient = `subscription OnDeletePatient {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
+    }
+  }
+}
+`;
+export const onCreateHospital = `subscription OnCreateHospital {
+  onCreateHospital {
+    id
+    name
+    country
+    address_line1
+    address_state
+    address_zip
+    doctors {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        username
+        email
+        gender
+        phonenumber
+        type
+        city
+        canDonateFrom
+      }
+      nextToken
+    }
+    patients {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        gender
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const onUpdateHospital = `subscription OnUpdateHospital {
+  onUpdateHospital {
+    id
+    name
+    country
+    address_line1
+    address_state
+    address_zip
+    doctors {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        username
+        email
+        gender
+        phonenumber
+        type
+        city
+        canDonateFrom
+      }
+      nextToken
+    }
+    patients {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        gender
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const onDeleteHospital = `subscription OnDeleteHospital {
+  onDeleteHospital {
+    id
+    name
+    country
+    address_line1
+    address_state
+    address_zip
+    doctors {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        username
+        email
+        gender
+        phonenumber
+        type
+        city
+        canDonateFrom
+      }
+      nextToken
+    }
+    patients {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        gender
+      }
+      nextToken
     }
   }
 }

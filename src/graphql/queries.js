@@ -9,6 +9,7 @@ export const getUser = `query GetUser($id: ID!) {
     birthday
     username
     email
+    gender
     phonenumber
     photo {
       bucket
@@ -38,6 +39,7 @@ export const getUser = `query GetUser($id: ID!) {
         firstname
         lastname
         birthday
+        gender
       }
       nextToken
     }
@@ -61,6 +63,20 @@ export const getUser = `query GetUser($id: ID!) {
         chagas
       }
     }
+    hospital {
+      id
+      name
+      country
+      address_line1
+      address_state
+      address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
+    }
   }
 }
 `;
@@ -77,6 +93,7 @@ export const listUsers = `query ListUsers(
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -108,6 +125,14 @@ export const listUsers = `query ListUsers(
         recentMenstrualCycle
         diabetic
         hypertension
+      }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
       }
     }
     nextToken
@@ -126,6 +151,7 @@ export const getDonation = `query GetDonation($id: ID!) {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -158,12 +184,21 @@ export const getDonation = `query GetDonation($id: ID!) {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     assignedTo {
       id
       firstname
       lastname
       birthday
+      gender
       photo {
         bucket
         region
@@ -183,14 +218,15 @@ export const getDonation = `query GetDonation($id: ID!) {
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
         canDonateFrom
       }
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state
@@ -204,12 +240,18 @@ export const getDonation = `query GetDonation($id: ID!) {
     }
     bagAmount
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
     }
   }
 }
@@ -231,6 +273,7 @@ export const listDonations = `query ListDonations(
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
@@ -241,6 +284,7 @@ export const listDonations = `query ListDonations(
         firstname
         lastname
         birthday
+        gender
       }
       bloodBagId
       bloodType {
@@ -249,8 +293,8 @@ export const listDonations = `query ListDonations(
       }
       bagAmount
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state
@@ -267,6 +311,7 @@ export const getPatient = `query GetPatient($id: ID!) {
     firstname
     lastname
     birthday
+    gender
     photo {
       bucket
       region
@@ -293,6 +338,7 @@ export const getPatient = `query GetPatient($id: ID!) {
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -325,14 +371,28 @@ export const getPatient = `query GetPatient($id: ID!) {
         diabetic
         hypertension
       }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+      }
     }
     hospital {
+      id
       name
-      city
       country
       address_line1
       address_state
       address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
+      }
     }
   }
 }
@@ -348,6 +408,7 @@ export const listPatients = `query ListPatients(
       firstname
       lastname
       birthday
+      gender
       photo {
         bucket
         region
@@ -367,18 +428,80 @@ export const listPatients = `query ListPatients(
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
         canDonateFrom
       }
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state
         address_zip
+      }
+    }
+    nextToken
+  }
+}
+`;
+export const getHospital = `query GetHospital($id: ID!) {
+  getHospital(id: $id) {
+    id
+    name
+    country
+    address_line1
+    address_state
+    address_zip
+    doctors {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        username
+        email
+        gender
+        phonenumber
+        type
+        city
+        canDonateFrom
+      }
+      nextToken
+    }
+    patients {
+      items {
+        id
+        firstname
+        lastname
+        birthday
+        gender
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const listHospitals = `query ListHospitals(
+  $filter: ModelHospitalFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listHospitals(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      country
+      address_line1
+      address_state
+      address_zip
+      doctors {
+        nextToken
+      }
+      patients {
+        nextToken
       }
     }
     nextToken
@@ -404,6 +527,7 @@ export const searchUsers = `query SearchUsers(
       birthday
       username
       email
+      gender
       phonenumber
       photo {
         bucket
@@ -435,6 +559,14 @@ export const searchUsers = `query SearchUsers(
         recentMenstrualCycle
         diabetic
         hypertension
+      }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
       }
     }
     nextToken
@@ -464,6 +596,7 @@ export const searchDonations = `query SearchDonations(
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
@@ -474,6 +607,7 @@ export const searchDonations = `query SearchDonations(
         firstname
         lastname
         birthday
+        gender
       }
       bloodBagId
       bloodType {
@@ -482,8 +616,8 @@ export const searchDonations = `query SearchDonations(
       }
       bagAmount
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state
@@ -511,6 +645,7 @@ export const searchPatients = `query SearchPatients(
       firstname
       lastname
       birthday
+      gender
       photo {
         bucket
         region
@@ -530,14 +665,15 @@ export const searchPatients = `query SearchPatients(
         birthday
         username
         email
+        gender
         phonenumber
         type
         city
         canDonateFrom
       }
       hospital {
+        id
         name
-        city
         country
         address_line1
         address_state

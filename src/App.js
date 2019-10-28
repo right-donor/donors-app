@@ -12,19 +12,19 @@ import { Hub, Auth, API, graphqlOperation } from 'aws-amplify'
 import { Authenticator } from 'aws-amplify-react'
 
 /** GraphQL Operations */
-import { getUser } from './graphql/queries'
-import { createUser } from './graphql/mutations'
+import { getUser, listHospitals } from './graphql/queries'
+import { createUser, updateUser } from './graphql/mutations'
 
 /** Components */
 import Navbar from './components/Navbar'
 
 /** Donor's pages */
-import DHomepage from './pages/donor/Homepage'
+// import DHomepage from './pages/donor/Homepage'
+import DocHomePage from './pages/doctor/Homepage'
 
 /** Context elements */
 export const UserContext = React.createContext()
 export const history = createBrowserHistory()
-
 
 // ___  _      __   __  ___                    
 // / _ \(_)__ _/ /  / /_/ _ \___  ___  ___  ____
@@ -127,9 +127,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, userAttributes } = this.state
+    const { user, userAttributes, dbuser} = this.state
     return !user ? <Authenticator /> : (
-      <UserContext.Provider value={{ user, userAttributes }}>
+      <UserContext.Provider value={{ user, userAttributes, dbuser}}>
         <Router history={history}>
           <>
             {/** Always present Navigation Bar */}
@@ -137,7 +137,7 @@ class App extends React.Component {
             {/** Application Routes */}
             <div className="app-container">
                 <Route exact path="/" component={
-                  () => <DHomepage user={user}/>
+                  () => <DocHomePage user={user}/>
                 }/>
             </div>
           </>
