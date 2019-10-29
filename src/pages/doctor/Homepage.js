@@ -44,13 +44,12 @@ class Homepage extends React.Component {
                     or: [
                         {firstname: {match: this.state.searchTerm}},
                         {lastname: {match: this.state.searchTerm}},
-                        {id : {match: this.state.searchTerm}}
                     ]
                 }
             }))
             this.setState({searchResults: result.data.searchPatients.items, isSearching: false})
         } catch (err) {
-            console.err(err)
+            console.error(err)
         }
     }
 
