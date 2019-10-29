@@ -20,13 +20,35 @@ export default function Avatar({ user }) {
                 <Typography variant="h2"> {user.firstname} {user.lastname} </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="body1"> {new Date().getFullYear() - new Date(user.birthday).getFullYear()} , {user.city} </Typography>
+                <Typography variant="body1"> {new Date().getFullYear() - new Date(user.birthday).getFullYear()} years old</Typography>
             </Grid>
             <Grid item xs={12}>
-            <Typography variant="body1"> {new Date() - new Date(user.canDonateFrom) > 0 ?
+            {user.canDonateFrom !== undefined &&
+                <Typography variant="body1"> {new Date() - new Date(user.canDonateFrom) > 0 ?
                     "You can donate now" : 
                     "You have to wait"}</Typography>
+            }
             </Grid>
+            <Grid item xs={12}>
+                <Typography variant="body1">
+                    {user.blood.type}{user.blood.rh}
+                </Typography>
+            </Grid>
+            {user.hospital !== undefined && (
+                <Grid item xs={12}>
+                <Typography variant="body1">
+                    {user.type === undefined && user.type !== "doctor" ?
+                    <> "Staying at " {user.hospital.name} </> :
+                    <> "Working at " {user.hospital.name} </>}
+                </Typography>
+            </Grid>)}
+            {user.gender !== undefined && (
+                <Grid item xs={12}>
+                    <Typography variant="body1">
+                        {user.gender}
+                    </Typography>
+                </Grid>
+            )}
         </Grid>
     )
 }

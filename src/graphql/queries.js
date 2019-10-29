@@ -76,6 +76,9 @@ export const getUser = `query GetUser($id: ID!) {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -252,6 +255,9 @@ export const getDonation = `query GetDonation($id: ID!) {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -393,6 +399,9 @@ export const getPatient = `query GetPatient($id: ID!) {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -481,6 +490,16 @@ export const getHospital = `query GetHospital($id: ID!) {
       }
       nextToken
     }
+    donations {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        bloodBagId
+        bagAmount
+      }
+      nextToken
+    }
   }
 }
 `;
@@ -501,6 +520,9 @@ export const listHospitals = `query ListHospitals(
         nextToken
       }
       patients {
+        nextToken
+      }
+      donations {
         nextToken
       }
     }

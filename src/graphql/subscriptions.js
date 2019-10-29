@@ -76,6 +76,9 @@ export const onCreateUser = `subscription OnCreateUser {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -155,6 +158,9 @@ export const onUpdateUser = `subscription OnUpdateUser {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -232,6 +238,9 @@ export const onDeleteUser = `subscription OnDeleteUser {
         nextToken
       }
       patients {
+        nextToken
+      }
+      donations {
         nextToken
       }
     }
@@ -351,6 +360,9 @@ export const onCreateDonation = `subscription OnCreateDonation {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -466,6 +478,9 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
         nextToken
       }
       patients {
+        nextToken
+      }
+      donations {
         nextToken
       }
     }
@@ -585,6 +600,9 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -675,6 +693,9 @@ export const onCreatePatient = `subscription OnCreatePatient {
         nextToken
       }
       patients {
+        nextToken
+      }
+      donations {
         nextToken
       }
     }
@@ -769,6 +790,9 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -861,6 +885,9 @@ export const onDeletePatient = `subscription OnDeletePatient {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -896,6 +923,16 @@ export const onCreateHospital = `subscription OnCreateHospital {
         lastname
         birthday
         gender
+      }
+      nextToken
+    }
+    donations {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        bloodBagId
+        bagAmount
       }
       nextToken
     }
@@ -936,6 +973,16 @@ export const onUpdateHospital = `subscription OnUpdateHospital {
       }
       nextToken
     }
+    donations {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        bloodBagId
+        bagAmount
+      }
+      nextToken
+    }
   }
 }
 `;
@@ -970,6 +1017,16 @@ export const onDeleteHospital = `subscription OnDeleteHospital {
         lastname
         birthday
         gender
+      }
+      nextToken
+    }
+    donations {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        bloodBagId
+        bagAmount
       }
       nextToken
     }

@@ -44,14 +44,14 @@ type BloodResults {
 
 type Donation @model @searchable{
   id: ID!
-  dateNeeded: AWSDate!
+  dateNeeded: AWSDateTime!
   dateFulfilled: AWSDateTime
   donatedBy: User @connection(name: "DonorDonation")
   assignedTo: Patient @connection(name: "PatientDonation")
   bloodBagId: String
   bloodType: BloodData!
   bagAmount: Int!
-  hospital: Hospital!
+  hospital: Hospital! @connection(name: "DonationHospital")
 }
 
 type Patient @model @searchable {
@@ -76,6 +76,7 @@ type Hospital @model {
   address_zip: String!
   doctors: [User] @connection(name: "DoctorHospital")
   patients: [Patient] @connection(name: "PatientHospital")
+  donations: [Donation] @connection(name: "DonationHospital")
 }
 
 type BloodData {

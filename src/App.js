@@ -21,6 +21,7 @@ import Navbar from './components/Navbar'
 /** Donor's pages */
 // import DHomepage from './pages/donor/Homepage'
 import DocHomePage from './pages/doctor/Homepage'
+import PatientPage from './pages/doctor/PatientPage'
 
 /** Context elements */
 export const UserContext = React.createContext()
@@ -138,6 +139,10 @@ class App extends React.Component {
             <div className="app-container">
                 <Route exact path="/" component={
                   () => <DocHomePage user={user}/>
+                }/>
+
+                <Route path="/patient/:patientId" component={
+                  ({match}) => <PatientPage user={user} patientId={match.params.patientId}/>
                 }/>
             </div>
           </>

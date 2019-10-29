@@ -76,6 +76,9 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -155,6 +158,9 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -232,6 +238,9 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
         nextToken
       }
       patients {
+        nextToken
+      }
+      donations {
         nextToken
       }
     }
@@ -351,6 +360,9 @@ export const createDonation = `mutation CreateDonation($input: CreateDonationInp
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -466,6 +478,9 @@ export const updateDonation = `mutation UpdateDonation($input: UpdateDonationInp
         nextToken
       }
       patients {
+        nextToken
+      }
+      donations {
         nextToken
       }
     }
@@ -585,6 +600,9 @@ export const deleteDonation = `mutation DeleteDonation($input: DeleteDonationInp
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -675,6 +693,9 @@ export const createPatient = `mutation CreatePatient($input: CreatePatientInput!
         nextToken
       }
       patients {
+        nextToken
+      }
+      donations {
         nextToken
       }
     }
@@ -769,6 +790,9 @@ export const updatePatient = `mutation UpdatePatient($input: UpdatePatientInput!
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -861,6 +885,9 @@ export const deletePatient = `mutation DeletePatient($input: DeletePatientInput!
       patients {
         nextToken
       }
+      donations {
+        nextToken
+      }
     }
   }
 }
@@ -896,6 +923,16 @@ export const createHospital = `mutation CreateHospital($input: CreateHospitalInp
         lastname
         birthday
         gender
+      }
+      nextToken
+    }
+    donations {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        bloodBagId
+        bagAmount
       }
       nextToken
     }
@@ -936,6 +973,16 @@ export const updateHospital = `mutation UpdateHospital($input: UpdateHospitalInp
       }
       nextToken
     }
+    donations {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        bloodBagId
+        bagAmount
+      }
+      nextToken
+    }
   }
 }
 `;
@@ -970,6 +1017,16 @@ export const deleteHospital = `mutation DeleteHospital($input: DeleteHospitalInp
         lastname
         birthday
         gender
+      }
+      nextToken
+    }
+    donations {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        bloodBagId
+        bagAmount
       }
       nextToken
     }
