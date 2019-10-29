@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import Avatar from '../../components/avatar'
 import { createDonation, deleteDonation } from '../../graphql/mutations'
 import { onCreateDonation, onDeleteDonation, onUpdateDonation } from '../../graphql/subscriptions'
+import Tracker from '../../components/Tracker'
 
 class PatientPage extends React.Component {
 
@@ -14,7 +15,8 @@ class PatientPage extends React.Component {
         isLoading: true,
         showDonationForm: false,
         isCreatingDonation: false,
-        showDeleteDialog: false
+        showDeleteDialog: false,
+        showTrackerDialog: false
     }
 
     componentDidMount = () => {
@@ -115,6 +117,7 @@ class PatientPage extends React.Component {
         }
         try {
             const result = await API.graphql(graphqlOperation(createDonation,{input}))
+            console.log(result)
             Notification({
                 title: "Success",
                 message: "Donation created successfully!",
@@ -161,11 +164,11 @@ class PatientPage extends React.Component {
                                     <p> This bag is on it's way</p>}
                                 </span>
                                 <span>
-                                    <Button onClick={() => this.trackBag(donation.id)}> Track </Button>
+                                    <Button onClick={() => this.setState({showTrackerDialog: true, donationtbt: donation.id})}> Track </Button>
                                 </span>
                                 <span>
                                     <Button onClick={() => this.setState({showDeleteDialog: true, donationtbd: donation.id})}>
-                                        <img src="https://icon.now.sh/x"/>
+                                        <img alt="delete" src="https://icon.now.sh/x"/>
                                     </Button>
                                 </span>
                         </Card>
@@ -228,6 +231,17 @@ class PatientPage extends React.Component {
                         </Form.Item>
                     </Form>
                 </Dialog.Body>
+            </Dialog>
+            {/** Tracking dialog */}
+            <Dialog
+                title="Blood Tracker"
+                visible={this.state.showTrackerDialog}
+                onCancel={() => this.setState({showTrackerDialog: false, donationtbt: null})}
+                size="large"
+                customClass="dialog">
+                    <Dialog.Body>
+                        {this.state.donationtbt && <Tracker donationId={this.state.donationtbt}/>}
+                    </Dialog.Body>
             </Dialog>
             </>)
     }

@@ -12,8 +12,8 @@ import { Hub, Auth, API, graphqlOperation } from 'aws-amplify'
 import { Authenticator } from 'aws-amplify-react'
 
 /** GraphQL Operations */
-import { getUser, listHospitals } from './graphql/queries'
-import { createUser, updateUser } from './graphql/mutations'
+import { getUser } from './graphql/queries'
+import { createUser } from './graphql/mutations'
 
 /** Components */
 import Navbar from './components/Navbar'

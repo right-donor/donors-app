@@ -1,6 +1,6 @@
 import React from "react"
 /** GraphQL Operations */
-import {updatePatient,createPatient} from '../../../graphql/mutations'
+import {createPatient} from '../../../graphql/mutations'
 /** Amplify elements */
 import { PhotoPicker } from 'aws-amplify-react'
 import aws_exports from '../../../aws-exports'

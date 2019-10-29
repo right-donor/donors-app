@@ -1,8 +1,7 @@
 import React from 'react'
 
 /** GraphQL Statements */
-import {createPatient} from '../../graphql/mutations'
-import {listPatients, searchPatients, getUser} from '../../graphql/queries'
+import {searchPatients, getUser} from '../../graphql/queries'
 import { API, graphqlOperation } from 'aws-amplify'
 
 /** Manmade components */
@@ -49,7 +48,12 @@ class Homepage extends React.Component {
             }))
             this.setState({searchResults: result.data.searchPatients.items, isSearching: false})
         } catch (err) {
-            console.error(err)
+            this.setState({isSearching: false})
+            Notification({
+                title: "Error",
+                message: "An error occurred while searching",
+                type: "error"
+            })
         }
     }
 
