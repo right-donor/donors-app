@@ -5,6 +5,7 @@ import { Loading, Button, Card, Dialog, Form, DatePicker, Input, Notification } 
 import {Link} from 'react-router-dom'
 import Avatar from '../../components/avatar'
 import { createDonation } from '../../graphql/mutations'
+import { onCreateDonation, onDeleteDonation, onUpdateDonation } from '../../graphql/subscriptions'
 
 class PatientPage extends React.Component {
 
@@ -19,6 +20,57 @@ class PatientPage extends React.Component {
         if(this.props.patientId) {
             this.getPatientInformation(this.props.patientId)
         }
+        //Creation listener
+        this.createDonationListener = API.graphql(graphqlOperation(onCreateDonation))
+            .subscribe({
+                next: donationData => {
+                    const createdDonations = donationData.value.data.onCreateDonation
+                    const prevDonations = this.state.patient.donations.items.filter(
+                        item => item.id !== createdDonations.id
+                    )
+                    const updatedDonations = [createdDonations, ...prevDonations]
+                    const patient = {...this.state.patient}
+                    patient.donations.items = updatedDonations
+                    this.setState({patient})
+                }})
+        
+        //Delete Listener 
+        this.deleteDonationListener = API.graphql(graphqlOperation(onDeleteDonation))
+                .subscribe({
+                    next: donationData => {
+                        const createdDonation = donationData.value.data.onDeleteDonation
+                        const updatedDonations = this.state.patient.donations.items.filter(
+                            item => item.id !== createDonation.id
+                        )
+                        const patient = {...this.state.patient}
+                        patient.donations.items = updatedDonations
+                        this.setState({patient})
+                    }
+                })
+
+        this.updateDonationListener = API.graphql(graphqlOperation(onUpdateDonation))
+        .subscribe({
+            next: donationData => {
+                const updatedDonation = donationData.value.data.onUpdateDonation
+                const updatedDonationIndex = this.state.patient.donations.items.findIndex(
+                    item => item.id === updatedDonation.id
+                )
+                const updatedDonations = [
+                    ...this.state.patient.donations.items.slice(0,updatedDonationIndex),
+                    updatedDonation,
+                    ...this.state.patient.donations.items.slice(updatedDonationIndex + 1)
+                ]
+                const patient = {...this.state.patient}
+                patient.donations.items = updatedDonations
+                this.setState({patient})
+            }
+        })
+    }
+
+    componentWillUnmount = () => {
+        this.updateDonationListener.unsubscribe()
+        this.createDonationListener.unsubscribe()
+        this.deleteDonationListener.unsubscribe()
     }
 
     getPatientInformation = async patientId => {
@@ -93,8 +145,8 @@ class PatientPage extends React.Component {
                 ))}
             </>) : (<>
                 <h2> No Blood Donations have been received </h2>
-                <Button color="primary" onClick={() => this.setState({showDonationForm: true})}> Ask for new donation </Button>
             </>)}
+            <Button color="primary" onClick={() => this.setState({showDonationForm: true})}> Ask for new donation </Button>
             {/** Dialog for New Blood */}
             <Dialog
                 title="Ask for a donation"
