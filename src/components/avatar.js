@@ -20,7 +20,7 @@ export default function Avatar({ user }) {
                 <Typography variant="h2"> {user.firstname} {user.lastname} </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="body1"> {new Date(user.birthday).getFullYear() - new Date().getFullYear()} years old</Typography>
+                <Typography variant="body1"> {new Date().getFullYear() - new Date(user.birthday).getFullYear()} years old</Typography>
             </Grid>
             <Grid item xs={12}>
             {user.canDonateFrom !== undefined &&
@@ -34,15 +34,15 @@ export default function Avatar({ user }) {
                     {user.blood.type}{user.blood.rh}
                 </Typography>
             </Grid>
-            {user.hospital !== undefined && (
+            {user.hospital !== null && (
                 <Grid item xs={12}>
                 <Typography variant="body1">
-                    {user.type === undefined && user.type !== "doctor" ?
+                    {user.type === null && user.type !== "doctor" ?
                     <> "Staying at " {user.hospital.name} </> :
                     <> "Working at " {user.hospital.name} </>}
                 </Typography>
             </Grid>)}
-            {user.gender !== undefined && (
+            {user.gender !== null && (
                 <Grid item xs={12}>
                     <Typography variant="body1">
                         {user.gender}

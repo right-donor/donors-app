@@ -35,6 +35,7 @@ class Homepage extends React.Component {
             id
         }
         const userdb = await API.graphql(graphqlOperation(getUser, qparams))
+        
         this.setState({
             userdb: userdb.data.getUser,
             showInitialForm: userdb.data.getUser.canDonateFrom === null ? true : false
