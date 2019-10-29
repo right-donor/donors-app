@@ -4,7 +4,7 @@ import { getPatient } from '../../graphql/queries'
 import { Loading, Button, Card, Dialog, Form, DatePicker, Input, Notification } from 'element-react'
 import {Link} from 'react-router-dom'
 import Avatar from '../../components/avatar'
-import { createDonation } from '../../graphql/mutations'
+import { createDonation, deleteDonation } from '../../graphql/mutations'
 import { onCreateDonation, onDeleteDonation, onUpdateDonation } from '../../graphql/subscriptions'
 
 class PatientPage extends React.Component {
@@ -13,7 +13,8 @@ class PatientPage extends React.Component {
         patient: {},
         isLoading: true,
         showDonationForm: false,
-        isCreatingDonation: false
+        isCreatingDonation: false,
+        showDeleteDialog: false
     }
 
     componentDidMount = () => {
@@ -40,7 +41,7 @@ class PatientPage extends React.Component {
                     next: donationData => {
                         const createdDonation = donationData.value.data.onDeleteDonation
                         const updatedDonations = this.state.patient.donations.items.filter(
-                            item => item.id !== createDonation.id
+                            item => item.id !== createdDonation.id
                         )
                         const patient = {...this.state.patient}
                         patient.donations.items = updatedDonations
@@ -80,6 +81,28 @@ class PatientPage extends React.Component {
 
     trackBag = donationId => {
 
+    }
+
+    handleDeleteDonation = async () => {
+        this.setState({showDeleteDialog: false})
+        const input = {
+            id: this.state.donationtbd
+        }
+        try {
+            const result = await API.graphql(graphqlOperation(deleteDonation, {input}))
+            console.log(result)
+            Notification({
+                title: "Success",
+                message: "Donation deleted successfully!",
+                type: "success"
+            })
+        } catch(err) {
+            Notification({
+                title: "Error",
+                message: err.errors[0].message,
+                type: "error"
+            })
+        }
     }
 
     handleAddDonation = async () => {
@@ -140,6 +163,11 @@ class PatientPage extends React.Component {
                                 <span>
                                     <Button onClick={() => this.trackBag(donation.id)}> Track </Button>
                                 </span>
+                                <span>
+                                    <Button onClick={() => this.setState({showDeleteDialog: true, donationtbd: donation.id})}>
+                                        <img src="https://icon.now.sh/x"/>
+                                    </Button>
+                                </span>
                         </Card>
                     </div>
                 ))}
@@ -184,6 +212,22 @@ class PatientPage extends React.Component {
                             </Form.Item>
                         </Form>
                     </Dialog.Body>
+            </Dialog>
+            {/** Delete Dialog */}
+            <Dialog
+                title="Are you sure?"
+                visible={this.state.showDeleteDialog}
+                onCancel={() => this.setState({showDeleteDialog: false, donationtbd: ""})}
+                size="large"
+                customClass="dialog">
+                <Dialog.Body>
+                    <Form labelPosition="top">
+                        <Form.Item
+                            label="Are you sure you want to delete this donation?">
+                                <Button type="primary" onClick={this.handleDeleteDonation}> Delete </Button>
+                        </Form.Item>
+                    </Form>
+                </Dialog.Body>
             </Dialog>
             </>)
     }

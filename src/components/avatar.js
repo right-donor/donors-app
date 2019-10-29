@@ -20,7 +20,7 @@ export default function Avatar({ user }) {
                 <Typography variant="h2"> {user.firstname} {user.lastname} </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="body1"> {new Date().getFullYear() - new Date(user.birthday).getFullYear()} years old</Typography>
+                <Typography variant="body1"> {new Date(user.birthday).getFullYear() - new Date().getFullYear()} years old</Typography>
             </Grid>
             <Grid item xs={12}>
             {user.canDonateFrom !== undefined &&
