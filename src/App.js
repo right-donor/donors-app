@@ -22,6 +22,7 @@ import Navbar from './components/Navbar'
 import DHomepage from './pages/donor/Homepage'
 import DocHomePage from './pages/doctor/Homepage'
 import PatientPage from './pages/doctor/PatientPage'
+import DonationsPage from './pages/donor/DonationsPage'
 
 /** External APIs */
 import axios from 'axios'
@@ -170,6 +171,10 @@ class App extends React.Component {
               <Route path="/patient/:patientId" component={
                 ({ match }) => <PatientPage user={user} patientId={match.params.patientId} />
               } />
+
+              <Route path="/donations" component={
+                () => <DonationsPage user={user}/>
+              }/>
             </div>
           </>
         </Router>
