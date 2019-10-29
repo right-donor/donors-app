@@ -17,9 +17,15 @@ class PaperDash extends React.Component {
     }
 
     getTokenAmount = async () => {
-        setTimeout(() => {
-            this.setState({tokens: 100})
-        },3000)
+        await axios.get('http://3.222.166.83/rewards/read/'
+        +this.props.user.id+'/'
+        +'user1')
+        .then((res)=>{
+            this.setState({tokens: res.data.tokens})
+        })
+        .catch((error)=>{
+            alert(JSON.stringify(error))
+        })
     }
 
     render() {

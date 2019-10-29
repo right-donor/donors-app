@@ -23,9 +23,14 @@ import DHomepage from './pages/donor/Homepage'
 import DocHomePage from './pages/doctor/Homepage'
 import PatientPage from './pages/doctor/PatientPage'
 
+/** External APIs */
+import axios from 'axios'
+import { Notification } from 'element-react';
+
 /** Context elements */
 export const UserContext = React.createContext()
 export const history = createBrowserHistory()
+
 
 // ___  _      __   __  ___                    
 // / _ \(_)__ _/ /  / /_/ _ \___  ___  ___  ____
@@ -93,13 +98,34 @@ class App extends React.Component {
           type: "donor"
         }
         const newUser = await API.graphql(graphqlOperation(createUser, { input: registerUserInput }))
-        this.setState({dbuser: newUser})
+        this.setState({ dbuser: newUser })
+        this.createNewTokensWallet(signInData)
       } catch (err) {
         console.error("User Creation failed!", err)
       }
     } else {
-      this.setState({dbuser: data})
+      this.setState({ dbuser: data })
     }
+  }
+
+  createNewTokensWallet = async signInData => {
+    axios.post('http://3.222.166.83/rewards/create/'
+      + signInData.signInUserSession.idToken.payload.sub + '/'
+      + 'user1')
+      .then((res) => {
+        Notification({
+          title: "Success",
+          message: "Created your rewards account",
+          type: "success"
+        })
+      })
+      .catch((error) => {
+        Notification({
+          title: "Error",
+          message: "An error happened while creating your wallet",
+          type: "error"
+        })
+      })
   }
 
   /**
@@ -128,22 +154,22 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, userAttributes, dbuser} = this.state
+    const { user, userAttributes, dbuser } = this.state
     return !user ? <Authenticator /> : (
-      <UserContext.Provider value={{ user, userAttributes, dbuser}}>
+      <UserContext.Provider value={{ user, userAttributes, dbuser }}>
         <Router history={history}>
           <>
             {/** Always present Navigation Bar */}
-            <Navbar user={user} handleSignout={this.handleSignOut}/>
+            <Navbar user={user} handleSignout={this.handleSignOut} />
             {/** Application Routes */}
             <div className="app-container">
-                <Route exact path="/" component={
-                  () => <DHomepage user={user}/>
-                }/>
+              <Route exact path="/" component={
+                () => <DHomepage user={user} />
+              } />
 
-                <Route path="/patient/:patientId" component={
-                  ({match}) => <PatientPage user={user} patientId={match.params.patientId}/>
-                }/>
+              <Route path="/patient/:patientId" component={
+                ({ match }) => <PatientPage user={user} patientId={match.params.patientId} />
+              } />
             </div>
           </>
         </Router>
