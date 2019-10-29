@@ -9,8 +9,9 @@ import { getUser } from '../../graphql/queries'
 /** Components */
 import ExplorationForm from '../../components/forms/donor/exploration'
 import Avatar from '../../components/avatar'
+import PaperDash from '../../components/PaperDash'
 /** Material UI Components */
-import { Grid, Paper } from '@material-ui/core'
+import { Grid, Paper, Typography } from '@material-ui/core'
 
 /**
  * Main Donor Dashboard
@@ -35,7 +36,7 @@ class Homepage extends React.Component {
             id
         }
         const userdb = await API.graphql(graphqlOperation(getUser, qparams))
-        
+
         this.setState({
             userdb: userdb.data.getUser,
             showInitialForm: userdb.data.getUser.canDonateFrom === null ? true : false
@@ -59,10 +60,14 @@ class Homepage extends React.Component {
                             )}
                         </Grid>
                         <Grid item xs={6}>
-                            <Paper> Tokens Dash </Paper>
+                            {this.state.userdb && (
+                                <PaperDash user={userdb} type={"blood"}/>
+                            )}
                         </Grid>
                         <Grid item xs={6}>
-                            <Paper> Blood Dash </Paper>
+                            {this.state.userdb && (
+                                <PaperDash user={userdb} type={"currency"}/>
+                            )}
                         </Grid>
                         <Grid item xs={12}>
                             <Paper> Basic info </Paper>
