@@ -4,9 +4,99 @@ import React from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 
 /** GraphQL Operations */
-import { getUser, listDonations } from '../../graphql/queries'
+import { listDonations } from '../../graphql/queries'
 import { Loading } from 'element-react'
 import DonationItem from '../../components/DonationItem'
+
+export const getUser = `query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      firstname
+      lastname
+      birthday
+      username
+      email
+      gender
+      phonenumber
+      photo {
+        bucket
+        region
+        key
+      }
+      blood {
+        type
+        rh
+      }
+      type
+      city
+      canDonateFrom
+      donations {
+        items {
+          id
+          dateNeeded
+          dateFulfilled
+          bloodBagId
+          bagAmount
+          donatedBy {
+              id
+          }
+          hospital {
+              name
+              address_line1
+          }
+        }
+        nextToken
+      }
+      patients {
+        items {
+          id
+          firstname
+          lastname
+          birthday
+          gender
+        }
+        nextToken
+      }
+      interviews {
+        date
+        weight
+        recentSickness
+        recentAntibiotics
+        recentPregnancy
+        recentAlcohol
+        recentVaccines
+        recentTattoos
+        recentMenstrualCycle
+        diabetic
+        hypertension
+        bloodresults {
+          vih
+          hepatitisB
+          hepatitisC
+          syphilis
+          chagas
+        }
+      }
+      hospital {
+        id
+        name
+        country
+        address_line1
+        address_state
+        address_zip
+        doctors {
+          nextToken
+        }
+        patients {
+          nextToken
+        }
+        donations {
+          nextToken
+        }
+      }
+    }
+  }
+  `;
 
 class DonationsPage extends React.Component {
 
@@ -32,23 +122,23 @@ class DonationsPage extends React.Component {
             /** Get user from state */
             const { user } = this.state
             /** Get all listings */
-            let donationListing = await API.graphql(graphqlOperation(listDonations))
+            var donationListing = await API.graphql(graphqlOperation(listDonations))
             /** Get user blood type */
             const userBT = user.blood.type + user.blood.rh
             /** Only show donations with no assigned donor */
-            donationListing.data.listDonations.items.filter(function(donation) {
-                return donation.assignedTo !== null
+            donationListing = donationListing.data.listDonations.items.filter(function (donation) {
+                return donation.id !== "6d5e7433-c35c-4f72-9f42-6c02b988be31"
             })
             /** Only show blood compatible donation listings */
             switch (userBT) {
                 case 'A+':
-                    donationListing.data.listDonations.items.filter(function (donation) {
+                    donationListing.filter(function (donation) {
                         return donation.bloodType === user.blood
                             || user.blood === { type: 'AB', rh: '+' }
                     })
                     break
                 case 'O+':
-                    donationListing.data.listDonations.items.filter(function (donation) {
+                    donationListing.filter(function (donation) {
                         return donation.bloodType === user.blood
                             || user.blood === { type: 'A', rh: '+' }
                             || user.blood === { type: 'B', rh: '+' }
@@ -56,18 +146,18 @@ class DonationsPage extends React.Component {
                     })
                     break
                 case 'B+':
-                    donationListing.data.listDonations.items.filter(function (donation) {
+                    donationListing.filter(function (donation) {
                         return donation.bloodType === user.blood
                             || user.blood === { type: 'AB', rh: '+' }
                     })
                     break
                 case 'AB+':
-                    donationListing.data.listDonations.items.filter(function (donation) {
+                    donationListing.filter(function (donation) {
                         return donation.bloodType === user.blood
                     })
                     break
                 case 'A-':
-                    donationListing.data.listDonations.items.filter(function (donation) {
+                    donationListing.filter(function (donation) {
                         return donation.bloodType === user.blood
                             || user.blood === { type: 'A', rh: '+' }
                             || user.blood === { type: 'AB', rh: '+' }
@@ -76,7 +166,7 @@ class DonationsPage extends React.Component {
 
                     break
                 case 'B-':
-                    donationListing.data.listDonations.items.filter(function (donation) {
+                    donationListing.filter(function (donation) {
                         return donation.bloodType === user.blood
                             || user.blood === { type: 'B', rh: '+' }
                             || user.blood === { type: 'AB', rh: '+' }
@@ -84,7 +174,7 @@ class DonationsPage extends React.Component {
                     })
                     break
                 case 'AB-':
-                    donationListing.data.listDonations.items.filter(function (donation) {
+                    donationListing.filter(function (donation) {
                         return donation.bloodType === user.blood
                             || user.blood === { type: 'AB', rh: '+' }
                     })
@@ -92,7 +182,7 @@ class DonationsPage extends React.Component {
                 case 'O-': default:
                     break
             }
-            this.setState({availableDonations: donationListing.data.listDonations})
+            this.setState({ availableDonations: donationListing })
         }
     }
 
@@ -104,17 +194,17 @@ class DonationsPage extends React.Component {
                 {this.state.user.donations.items.length !== 0 ?
                     <>
                         {this.state.user.donations.items.map(donation => (
-                            <DonationItem donation={donation} />
+                            <DonationItem donation={donation} user={this.state.user} />
                         ))}
                     </> : <h2> No donations have been performed </h2>}
                 {/** All other donations */}
                 {this.state.availableDonations !== null ?
                     <>
                         <h3> Donations Available </h3>
-                        {this.state.availableDonations.items.map(donation => (
-                            <DonationItem donation={donation}/>
+                        {this.state.availableDonations.map(donation => (
+                            <DonationItem donation={donation} user={this.state.user} />
                         ))}
-                    </> : 
+                    </> :
                     <>
                         <h3> There are no donations available to select right now</h3>
                     </>
