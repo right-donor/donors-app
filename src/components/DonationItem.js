@@ -39,11 +39,18 @@ class DonationItem extends React.Component {
         }
     }
 
+    addDays = (date,days) => {
+        const copy = new Date(Number(date))
+        copy.setDate(date.getDate() + days)
+        return copy
+    }
+
     assignDonationToDonor = async () => {
         try {
             const input = {
                 id: this.props.donation.id,
-                donationDonatedById: this.props.user.id
+                donationDonatedById: this.props.user.id,
+                canDonateFrom: this.addDays(new Date(),14)
             }
             const result = await API.graphql(graphqlOperation(updateDonation, { input }))
             Notification({
@@ -105,7 +112,7 @@ class DonationItem extends React.Component {
                                 <p> <b>{donation.hospital.name}</b> - {donation.hospital.address_line1} </p>
                             </span>
                             <span>
-                                {donation.assignedTo === null && (
+                                {donation.donatedBy === null && (
                                     <Button onClick={() => this.assignDonationToDonor()}>
                                         Assign to me
                                     </Button>

@@ -24,9 +24,9 @@ export default function Avatar({ user }) {
             </Grid>
             <Grid item xs={12}>
             {user.canDonateFrom !== undefined &&
-                <Typography variant="body1"> {new Date() - new Date(user.canDonateFrom) > 0 ?
+                <Typography variant="body1"> {new Date() - new Date(user.canDonateFrom) < 0 ?
                     "You can donate now" : 
-                    "You have to wait"}</Typography>
+                    "You can't donate now"}</Typography>
             }
             </Grid>
             <Grid item xs={12}>

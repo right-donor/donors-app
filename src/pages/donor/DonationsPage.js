@@ -4,11 +4,10 @@ import React from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 
 /** GraphQL Operations */
-import { listDonations } from '../../graphql/queries'
 import { Loading } from 'element-react'
 import DonationItem from '../../components/DonationItem'
 
-export const getUser = `query GetUser($id: ID!) {
+const getUser = `query GetUser($id: ID!) {
     getUser(id: $id) {
       id
       firstname
@@ -98,6 +97,60 @@ export const getUser = `query GetUser($id: ID!) {
   }
   `;
 
+const listDonations = `query ListDonations(
+    $filter: ModelDonationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDonations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        dateNeeded
+        dateFulfilled
+        donatedBy {
+          id
+          firstname
+          lastname
+          birthday
+          username
+          email
+          gender
+          phonenumber
+          type
+          city
+          canDonateFrom
+        }
+        assignedTo {
+          id
+          firstname
+          lastname
+          birthday
+          gender
+          blood {
+              type
+              rh
+          }
+        }
+        bloodBagId
+        bloodType {
+          type
+          rh
+        }
+        bagAmount
+        hospital {
+          id
+          name
+          country
+          address_line1
+          address_state
+          address_zip
+        }
+      }
+      nextToken
+    }
+  }
+  `
+
 class DonationsPage extends React.Component {
 
     state = {
@@ -127,56 +180,56 @@ class DonationsPage extends React.Component {
             const userBT = user.blood.type + user.blood.rh
             /** Only show donations with no assigned donor */
             donationListing = donationListing.data.listDonations.items.filter(function (donation) {
-                return donation.id !== "6d5e7433-c35c-4f72-9f42-6c02b988be31"
+                return donation.donatedBy === null
             })
             /** Only show blood compatible donation listings */
             switch (userBT) {
                 case 'A+':
-                    donationListing.filter(function (donation) {
-                        return donation.bloodType === user.blood
-                            || user.blood === { type: 'AB', rh: '+' }
+                    donationListing = donationListing.filter(function (donation) {
+                        return JSON.stringify(donation.assignedTo.blood) === JSON.stringify(user.blood)
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'AB', rh: '+' })
                     })
                     break
                 case 'O+':
-                    donationListing.filter(function (donation) {
-                        return donation.bloodType === user.blood
-                            || user.blood === { type: 'A', rh: '+' }
-                            || user.blood === { type: 'B', rh: '+' }
-                            || user.blood === { type: 'AB', rh: '+' }
+                    donationListing = donationListing.filter(function (donation) {
+                        return JSON.stringify(donation.assignedTo.blood) === JSON.stringify(user.blood)
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'A', rh: '+' })
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'B', rh: '+' })
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'AB', rh: '+' })
                     })
                     break
                 case 'B+':
-                    donationListing.filter(function (donation) {
-                        return donation.bloodType === user.blood
-                            || user.blood === { type: 'AB', rh: '+' }
+                    donationListing = donationListing.filter(function (donation) {
+                        return JSON.stringify(donation.assignedTo.blood) === JSON.stringify(user.blood)
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'AB', rh: '+' })
                     })
                     break
                 case 'AB+':
-                    donationListing.filter(function (donation) {
-                        return donation.bloodType === user.blood
+                    donationListing = donationListing.filter(function (donation) {
+                        return JSON.stringify(donation.assignedTo.blood) === JSON.stringify(user.blood)
                     })
                     break
                 case 'A-':
-                    donationListing.filter(function (donation) {
-                        return donation.bloodType === user.blood
-                            || user.blood === { type: 'A', rh: '+' }
-                            || user.blood === { type: 'AB', rh: '+' }
-                            || user.blood === { type: 'A', rh: '-' }
+                    donationListing = donationListing.filter(function (donation) {
+                        return JSON.stringify(donation.assignedTo.blood) === JSON.stringify(user.blood)
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'A', rh: '+' })
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'AB', rh: '+' })
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'A', rh: '-' })
                     })
 
                     break
                 case 'B-':
-                    donationListing.filter(function (donation) {
-                        return donation.bloodType === user.blood
-                            || user.blood === { type: 'B', rh: '+' }
-                            || user.blood === { type: 'AB', rh: '+' }
-                            || user.blood === { type: 'AB', rh: '-' }
+                    donationListing = donationListing.filter(function (donation) {
+                        return JSON.stringify(donation.assignedTo.blood) === JSON.stringify(user.blood)
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'B', rh: '+' })
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'AB', rh: '+' })
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'AB', rh: '-' })
                     })
                     break
                 case 'AB-':
-                    donationListing.filter(function (donation) {
-                        return donation.bloodType === user.blood
-                            || user.blood === { type: 'AB', rh: '+' }
+                    donationListing = donationListing.filter(function (donation) {
+                        return JSON.stringify(donation.assignedTo.blood) === JSON.stringify(user.blood)
+                            || JSON.stringify(user.blood) === JSON.stringify({ type: 'AB', rh: '+' })
                     })
                     break
                 case 'O-': default:

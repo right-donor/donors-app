@@ -49,7 +49,7 @@ class PaperDash extends React.Component {
                             You have had {this.props.user.donations.items.length} recent donations
                         {this.props.user.donations.items.length === 0
                                 || new Date(this.props.user.canDonateFrom) - new Date() > 0 ?
-                                <Link to="/donations"><Button> Donate now </Button></Link> : <Button disabled> You must wait to donate again </Button>}
+                                <Link to="/donations"><Button> Donate now </Button></Link> : <Link to="/donations"><Button > See recent donations </Button></Link>}
                         </> :
                         <>
                             You have {this.state.tokens !== -1 ? this.state.tokens : <Loading />} tokens on your wallet
