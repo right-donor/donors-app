@@ -19,6 +19,7 @@ class ListInterviews extends React.Component {
 
     state = {
         donor: null,
+        user: null,
         showInterviewDialog: false,
         showStepTwoDialog: false,
         showStepThreeDialog: false,
@@ -40,8 +41,8 @@ class ListInterviews extends React.Component {
     }
 
     componentDidMount = async () => {
-        if(this.props.donor) {
-            this.setState({donor : this.props.donor})
+        if(this.props.donor && this.props.user) {
+            this.setState({donor : this.props.donor, user: this.props.user})
         }
     }
 
@@ -211,8 +212,8 @@ class ListInterviews extends React.Component {
     }
 
     render () {
-        const {donor} = this.state
-        return !donor ? <Loading/> : (
+        const {donor,user} = this.props
+        return (!donor && !user) ? <Loading/> : (
             <>
                 {/** Check if any interviews have happened before */}
                 {donor.interviews === null && (

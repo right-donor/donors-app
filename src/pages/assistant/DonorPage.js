@@ -13,12 +13,14 @@ import ListInterviews from "../../components/forms/assistant/ListInterview"
 class DonorPage extends React.Component {
 
     state = {
-        donor: null
+        donor: null,
+        userdb: null
     }
 
-    componentDidMount = () => {
-        if(this.props.donorId) {
-            this.getDonorInformation()
+    componentDidMount = async () => {
+        if(this.props.donorId && this.props.userId) {
+            await this.getDonorInformation()
+            await this.getAssistantInformation()
         }
     }
 
@@ -27,12 +29,17 @@ class DonorPage extends React.Component {
         this.setState({donor: result.data.getUser})
     }
 
+    getAssistantInformation = async () => {
+        const result = await API.graphql(graphqlOperation(getUser,{id: this.props.userId}))
+        this.setState({userdb: result.data.getUser})
+    }
+
     render () {
-        const {donor} = this.state
-        return !donor ? <Loading fullscreen="true"/> : (
+        const {donor,userdb} = this.state
+        return (!donor && !userdb) ? <Loading fullscreen="true"/> : (
             <>
                 <Avatar user={donor}/>
-                <ListInterviews donor={donor}/>
+                <ListInterviews donor={donor} user={userdb}/>
             </>
         )
     }

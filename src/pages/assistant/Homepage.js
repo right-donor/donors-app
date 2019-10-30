@@ -110,7 +110,7 @@ class Homepage extends React.Component {
                             handleSearchChange={this.handleSearchChange}
                             handleClearSearch={this.handleSearchClear}
                             user={this.state.userdb} />
-                        <DonorList searchResults={this.state.searchResults} />
+                        <DonorList user={userdb} searchResults={this.state.searchResults} />
                     </>
                 )}
             </>

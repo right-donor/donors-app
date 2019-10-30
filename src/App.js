@@ -174,8 +174,8 @@ class App extends React.Component {
                 () => <DonationsPage user={user}/>
               }/>
 
-              <Route path="/donor/:donorId" component={
-                ({match}) => <DonorPage user={user} donorId={match.params.donorId}/>
+              <Route path="/donor/:donorId/:userId" component={
+                ({match}) => <DonorPage userId={match.params.userId} donorId={match.params.donorId}/>
               }/>
             </div>
           </>

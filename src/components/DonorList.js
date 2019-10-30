@@ -10,7 +10,7 @@ import {Connect} from "aws-amplify-react"
 import {listUsers} from "../graphql/queries"
 import {onCreateUser} from "../graphql/subscriptions"
 
-const DonorList = ({searchResults}) => {
+const DonorList = ({searchResults, user}) => {
     const onNewUser = (prevQuery, newData) => {
         let updatedQuery = {...prevQuery}
         const updatedUserList = [
@@ -68,7 +68,7 @@ const DonorList = ({searchResults}) => {
                                         <div>
                                             {/** Patient's name */}
                                             <span className="flex">
-                                                <Link className="link" to={`/donor/${donor.id}`}>
+                                                <Link className="link" to={`/donor/${donor.id}/${user.id}`}>
                                                     {donor.firstname} {donor.lastname}
                                                 </Link>
                                                 <span style={{ color: 'var(--darkAmazonOrange)' }}>
