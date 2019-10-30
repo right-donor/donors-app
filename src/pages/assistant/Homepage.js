@@ -10,6 +10,7 @@ import { API, graphqlOperation } from 'aws-amplify'
 import DonorSearch from '../../components/DonorSearch'
 import DonorList from '../../components/DonorList'
 import Exploration from '../../components/forms/donor/exploration'
+import { createHospital, updateUser } from '../../graphql/mutations'
 
 class Homepage extends React.Component {
     state = {
@@ -28,7 +29,31 @@ class Homepage extends React.Component {
                 userdb: this.props.userdb,
                 showInitialForm: this.props.userdb.firstname === null
             })
+            if(this.props.userdb.hospital === null) {
+                this.createNewHospitalAndAssignToAssistant()
+            }            
         }
+    }
+
+    createNewHospitalAndAssignToAssistant = async () => {
+        const input = {
+            name : "Hospital General de Mexico",
+            country : "MX",
+            address_line1: "Dr. Balmis 148, Doctores",
+            address_state: "CDMX",
+            address_zip: "06720"
+        }
+        const result = await API.graphql(graphqlOperation(createHospital,{input}))
+        await this.assignHospitalToAssistant(result.data.createHospital.id)
+    }
+
+    assignHospitalToAssistant = async hospitalId => {
+        const input = {
+            id: this.props.userdb.id,
+            userHospitalId : hospitalId
+        }
+        const result = await API.graphql(graphqlOperation(updateUser, {input}))
+        console.log(result.data.updateUser)
     }
 
     refreshUserData = () => {
