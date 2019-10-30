@@ -3,8 +3,12 @@ import React from 'react'
 /** Homepages */
 import DonorHomepage from './donor/Homepage'
 import DoctorHomepage from './doctor/Homepage'
+import AssistantHomepage from './assistant/Homepage'
+/** AWS Amplify Components */
 import { API, graphqlOperation } from 'aws-amplify'
+/** GraphQL */
 import { getUser } from '../graphql/queries'
+/** UI */
 import { Loading } from 'element-react'
 
 class HomepageRouter extends React.Component {
@@ -30,6 +34,7 @@ class HomepageRouter extends React.Component {
             <>
             {user.type === "doctor" && <DoctorHomepage user={this.props.user} userdb={user}/>}
             {user.type === "donor" &&  <DonorHomepage user={this.props.user} userdb={user}/>}
+            {user.type === "assistant" &&  <AssistantHomepage user={this.props.user} userdb={user}/>}
             </>
         ) 
     }
