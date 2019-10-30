@@ -72,7 +72,7 @@ const DonorList = ({searchResults}) => {
                                                     {donor.firstname} {donor.lastname}
                                                 </Link>
                                                 <span style={{ color: 'var(--darkAmazonOrange)' }}>
-                                                    {/* {donor.gender} */}
+                                                    {donor.gender}
                                                 </span>
                                                 <img src="https://icon.now.sh/user" alt="Check Now" />
                                             </span>
