@@ -24,6 +24,7 @@ class DonationItem extends React.Component {
             id: this.props.donation.id
         }
         try {
+            // eslint-disable-next-line
             const result = await API.graphql(graphqlOperation(deleteDonation, { input }))
             Notification({
                 title: "Success",
@@ -52,6 +53,7 @@ class DonationItem extends React.Component {
                 donationDonatedById: this.props.user.id,
                 canDonateFrom: this.addDays(new Date(),14)
             }
+            // eslint-disable-next-line
             const result = await API.graphql(graphqlOperation(updateDonation, { input }))
             Notification({
                 title: "Success",
