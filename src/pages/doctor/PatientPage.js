@@ -1,12 +1,13 @@
 import React from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 import { getPatient } from '../../graphql/queries'
-import { Loading, Button, Card, Dialog, Form, DatePicker, Input, Notification } from 'element-react'
+import { Loading, Button, Dialog, Form, DatePicker, Input, Notification } from 'element-react'
 import {Link} from 'react-router-dom'
 import Avatar from '../../components/avatar'
-import { createDonation, deleteDonation } from '../../graphql/mutations'
+import { createDonation } from '../../graphql/mutations'
 import { onCreateDonation, onDeleteDonation, onUpdateDonation } from '../../graphql/subscriptions'
-import Tracker from '../../components/Tracker'
+
+import DonationItem from '../../components/DonationItem'
 
 class PatientPage extends React.Component {
 
@@ -81,32 +82,6 @@ class PatientPage extends React.Component {
         this.setState({patient: patient.data.getPatient, isLoading: false})
     }
 
-    trackBag = donationId => {
-
-    }
-
-    handleDeleteDonation = async () => {
-        this.setState({showDeleteDialog: false})
-        const input = {
-            id: this.state.donationtbd
-        }
-        try {
-            const result = await API.graphql(graphqlOperation(deleteDonation, {input}))
-            console.log(result)
-            Notification({
-                title: "Success",
-                message: "Donation deleted successfully!",
-                type: "success"
-            })
-        } catch(err) {
-            Notification({
-                title: "Error",
-                message: err.errors[0].message,
-                type: "error"
-            })
-        }
-    }
-
     handleAddDonation = async () => {
         const input = {
             dateNeeded: this.state.dateNeeded,
@@ -147,32 +122,7 @@ class PatientPage extends React.Component {
             {patient.donations.items.length > 0 ? (<>
                 <h2> Donations </h2>
                 {patient.donations.items.map(donation => (
-                    <div key={donation.id} className="my-2">
-                        <Card
-                            bodyStyle={{
-                                padding: "0.7em",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between"
-                            }}>
-                                <span style={{color: 'var(--darkAmazonOrange)'}}>
-                                    Donation ID: {donation.id}
-                                </span>
-                                <span style={{color: 'var(--lightSquidInk)'}}>
-                                    {donation.bloodBagId === null ?
-                                    <p> This bag hasn't been assigned yet</p> :
-                                    <p> This bag is on it's way</p>}
-                                </span>
-                                <span>
-                                    <Button onClick={() => this.setState({showTrackerDialog: true, donationtbt: donation.id})}> Track </Button>
-                                </span>
-                                <span>
-                                    <Button onClick={() => this.setState({showDeleteDialog: true, donationtbd: donation.id})}>
-                                        <img alt="delete" src="https://icon.now.sh/x"/>
-                                    </Button>
-                                </span>
-                        </Card>
-                    </div>
+                    <DonationItem user={this.props.user} donation={donation}/>
                 ))}
             </>) : (<>
                 <h2> No Blood Donations have been received </h2>
@@ -214,33 +164,6 @@ class PatientPage extends React.Component {
                                 </Button>
                             </Form.Item>
                         </Form>
-                    </Dialog.Body>
-            </Dialog>
-            {/** Delete Dialog */}
-            <Dialog
-                title="Are you sure?"
-                visible={this.state.showDeleteDialog}
-                onCancel={() => this.setState({showDeleteDialog: false, donationtbd: ""})}
-                size="large"
-                customClass="dialog">
-                <Dialog.Body>
-                    <Form labelPosition="top">
-                        <Form.Item
-                            label="Are you sure you want to delete this donation?">
-                                <Button type="primary" onClick={this.handleDeleteDonation}> Delete </Button>
-                        </Form.Item>
-                    </Form>
-                </Dialog.Body>
-            </Dialog>
-            {/** Tracking dialog */}
-            <Dialog
-                title="Blood Tracker"
-                visible={this.state.showTrackerDialog}
-                onCancel={() => this.setState({showTrackerDialog: false, donationtbt: null})}
-                size="large"
-                customClass="dialog">
-                    <Dialog.Body>
-                        {this.state.donationtbt && <Tracker donationId={this.state.donationtbt}/>}
                     </Dialog.Body>
             </Dialog>
             </>)

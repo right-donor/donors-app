@@ -165,7 +165,7 @@ class App extends React.Component {
             {/** Application Routes */}
             <div className="app-container">
               <Route exact path="/" component={
-                () => <DHomepage user={user} />
+                () => <DocHomePage user={user} />
               } />
 
               <Route path="/patient/:patientId" component={

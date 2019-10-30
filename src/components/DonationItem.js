@@ -99,6 +99,9 @@ class DonationItem extends React.Component {
                                 <Button onClick={() => this.setState({showTrackerDialog: true})}> Track </Button>
                                )}
                             </>)}
+                            {user.hospital !== null && 
+                                <Button onClick={() => this.setState({showTrackerDialog: true})}> Track </Button>
+                            }
                         </span>
                         {user.hospital !== null && (<>
                             <span>
