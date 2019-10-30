@@ -13,6 +13,7 @@ import PaperDash from '../../components/PaperDash'
 import InterviewList from '../../components/InterviewList'
 /** Material UI Components */
 import { Grid } from '@material-ui/core'
+import { Loading } from 'element-react'
 
 /**
  * Main Donor Dashboard
@@ -51,7 +52,7 @@ class Homepage extends React.Component {
 
     render() {
         const { userdb } = this.state
-        return (
+        return !userdb ? <Loading fullscreen="true"/> : (
             <>
                 {this.state.showInitialForm ? <ExplorationForm refresh={this.refreshUserData} user={userdb} /> :
                     <Grid container spacing={3} direction="column" justiy="center" alignItems="center">
