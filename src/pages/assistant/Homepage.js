@@ -1,7 +1,7 @@
 import React from 'react'
 
 /** UI Components */
-import {Loading} from 'element-react'
+import {Loading,Notification} from 'element-react'
 /** GraphQL Queries */
 import { searchUsers } from '../../graphql/queries'
 /** AWS Amplify */
