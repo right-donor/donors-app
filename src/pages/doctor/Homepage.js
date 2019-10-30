@@ -1,7 +1,7 @@
 import React from 'react'
 
 /** GraphQL Statements */
-import {searchPatients, getUser} from '../../graphql/queries'
+import {searchPatients} from '../../graphql/queries'
 import { API, graphqlOperation } from 'aws-amplify'
 
 /** Manmade components */
@@ -20,16 +20,13 @@ class Homepage extends React.Component {
     }
 
     componentDidMount =  () => {
-        this.getUserInfo()
-    }
-
-    getUserInfo = async () => {
-        const user = await API.graphql(graphqlOperation(getUser, {id: this.props.user.username}))
-        this.setState({user: user.data.getUser})
-        Notification({
-            title: 'Welcome',
-            message: "Welcome back "+user.data.getUser.firstname+" "+user.data.getUser.lastname
-        })
+        if(this.props.userdb){
+            this.setState({user: this.props.userdb})
+            Notification({
+                title: 'Welcome',
+                message: "Welcome back "+this.props.userdb.firstname+" "+this.props.userdb.lastname
+            })
+        }
     }
 
     handleSearchChange = searchTerm => this.setState({searchTerm})

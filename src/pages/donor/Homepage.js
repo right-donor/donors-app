@@ -27,10 +27,12 @@ class Homepage extends React.Component {
     }
 
     componentDidMount = () => {
-        if (this.props.user) {
-            this.setState({ user: this.props.user })
+        if (this.props.user && this.props.userdb) {
+            this.setState({ user: this.props.user,
+                userdb: this.props.userdb,
+                showInitialForm: this.props.userdb.canDonateFrom === null ? true : false
+                })
         }
-        this.retrieveUserFromDB(this.props.user.username)
     }
 
     retrieveUserFromDB = async (id) => {

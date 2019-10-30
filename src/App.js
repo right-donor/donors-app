@@ -19,8 +19,7 @@ import { createUser } from './graphql/mutations'
 import Navbar from './components/Navbar'
 
 /** Donor's pages */
-import DHomepage from './pages/donor/Homepage'
-import DocHomePage from './pages/doctor/Homepage'
+import Homepage from "../src/pages/HomepageRouter"
 import PatientPage from './pages/doctor/PatientPage'
 import DonationsPage from './pages/donor/DonationsPage'
 
@@ -104,8 +103,6 @@ class App extends React.Component {
       } catch (err) {
         console.error("User Creation failed!", err)
       }
-    } else {
-      this.setState({ dbuser: data })
     }
   }
 
@@ -155,9 +152,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, userAttributes, dbuser } = this.state
+    const { user, userAttributes } = this.state
     return !user ? <Authenticator /> : (
-      <UserContext.Provider value={{ user, userAttributes, dbuser }}>
+      <UserContext.Provider value={{ user, userAttributes }}>
         <Router history={history}>
           <>
             {/** Always present Navigation Bar */}
@@ -165,7 +162,7 @@ class App extends React.Component {
             {/** Application Routes */}
             <div className="app-container">
               <Route exact path="/" component={
-                () => <DocHomePage user={user} />
+                () => <Homepage user={user} />
               } />
 
               <Route path="/patient/:patientId" component={
