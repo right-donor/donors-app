@@ -306,7 +306,6 @@ class ListInterviews extends React.Component {
 
     render () {
         const {donor,user} = this.props
-        console.log(donor)
         return (!donor && !user) ? <Loading/> : (
             <>
                 {/** Check if any interviews have happened before */}
