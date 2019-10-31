@@ -156,7 +156,7 @@ class ListInterviews extends React.Component {
                 message: "Blood Bag was commited to the chain",
                 type: "success"
             })
-            this.handleDonationMutation(data.bagId)
+            this.handleAssignBagOnBlockchain(data)
         })
         .catch((error)=>{
             Notification({
@@ -164,8 +164,32 @@ class ListInterviews extends React.Component {
                 message: "Blood Bag couldn't be commited to the chain",
                 type: "error"
             })
+            this.handleAssignBagOnBlockchain(data)
         })
-    }   
+    } 
+
+    handleAssignBagOnBlockchain = async (data) => {
+        axios.post('http://3.222.166.83/blood/assign/'
+        +data.bagId+'/'
+        +this.props.donor.donations.items[0].assignedTo.id+'/'
+        +this.state.donor.donations.items[0].hospital.id+'/'
+        +'user1')
+        .then((res)=>{
+            Notification({
+                title: "Success",
+                message: "Blood Bag was assigned to patient",
+                type: "success"
+            })
+            this.handleDonationMutation()
+        })
+        .catch((error)=>{
+            Notification({
+                title: "Error",
+                message: "Blood Bag couldn't be assigned to patient",
+                type: "error"
+            })
+        })
+    }
 
     addTokensToDonor = async data => {
         await axios.post('http://3.222.166.83/rewards/receive/'
@@ -191,7 +215,7 @@ class ListInterviews extends React.Component {
     handleBloodDonation = async () => {
         try {
             const input = {
-                id: this.state.donor.id,
+                id: this.props.donor.id,
                 canDonateFrom: this.addDays(new Date(), 14),
                 interviews: [ {
                     date: new Date(),
@@ -205,7 +229,7 @@ class ListInterviews extends React.Component {
                     diabetic: this.state.diabetic,
                     hypertension: this.state.hypertension,
                     bloodresults: this.state.bloodresults
-                },...this.state.donor.interviews]
+                },...this.props.donor.interviews]
             }
             await API.graphql(graphqlOperation(updateUser,{input}))
             Notification({
@@ -282,6 +306,7 @@ class ListInterviews extends React.Component {
 
     render () {
         const {donor,user} = this.props
+        console.log(donor)
         return (!donor && !user) ? <Loading/> : (
             <>
                 {/** Check if any interviews have happened before */}
