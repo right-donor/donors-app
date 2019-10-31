@@ -27,7 +27,12 @@ class HomepageRouter extends React.Component {
 
     getUserFromDB = async () => {
         const user = await API.graphql(graphqlOperation(getUser,{id: this.props.user.username}))
-        this.setState({user: user.data.getUser, showUserTypeSelection: user.data.getUser.type === "unassigned"})
+        this.setState({user: user.data.getUser})
+        try {
+            this.setState({showUserTypeSelection: user.data.getUser.type === "unassigned"})
+        } catch (err) {
+            this.setState({showUserTypeSelection: true})
+        } 
     }
 
     changeUserType = async type => {

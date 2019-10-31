@@ -62,10 +62,10 @@ class Homepage extends React.Component {
 
     retrieveUserFromDB = async (id) => {
         const qparams = {
-            id
+            id,
+            userHospitalId: "bba6f559-52be-4e0d-8700-60cea7918889"
         }
         const userdb = await API.graphql(graphqlOperation(getUser, qparams))
-
         this.setState({
             userdb: userdb.data.getUser,
             showInitialForm: false

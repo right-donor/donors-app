@@ -1,7 +1,7 @@
 import React from 'react'
 
 /** GraphQL Statements */
-import {searchPatients} from '../../graphql/queries'
+import {searchPatients, getUser} from '../../graphql/queries'
 import { API, graphqlOperation } from 'aws-amplify'
 
 /** Manmade components */
@@ -10,23 +10,43 @@ import PatientList from '../../components/PatientList'
 
 /** Element UI */
 import {Notification} from 'element-react'
+import Exploration from '../../components/forms/donor/exploration'
 
 class Homepage extends React.Component {
     state = {
         searchTerm: "",
         searchResults: [],
         isSearching: false,
-        user: null
+        user: null,
+        showInitialForm: false
     }
 
     componentDidMount =  () => {
         if(this.props.userdb){
-            this.setState({user: this.props.userdb})
+            this.setState({user: this.props.userdb, showInitialForm: this.props.userdb.firstname === null})
             Notification({
                 title: 'Welcome',
                 message: "Welcome back "+this.props.userdb.firstname+" "+this.props.userdb.lastname
             })
         }
+    }
+
+    retrieveUserFromDB = async (id) => {
+        const qparams = {
+            id,
+            userHospitalId: "bba6f559-52be-4e0d-8700-60cea7918889"
+
+        }
+        const userdb = await API.graphql(graphqlOperation(getUser, qparams))
+
+        this.setState({
+            user: userdb.data.getUser,
+            showInitialForm: userdb.data.getUser.canDonateFrom === null
+        })
+    }
+
+    refreshUserData = () => {
+        this.retrieveUserFromDB(this.props.userdb.id)
     }
 
     handleSearchChange = searchTerm => this.setState({searchTerm})
@@ -55,8 +75,10 @@ class Homepage extends React.Component {
     }
 
     render() {
-        return (
-            <>
+    return this.state.showInitialForm ? <Exploration 
+        refresh={this.refreshUserData} 
+        user={this.props.userdb}/> : (
+        <>
            <NewPatient
             handleSearch={this.handleSearch}
             isSearching={this.state.isSearching}
@@ -66,7 +88,7 @@ class Homepage extends React.Component {
             user={this.state.user}/>
            <PatientList searchResults={this.state.searchResults}/>
            </>
-        )
+    )
     }
 }
 

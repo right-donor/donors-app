@@ -4,7 +4,7 @@ import React from 'react'
 import { Card, Button, Dialog, Form, Notification, Loading } from 'element-react'
 
 /** Delete thingie */
-import { deleteDonation, updateDonation, updateUser } from '../graphql/mutations'
+import { deleteDonation, updateDonation } from '../graphql/mutations'
 
 /** Components */
 import Tracker from '../components/Tracker'
