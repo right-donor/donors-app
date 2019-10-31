@@ -337,7 +337,7 @@ class ListInterviews extends React.Component {
                 {donor.interviews !== null && (
                     <>
                     <h1> Recent Interviews </h1>
-                    <InterviewList user={this.state.donor}/>
+                        <InterviewList user={this.props.donor}/>
                     </>
                 )}
                 {/** Interview Donation Dialog */}
