@@ -41,8 +41,8 @@ class ListInterviews extends React.Component {
     }
 
     componentDidMount = async () => {
-        if(this.props.donor && this.props.user) {
-            this.setState({donor : this.props.donor, user: this.props.user})
+        if(this.props.donor) {
+            this.setState({donor : this.props.donor})
         }
     }
 
@@ -117,7 +117,75 @@ class ListInterviews extends React.Component {
     }
 
     completeStep3 = async () => {
-        console.log(this.state)
+        /** Put the Bag ID Dialog Down */
+        this.setState({showStepThreeDialog: false})
+        // /** Try to commit the new bag to the chain */
+        // console.log(this.state, this.props)
+        try {
+            const input = {
+                bagId: this.state.bloodBagId,
+                bagOriginId: this.props.user.hospital.id,
+                bloodType: this.state.donor.blood.type,
+                bloodRH: this.props.donor.blood.rh,
+                bagSize: this.props.donor.donations.items[0].bagAmount
+            }
+            await this.createBloodBagOnBlockchain(input)
+            await this.addTokensToDonor(input)
+        } catch (error) {
+            Notification({
+                title: "Error",
+                message: "Couldn't perform bag state update",
+                type: "error"
+            })
+        }
+    }
+
+    createBloodBagOnBlockchain = async data => {
+        await axios.post('http://3.222.166.83/blood/create/'
+        +data.bagId+'/'
+        +data.bagOriginId+'/'
+        +data.bagOriginId+'/'
+        +data.bloodType+'/'
+        +data.bloodRH+'/'
+        +data.bagSize+'/'
+        +'user1')
+        .then((res)=>{
+            console.log(res)
+            Notification({
+                title: "Success",
+                message: "Blood Bag was commited to the chain",
+                type: "success"
+            })
+            this.handleDonationMutation(data.bagId)
+        })
+        .catch((error)=>{
+            Notification({
+                title: "Error",
+                message: "Blood Bag couldn't be commited to the chain",
+                type: "error"
+            })
+        })
+    }   
+
+    addTokensToDonor = async data => {
+        await axios.post('http://3.222.166.83/rewards/receive/'
+        +this.props.donor.id+'/'
+        +data.bagAmount+'/'
+        +'user1')
+        .then((res)=>{
+            Notification({
+                title: "Success",
+                message: "Tokens were submited to your account",
+                type: "success"
+            })
+        })
+        .catch((error)=>{
+            Notification({
+                title: "Error",
+                message: "Tokens couldn't be received correctly",
+                type: "error"
+            })
+        })
     }
 
     handleBloodDonation = async () => {
@@ -167,6 +235,7 @@ class ListInterviews extends React.Component {
                 message: "Donation status has been updated",
                 type: "success"
             })
+            await this.handleBloodDonation()
         } catch (error) {
             Notification({
                 title: "Error",
