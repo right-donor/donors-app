@@ -214,22 +214,30 @@ class ListInterviews extends React.Component {
 
     handleBloodDonation = async () => {
         try {
+            let interview = {
+                date: new Date(),
+                weight: parseFloat(this.state.weight),
+                recentSickness: this.state.recentSickness,
+                recentPregnancy: this.state.recentPregnancy,
+                recentAntibiotics: this.state.recentAntibiotics,
+                recentAlcohol: this.state.recentAlcohol,
+                recentVaccines: this.state.recentVaccines,
+                recentTattoos: this.state.recentTattoos,
+                recentMenstrualCycle: this.state.recentMenstrualCycle,
+                diabetic: this.state.diabetic,
+                hypertension: this.state.hypertension,
+                bloodresults: this.state.bloodresults
+            }
+            let interviews = []
+            if(this.props.donor.interviews !== null ){
+                interviews = [interview, ...this.props.donor.interviews.items]
+            } else {
+                interviews = [interview]
+            }
             const input = {
                 id: this.props.donor.id,
                 canDonateFrom: this.addDays(new Date(), 14),
-                interviews: [ {
-                    date: new Date(),
-                    weight: this.state.weight,
-                    recentSickness: this.state.recentSickness,
-                    recentAntibiotics: this.state.recentAntibiotics,
-                    recentAlcohol: this.state.recentAlcohol,
-                    recentVaccines: this.state.recentVaccines,
-                    recentTattoos: this.state.recentTattoos,
-                    recentMenstrualCycle: this.state.recentMenstrualCycle,
-                    diabetic: this.state.diabetic,
-                    hypertension: this.state.hypertension,
-                    bloodresults: this.state.bloodresults
-                },...this.props.donor.interviews]
+                interviews
             }
             await API.graphql(graphqlOperation(updateUser,{input}))
             Notification({
@@ -243,6 +251,7 @@ class ListInterviews extends React.Component {
                 message: "Couldnt append an interview to this user",
                 type: "error"
             })
+            console.log(error)
         }
     }
 
@@ -271,23 +280,30 @@ class ListInterviews extends React.Component {
 
     addDonationBan = async () => {
         try {
+            let interview = {
+                date: new Date(),
+                weight: parseFloat(this.state.weight),
+                recentSickness: this.state.recentSickness,
+                recentPregnancy: this.state.recentPregnancy,
+                recentAntibiotics: this.state.recentAntibiotics,
+                recentAlcohol: this.state.recentAlcohol,
+                recentVaccines: this.state.recentVaccines,
+                recentTattoos: this.state.recentTattoos,
+                recentMenstrualCycle: this.state.recentMenstrualCycle,
+                diabetic: this.state.diabetic,
+                hypertension: this.state.hypertension,
+                bloodresults: this.state.bloodresults
+            }
+            let interviews = []
+            if(this.props.donor.interviews !== null ){
+                interviews = [interview, ...this.props.donor.interviews.items]
+            } else {
+                interviews = [interview]
+            }
             const input = {
-                id: this.state.donor.id,
-                canDonateFrom: this.state.recentTattoos ?
-                    this.addDays(new Date(),365) : this.addDays(new Date(), 14),
-                interviews: [ {
-                    date: new Date(),
-                    weight: this.state.weight,
-                    recentSickness: this.state.recentSickness,
-                    recentAntibiotics: this.state.recentAntibiotics,
-                    recentAlcohol: this.state.recentAlcohol,
-                    recentVaccines: this.state.recentVaccines,
-                    recentTattoos: this.state.recentTattoos,
-                    recentMenstrualCycle: this.state.recentMenstrualCycle,
-                    diabetic: this.state.diabetic,
-                    hypertension: this.state.hypertension,
-                    bloodresults: this.state.bloodresults
-                },...this.state.donor.interviews]
+                id: this.props.donor.id,
+                canDonateFrom: this.state.recentTattoos ? this.addDays(new Date(), 365) : this.addDays(new Date(), 14),
+                interviews
             }
             await API.graphql(graphqlOperation(updateUser,{input}))
             Notification({
