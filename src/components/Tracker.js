@@ -12,13 +12,12 @@ class Tracker extends React.Component {
     state = {
         isLoading: true,
         donation: {},
-        bagHistory: {}
+        bagHistory: null
     }
 
     componentDidMount = async () => {
         if (this.props.donationId) {
             await this.handleGetDonation(this.props.donationId)
-            await this.handleGetBagHistory()
         }
     }
 
@@ -26,6 +25,7 @@ class Tracker extends React.Component {
         try {
             const donation = await API.graphql(graphqlOperation(getDonation, { id: donationId }))
             this.setState({ donation: donation.data.getDonation, isLoading: false })
+            await this.handleGetBagHistory()
         } catch (error) {
             console.error(error)
         }
@@ -89,7 +89,7 @@ class Tracker extends React.Component {
                         <p>Blood Bag Id: {donation.bloodBagId}</p>
                     </Card>
                 )}
-                {donation.bloodBagId && this.state.bagHistory && (
+                {this.state.bagHistory && (
                     <>
                         {this.state.bagHistory.map(bag => (
                             <Card bodyStyle={{
@@ -102,7 +102,7 @@ class Tracker extends React.Component {
                                 <p> Location ID: {bag.Value.location} </p>
                                 <p> Status: {bag.Value.status} </p>
                             </Card>
-                        ))}
+                        ))} 
                     </>
                 )}
             </>

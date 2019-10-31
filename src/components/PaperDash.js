@@ -27,6 +27,7 @@ class PaperDash extends React.Component {
             + this.props.user.id + '/'
             + 'user1')
             .then((res) => {
+                console.log(res)
                 this.setState({ tokens: res.data.tokens })
             })
             .catch((error) => {

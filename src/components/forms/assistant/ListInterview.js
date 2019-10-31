@@ -194,7 +194,7 @@ class ListInterviews extends React.Component {
     addTokensToDonor = async data => {
         await axios.post('http://3.222.166.83/rewards/receive/'
         +this.props.donor.id+'/'
-        +data.bagAmount+'/'
+        +parseInt(data.bagAmount)+'/'
         +'user1')
         .then((res)=>{
             Notification({
