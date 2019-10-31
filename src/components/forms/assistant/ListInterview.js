@@ -180,7 +180,7 @@ class ListInterviews extends React.Component {
                 message: "Blood Bag was assigned to patient",
                 type: "success"
             })
-            this.handleDonationMutation()
+            this.handleDonationMutation(data.bagId)
         })
         .catch((error)=>{
             Notification({
@@ -194,7 +194,7 @@ class ListInterviews extends React.Component {
     addTokensToDonor = async data => {
         await axios.post('http://3.222.166.83/rewards/receive/'
         +this.props.donor.id+'/'
-        +parseInt(data.bagAmount)+'/'
+        +'100/'
         +'user1')
         .then((res)=>{
             Notification({
@@ -230,7 +230,7 @@ class ListInterviews extends React.Component {
             }
             let interviews = []
             if(this.props.donor.interviews !== null ){
-                interviews = [interview, ...this.props.donor.interviews.items]
+                interviews = [interview, ...this.props.donor.interviews]
             } else {
                 interviews = [interview]
             }
@@ -296,7 +296,7 @@ class ListInterviews extends React.Component {
             }
             let interviews = []
             if(this.props.donor.interviews !== null ){
-                interviews = [interview, ...this.props.donor.interviews.items]
+                interviews = [interview, ...this.props.donor.interviews]
             } else {
                 interviews = [interview]
             }

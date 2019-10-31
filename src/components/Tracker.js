@@ -33,6 +33,7 @@ class Tracker extends React.Component {
 
     handleGetBagHistory = async () => {
         if (this.state.donation) {
+            console.log(this.state.donation)
             axios.get('http://3.222.166.83/blood/history/'
                 + this.state.donation.bloodBagId + '/'
                 + 'user1')

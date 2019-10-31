@@ -4,7 +4,7 @@ import React from 'react'
 import { Card, Button, Dialog, Form, Notification, Loading } from 'element-react'
 
 /** Delete thingie */
-import { deleteDonation, updateDonation } from '../graphql/mutations'
+import { deleteDonation, updateDonation, updateUser } from '../graphql/mutations'
 
 /** Components */
 import Tracker from '../components/Tracker'
@@ -51,7 +51,6 @@ class DonationItem extends React.Component {
             const input = {
                 id: this.props.donation.id,
                 donationDonatedById: this.props.user.id,
-                canDonateFrom: this.addDays(new Date(),14)
             }
             // eslint-disable-next-line
             const result = await API.graphql(graphqlOperation(updateDonation, { input }))
@@ -61,9 +60,10 @@ class DonationItem extends React.Component {
                 type: "success"
             })
         } catch (error) {
+            console.log(error)
             Notification({
                 title: "Error",
-                message: "An error happened while assigning the donation to you",
+                message: error.errors[0].message,
                 type: "error"
             })
         }

@@ -96,7 +96,7 @@ class App extends React.Component {
           username: signInData.username,
           email: signInData.signInUserSession.idToken.payload.email,
           phonenumber: signInData.signInUserSession.idToken.payload.phone_number,
-          type: "donor"
+          type: "unassigned"
         }
         const newUser = await API.graphql(graphqlOperation(createUser, { input: registerUserInput }))
         this.setState({ dbuser: newUser })
@@ -104,6 +104,8 @@ class App extends React.Component {
       } catch (err) {
         console.error("User Creation failed!", err)
       }
+    } else {
+      this.setState({dbuser: data.getUser})
     }
   }
 
