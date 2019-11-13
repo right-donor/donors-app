@@ -3,6 +3,9 @@ import React from 'react';
 /** Fonts */
 import 'typeface-roboto';
 
+/** Styles */
+import './assets/scss/material-kit-pro-react.scss?v=1.8.0'
+
 /** React Router */
 import { Router, Route } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
