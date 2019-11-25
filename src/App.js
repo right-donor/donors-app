@@ -8,21 +8,19 @@ import './assets/scss/material-kit-pro-react.scss?v=1.8.0'
 
 /** React Router */
 import { Router, Route } from 'react-router-dom'
-import createBrowserHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 
 /** AWS Amplify Components */
 import { Hub, Auth, API, graphqlOperation } from 'aws-amplify'
 import { Authenticator } from 'aws-amplify-react'
+import AmplifyTheme from './assets/jss/AmplifyAuthTheme'
 
 /** GraphQL Operations */
 import { getUser } from './graphql/queries'
 import { createUser } from './graphql/mutations'
 
-/** Components */
-import Navbar from './components/Navbar'
-
 /** Donor's pages */
-import Homepage from "../src/pages/HomepageRouter"
+import Homepage from "../src/pages/Homepage"
 import PatientPage from './pages/doctor/PatientPage'
 import DonationsPage from './pages/donor/DonationsPage'
 import DonorPage from './pages/assistant/DonorPage'
@@ -74,32 +72,23 @@ class App extends React.Component {
   }
 
   /**
-   * Handles Sign-out Manually from the Auth component
-   */
-  handleSignOut = async () => {
-    try {
-      await Auth.signOut()
-    } catch (err) {
-      alert("An error has occured while trying to sign out")
-    }
-  }
-
-  /**
    * Creates a new user on the schema once it's signed up
    */
   registerNewUser = async signInData => {
+    console.log(signInData)
     const getUserInput = {
-      id: signInData.signInUserSession.idToken.payload.sub
+      id: signInData.attributes.sub
     }
     const { data } = await API.graphql(graphqlOperation(getUser, getUserInput))
+    console.log(data)
     if (!data.getUser) {
       try {
         const registerUserInput = {
           ...getUserInput,
-          username: signInData.username,
-          email: signInData.signInUserSession.idToken.payload.email,
-          phonenumber: signInData.signInUserSession.idToken.payload.phone_number,
-          type: "unassigned"
+          username: signInData.attributes.email,
+          email: signInData.attributes.email,
+          phonenumber: "unassigned",
+          type: "donor"
         }
         const newUser = await API.graphql(graphqlOperation(createUser, { input: registerUserInput }))
         this.setState({ dbuser: newUser })
@@ -158,17 +147,17 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, userAttributes } = this.state
-    return !user ? <Authenticator /> : (
+    const { user, userAttributes, dbuser } = this.state
+    return !user ? <Authenticator theme={AmplifyTheme} usernameAttributes='email' signUpConfig={{ hiddenDefaults: 'phone_numbers' }} /> : (
       <UserContext.Provider value={{ user, userAttributes }}>
         <Router history={history}>
           <>
             {/** Always present Navigation Bar */}
-            <Navbar user={user} handleSignout={this.handleSignOut} />
+            {/** <Navbar user={user} handleSignout={this.handleSignOut} /> */}
             {/** Application Routes */}
             <div className="app-container">
               <Route exact path="/" component={
-                () => <Homepage user={user} />
+                () => <Homepage userC={user} userDB={dbuser} />
               } />
 
               <Route path="/patient/:patientId" component={
