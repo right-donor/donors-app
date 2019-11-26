@@ -23,6 +23,7 @@ import {Router} from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import clsx from 'clsx';
 import BackgroundHero from '../assets/img/donor-2.jpeg';
+import DescImage from '../assets/img/preparing.jpeg';
 
 function Copyright() {
   return (
@@ -46,6 +47,13 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles(theme => ({
+  image:{
+    width: '50%'
+  },
+  img:{
+    width: '100%',
+    height: 'auto'
+  },
   banner: {
     width: '60%',
     color: '#7E353E',
@@ -55,6 +63,11 @@ const useStyles = makeStyles(theme => ({
   bannerText: {
     width: '60%',
     marginLeft:'auto'
+  },
+  aboutText: {
+    width: '50%',
+    padding:'2rem 0 0 0',
+    fontSize: '1.2rem'
   },
   toolbar: {
     backgroundColor: "#833741"
@@ -66,6 +79,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
     height: '75vh'
+  },
+  about: {
+    display:'flex',
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -135,7 +151,7 @@ export default function Album() {
                 backgroundRepeat: 'no-repeat'}}>
           <Container >
             <Typography component="h1" variant="h2" align="center" className={classes.banner} gutterBottom>
-              RIGHT DONOR
+              Share Live, Give blood
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" className={classes.bannerText}paragraph>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan nec est quis pretium.
@@ -152,6 +168,19 @@ export default function Album() {
             </div>
           </Container>
         </div>
+        <Container className={classes.about}>
+          <div className={classes.image}>
+           <Typography variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan nec est quis pretium.
+			        Curabitur pretium eget ex nec iaculis. Pellentesque in porta dolor, eget eleifend lorem. Pellentesque in semper leo. 
+			        Ut molestie augue nec ullamcorper fringilla. Maecenas nisl tellus, varius a laoreet et, porttitor at quam.
+          </Typography>
+          </div>
+          <div className={classes.image}>
+            <img src={DescImage} className={classes.img}>
+            </img>
+          </div>  
+        </Container>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
