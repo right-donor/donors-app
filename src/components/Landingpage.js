@@ -57,6 +57,7 @@ const useStyles = makeStyles(theme => ({
     height: 'auto'
   },
   banner: {
+    paddingTop:'3%',
     width: '60%',
     fontWeight:'400',
     marginLeft:'auto'
@@ -78,9 +79,8 @@ const useStyles = makeStyles(theme => ({
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-    height: '75vh',
-    marginBottom: '3rem'
+    height: '80vh',
+    padding: '3rem 0'
   },
   highlight: {
     fontWeight:'500',
@@ -110,7 +110,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   liveBlue:{
-    color:'#20639B',
+    color:'#00b1f3',
     fontWeight:'500',
   },
   liveGreen:{
@@ -190,6 +190,9 @@ const useStyles = makeStyles(theme => ({
   },
   statistics:{
     padding:'3rem 0 1rem 0'
+  },
+  sectionAbout:{
+    padding:'3rem 0'
   }
 }));
 
@@ -215,14 +218,14 @@ export default function Album() {
 			</Toolbar>
 		 </AppBar>
       <main>
-        {/* Hero unit */}
+      
         <div className={classes.heroContent} 
         style={{backgroundImage:"url(" + BackgroundHero + ")",backgroundSize: 'cover', 
                 backgroundPosition: 'center center',
                 backgroundRepeat: 'no-repeat'}}>
           <Container>
             <Typography component="h1" variant="h2" align="center" className={classes.banner} gutterBottom>
-              Share <span className={classes.liveBlue}>L</span><span className={classes.liveGreen}>i</span><span className={classes.liveYellow}>v</span><span className={classes.liveRed}>e</span>, Give <span className={classes.highlight}>Blood</span>
+              Share <span className={classes.liveBlue}>Live</span>, Give <span className={classes.highlight}>Blood</span>
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" className={classes.bannerText}paragraph>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan nec est quis pretium.
@@ -239,7 +242,9 @@ export default function Album() {
             </div>
           </Container>
         </div>
-        <Container>
+
+         {/* ----------------------------------------------------------*/}
+        <Container className={classes.sectionAbout}>
           <Typography variant="h5" align="center" paragraph className={classes.aboutTitle}>
           <span className={classes.highlight.light}>Why </span> <span className={classes.highlight}>Matters? </span>
           </Typography>
@@ -254,6 +259,9 @@ export default function Album() {
             <img src={blood} className={classes.blood}></img>
           </div>
         </Container>
+         {/* ----------------------------------------------------------*/}
+
+
         <Container className={classes.about}>
           <div className={classes.image}>
           <Typography variant="h5" align="center" paragraph className={classes.aboutTitle2}>
