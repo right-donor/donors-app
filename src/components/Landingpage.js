@@ -26,6 +26,11 @@ import BackgroundHero from '../assets/img/donor-2.jpeg';
 import DescImage from '../assets/img/preparing.jpeg';
 import blood from '../assets/img/blood-types.png';
 import fact1 from '../assets/img/fact-1.png';
+import fact2 from '../assets/img/fact-2.png';
+import fact3 from '../assets/img/fact-3.png';
+import fact4 from '../assets/img/fact-4.png';
+import fact5 from '../assets/img/fact-5.png';
+import fact6 from '../assets/img/fact-6.png';
 
 function Copyright() {
   return (
@@ -140,6 +145,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    marginBottom: '1.5rem'
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
@@ -189,10 +195,14 @@ const useStyles = makeStyles(theme => ({
     wordWrap:'break-word'
   },
   statistics:{
-    padding:'3rem 0 1rem 0'
+    padding:'3rem 0 3rem 0'
   },
   sectionAbout:{
     padding:'3rem 0'
+  },
+  factsTitle:{
+    paddingBottom:'3rem',
+    fontSize:'3rem'
   }
 }));
 
@@ -201,9 +211,17 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function Album() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [exp, setExp] = React.useState(false);
+  const [exp1, setExp1] = React.useState(false);
 
   const handleExpandClick = () => {
 	setExpanded(!expanded);
+  };
+  const handleExpandClick2 = () => {
+    setExp(!exp);
+  };
+  const handleExpandClick3 = () => {
+    setExp1(!exp1);
   };
 
 
@@ -278,7 +296,12 @@ export default function Album() {
             </img>
           </div>  
         </Container>
+
+
         <Container className={classes.statistics}>
+           <Typography variant="h5" align="center"  className={classes.factsTitle}>
+            Some <span className={classes.highlight}>Facts </span>
+          </Typography>
             <div className={classes.row}>
                   <div className={classes.itemBox}>
                     <div className={classes.photo}>
@@ -288,13 +311,13 @@ export default function Album() {
                   </div>
                   <div className={classes.itemBox}>
                     <div className={classes.photo}>
-                      <img src={fact1} className={classes.imgF}></img>
+                      <img src={fact2} className={classes.imgF}></img>
                     </div>
                     <div className = {classes.fact}>En 71 países, las donaciones altruistas son inferiores al <span className={classes.highlight}>50%</span>.</div>
                   </div>
                   <div className={classes.itemBox}>
                     <div className={classes.photo}>
-                      <img src={fact1} className={classes.imgF}></img>
+                      <img src={fact3} className={classes.imgF}></img>
                     </div>
                     <div className = {classes.fact}><span className={classes.highlight}>112.5 millones</span> de unidades de sangre se colectan anualmente en el mundo.</div>
                   </div>
@@ -302,26 +325,29 @@ export default function Album() {
             <div className={classes.row}>
             <div className={classes.itemBox}>
                     <div className={classes.photo}>
-                      <img src={fact1} className={classes.imgF}></img>
+                      <img src={fact4} className={classes.imgF}></img>
                     </div>
                     <div className = {classes.fact}>Solo se puede asegurar un suministro suficiente de sangre <span className={classes.highlight}>no contaminada</span> mediante la donación altruista.</div>
                   </div>
                   <div className={classes.itemBox}>
                     <div className={classes.photo}>
-                      <img src={fact1} className={classes.imgF}></img>
+                      <img src={fact5} className={classes.imgF}></img>
                     </div>
                     <div className = {classes.fact}>La donación de sangre es <span className={classes.highlight}>9 veces</span> mayor en países de ingresos altos que los de ingresos bajos y medios.</div>
                   </div>
                   <div className={classes.itemBox}>
                     <div className={classes.photo}>
-                      <img src={fact1} className={classes.imgF}></img>
+                      <img src={fact6} className={classes.imgF}></img>
                     </div>
                     <div className = {classes.fact}><span className={classes.highlight}>1 unidad</span> de sangre puede beneficiar a varios pacientes.</div>
                   </div>
             </div>
         </Container>
+
+
+
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
+        
           <Grid container spacing={4}>
             <Card className={classes.card}>
               <CardHeader
@@ -379,7 +405,119 @@ export default function Album() {
                 </CardContent>
               </Collapse>
 		  	    </Card>
-            
+            <Card className={classes.card}>
+              <CardHeader
+                title="�Atrevete!"
+                subheader="Beneficios de ser donante"
+              />
+              <CardMedia
+                className={classes.media}
+                image="/static/images/cards/paella.jpg"
+                title="Donante"
+              />
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  This impressive paella is a perfect party dish and a fun meal to cook together with your
+                  guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                <IconButton
+                  className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+                  })}
+                  onClick={handleExpandClick2}
+                  aria-exp={exp}
+                  aria-label="show more"
+                >
+                <ExpandMoreIcon />
+                </IconButton>
+              </CardActions>
+              <Collapse in={exp} timeout="auto" unmountOnExit>
+                <CardContent>
+                  <Typography paragraph>Method:</Typography>
+                  <Typography paragraph>
+                  Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                  minutes.
+                  </Typography>
+                  <Typography paragraph>
+                  Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
+                  heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
+                  browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
+                  and chorizo in the pan. Add piment�n, bay leaves, garlic, tomatoes, onion, salt and
+                  pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
+                  saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
+                  </Typography>
+                  <Typography paragraph>
+                  Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
+                  without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
+                  medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
+                  again without stirring, until mussels have opened and rice is just tender, 5 to 7
+                  minutes more. (Discard any mussels that don�t open.)
+                  </Typography>
+                  <Typography>
+                  Set aside off of the heat to let rest for 10 minutes, and then serve.
+                  </Typography>
+                </CardContent>
+              </Collapse>
+		  	    </Card>
+
+            <Card className={classes.card}>
+              <CardHeader
+                title="�Atrevete!"
+                subheader="Beneficios de ser donante"
+              />
+              <CardMedia
+                className={classes.media}
+                image="/static/images/cards/paella.jpg"
+                title="Donante"
+              />
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  This impressive paella is a perfect party dish and a fun meal to cook together with your
+                  guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                <IconButton
+                  className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+                  })}
+                  onClick={handleExpandClick3}
+                  aria-exp1={exp1}
+                  aria-label="show more"
+                >
+                <ExpandMoreIcon />
+                </IconButton>
+              </CardActions>
+              <Collapse in={exp1} timeout="auto" unmountOnExit>
+                <CardContent>
+                  <Typography paragraph>Method:</Typography>
+                  <Typography paragraph>
+                  Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                  minutes.
+                  </Typography>
+                  <Typography paragraph>
+                  Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
+                  heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
+                  browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
+                  and chorizo in the pan. Add piment�n, bay leaves, garlic, tomatoes, onion, salt and
+                  pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
+                  saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
+                  </Typography>
+                  <Typography paragraph>
+                  Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
+                  without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
+                  medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
+                  again without stirring, until mussels have opened and rice is just tender, 5 to 7
+                  minutes more. (Discard any mussels that don�t open.)
+                  </Typography>
+                  <Typography>
+                  Set aside off of the heat to let rest for 10 minutes, and then serve.
+                  </Typography>
+                </CardContent>
+              </Collapse>
+		  	    </Card>
           </Grid>
         </Container>
         
