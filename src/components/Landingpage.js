@@ -25,12 +25,14 @@ import clsx from 'clsx';
 import BackgroundHero from '../assets/img/donor-2.jpeg';
 import DescImage from '../assets/img/preparing.jpeg';
 import blood from '../assets/img/blood-types.png';
+import reg from '../assets/img/register.jpeg';
 import fact1 from '../assets/img/fact-1.png';
 import fact2 from '../assets/img/fact-2.png';
 import fact3 from '../assets/img/fact-3.png';
 import fact4 from '../assets/img/fact-4.png';
 import fact5 from '../assets/img/fact-5.png';
 import fact6 from '../assets/img/fact-6.png';
+import footer from '../assets/img/footer.png';
 
 function Copyright() {
   return (
@@ -49,6 +51,14 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       500:"#833741"
+    } ,
+  },
+});
+
+const theme2 = createMuiTheme({
+  palette: {
+    primary: {
+      500:"#B44B59",
     } ,
   },
 });
@@ -167,6 +177,7 @@ const useStyles = makeStyles(theme => ({
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
+    position:'relative'
   },
   itemBox:{
     paddingRight:'2rem',
@@ -203,6 +214,31 @@ const useStyles = makeStyles(theme => ({
   factsTitle:{
     paddingBottom:'3rem',
     fontSize:'3rem'
+  },
+  register:{
+    backgroundImage:"url(" + reg + ")",
+    backgroundSize: 'cover', 
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+    padding: '7rem 3rem'
+  },
+  buttonWrapper:{
+    width:'300px',
+    marginLeft:'17%',
+    "@media (max-width: 576px)": {
+     marginLeft: 'auto',
+     marginRight: 'auto'
+    }
+  },
+  footerImageW:{
+    marginTop:'.5rem',
+    marginLeft:'auto',
+    marginRight:'auto',
+    width:'150px'
+  },
+  ftImg:{
+    width:'100%',
+    height:'auto'
   }
 }));
 
@@ -521,16 +557,27 @@ export default function Album() {
           </Grid>
         </Container>
         
+        <div className={classes.register}>
+          <MuiThemeProvider theme={theme2}>
+            <div className={classes.buttonWrapper}>
+              <Button variant="contained" color='primary' fullWidth="true" size="large">
+                  Register
+                </Button> 
+            </div> 
+          </MuiThemeProvider>   
+        </div>
+        
+
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          Right Donor
         </Typography>
         <Copyright />
+        <div className={classes.footerImageW}>
+        <img src={footer} className={classes.ftImg}></img>
+        </div>
       </footer>
       {/* End footer */}
     </React.Fragment>
