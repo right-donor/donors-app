@@ -11,11 +11,12 @@ import { updateUser } from '../../../graphql/mutations'
 
 /** Material UI Stuff */
 import { Paper, Select, MenuItem, InputLabel} from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles";
 import styles from "../../../assets/jss/material-kit-pro-react/customSelectStyle.js";
 import GridContainer from '../../../useful/Grid/GridContainer'
 import GridItem from '../../../useful/Grid/GridItem'
 import Button from '../../../useful/CustomButtons/Button'
-import Typography from '../../../useful/Typography/Primary'
+import Primary from '../../../useful/Typography/Primary'
 import CustomInput from '../../../useful/CustomInput/CustomInput'
 
 /** Date components */
@@ -25,7 +26,11 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/picker
 /**
  * Initial Exploration Form when the user first signs in
  */
+ 
+const useStyles = makeStyles(styles);
 class Exploration extends React.Component {
+
+	const classes = useStyles();
 
     state = {
         firstname: "",
@@ -95,6 +100,11 @@ class Exploration extends React.Component {
         }
     }
 
+	/*[simpleSelect, setSimpleSelect] = React.useState("");
+	handleSimple = event => {
+	setSimpleSelect(event.target.value);
+	};*/
+	
     render() {
         return (
             <Paper style={{textAlign: 'center', color: '#E1B7BD', padding: '1rem'}}>
@@ -105,9 +115,9 @@ class Exploration extends React.Component {
                 alignItems="center">
                 <form className={""} autoComplete="on">
                     <GridItem>
-                        <Typography variant="h3">
-                            Exploratory Form
-                        </Typography>
+                        <Primary>
+                            <h3>Exploratory Form</h3>
+                        </Primary>
                     </GridItem>
                     <GridItem>
 						<CustomInput
@@ -132,19 +142,44 @@ class Exploration extends React.Component {
 						  />
                     </GridItem>
                     <GridItem>
-                    <InputLabel htmlFor="blood-type">
+                    <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
                             City
                     </InputLabel>
+						
                         <Select
+							MenuProps={{
+							  className: classes.selectMenu
+							}}
+							classes={{
+							  select: classes.select
+							}}
                             value={this.state.city}
                             onChange={event => this.setState({city: event.target.value})}
                             inputProps={{
                                 name: "city",
                                 id: "city"
                             }}>
-                            <MenuItem value={"CDMX"}>CDMX</MenuItem>
-                            <MenuItem value={"Monterrey"}>Monterrey</MenuItem>
-                            <MenuItem value={"Guadalajara"}>Guadalajara</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"CDMX"}>CDMX
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"Guadalajara"}>Guadalajara
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"Monterrey"}>Monterrey
+							</MenuItem>
                         </Select>
                     </GridItem>
                     <GridItem>
@@ -163,35 +198,83 @@ class Exploration extends React.Component {
                         </MuiPickersUtilsProvider>
                     </GridItem>
                     <GridItem>
-                        <InputLabel htmlFor="blood-type">
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
                             Blood Type
                 </InputLabel>
                         <Select
+							MenuProps={{
+							  className: classes.selectMenu
+							}}
+							classes={{
+							  select: classes.select
+							}}
                             value={this.state.blood.type}
                             onChange={event => this.setState({ blood: { ...this.state.blood, type: event.target.value } })}
                             inputProps={{
                                 name: "blood type",
                                 id: "bloodType"
                             }}>
-                            <MenuItem value={"A"}>A</MenuItem>
-                            <MenuItem value={"B"}>B</MenuItem>
-                            <MenuItem value={"AB"}>AB</MenuItem>
-                            <MenuItem value={"O"}>O</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"A"}>A
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"B"}>B
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"AB"}>AB
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"O"}>O
+							</MenuItem>
                         </Select>
                     </GridItem>
                     <GridItem>
-                        <InputLabel htmlFor="blood-type">
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
                             Blood RH
                 </InputLabel>
                         <Select
+							MenuProps={{
+							  className: classes.selectMenu
+							}}
+							classes={{
+							  select: classes.select
+							}}
                             value={this.state.blood.rh}
                             onChange={event => this.setState({ blood: { ...this.state.blood, rh: event.target.value } })}
                             inputProps={{
                                 name: "blood rh",
                                 id: "bloodRh"
                             }}>
-                            <MenuItem value={"+"}>+</MenuItem>
-                            <MenuItem value={"-"}>-</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"+"}>+
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"-"}>-
+							</MenuItem>
                         </Select>
                     </GridItem>
                     <GridItem>
