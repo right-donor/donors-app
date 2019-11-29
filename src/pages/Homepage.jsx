@@ -363,7 +363,7 @@ class Homepage extends Component {
                     }}
                     links={<HeaderLinks classes={classes} userType={userData ? userData.type : null} handleSignOut={this.handleSignOut} />}
                 />
-                <Parallax image={img ? img : require('../assets/img/image_placeholder.jpg')} filter='primary' className={classes.parallax} />
+                <Parallax image={img ? img : require('../assets/img/header.png')} filter='primary' className={classes.parallax} />
 
                 <div className={classNames(classes.main, classes.mainRaised)}>
                     <div className={classes.container}>

@@ -10,7 +10,13 @@ import aws_exports from '../../../aws-exports'
 import { updateUser } from '../../../graphql/mutations'
 
 /** Material UI Stuff */
-import { Paper, TextField, Select, MenuItem, InputLabel, Button, Grid, Typography } from "@material-ui/core"
+import { Paper, Select, MenuItem, InputLabel} from "@material-ui/core"
+import styles from "../../../assets/jss/material-kit-pro-react/customSelectStyle.js";
+import GridContainer from '../../../useful/Grid/GridContainer'
+import GridItem from '../../../useful/Grid/GridItem'
+import Button from '../../../useful/CustomButtons/Button'
+import Typography from '../../../useful/Typography/Primary'
+import CustomInput from '../../../useful/CustomInput/CustomInput'
 
 /** Date components */
 import DateFnsUtils from "@date-io/date-fns"
@@ -91,40 +97,41 @@ class Exploration extends React.Component {
 
     render() {
         return (
-            <Paper style={{textAlign: 'center', color: 'gray', padding: '1rem'}}>
-            <Grid
-                container
+            <Paper style={{textAlign: 'center', color: '#E1B7BD', padding: '1rem'}}>
+            <GridContainer
                 spacing={3}
                 direction="column"
                 justify="center"
                 alignItems="center">
                 <form className={""} autoComplete="on">
-                    <Grid item>
+                    <GridItem>
                         <Typography variant="h3">
                             Exploratory Form
                         </Typography>
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            id="firstname"
-                            label="First Name"
-                            className={"textField"}
+                    </GridItem>
+                    <GridItem>
+						<CustomInput
+							labelText="First Name"
+							id="firstname"
                             value={this.state.firstname}
                             onChange={event => this.setState({ firstname: event.target.value })}
-                            margin="normal"
-                            variant="outlined" />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            id="lastname"
-                            label="Last Name"
-                            className={"textField"}
-                            value={this.state.lastname}
+							formControlProps={{
+							  fullWidth: true
+							}}
+						  />
+                    </GridItem>
+                    <GridItem>
+						<CustomInput
+							labelText="Last Name"
+							id="lastname"
+                            value={this.state.firstname}
                             onChange={event => this.setState({ lastname: event.target.value })}
-                            margin="normal"
-                            variant="outlined" />
-                    </Grid>
-                    <Grid item>
+							formControlProps={{
+							  fullWidth: true
+							}}
+						  />
+                    </GridItem>
+                    <GridItem>
                     <InputLabel htmlFor="blood-type">
                             City
                     </InputLabel>
@@ -139,8 +146,8 @@ class Exploration extends React.Component {
                             <MenuItem value={"Monterrey"}>Monterrey</MenuItem>
                             <MenuItem value={"Guadalajara"}>Guadalajara</MenuItem>
                         </Select>
-                    </Grid>
-                    <Grid item >
+                    </GridItem>
+                    <GridItem>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardDatePicker
                                 margin="normal"
@@ -154,8 +161,8 @@ class Exploration extends React.Component {
                                 }}
                             />
                         </MuiPickersUtilsProvider>
-                    </Grid>
-                    <Grid item >
+                    </GridItem>
+                    <GridItem>
                         <InputLabel htmlFor="blood-type">
                             Blood Type
                 </InputLabel>
@@ -171,8 +178,8 @@ class Exploration extends React.Component {
                             <MenuItem value={"AB"}>AB</MenuItem>
                             <MenuItem value={"O"}>O</MenuItem>
                         </Select>
-                    </Grid>
-                    <Grid item>
+                    </GridItem>
+                    <GridItem>
                         <InputLabel htmlFor="blood-type">
                             Blood RH
                 </InputLabel>
@@ -186,8 +193,8 @@ class Exploration extends React.Component {
                             <MenuItem value={"+"}>+</MenuItem>
                             <MenuItem value={"-"}>-</MenuItem>
                         </Select>
-                    </Grid>
-                    <Grid item>
+                    </GridItem>
+                    <GridItem>
                         <PhotoPicker
                             title="Profile Image"
                             preview="visible"
@@ -199,14 +206,14 @@ class Exploration extends React.Component {
                                 }
                             }}
                         />
-                    </Grid>
-                    <Grid item>
-                        <Button disabled={this.state.uploading} onClick={this.handleSubmit}>
+                    </GridItem>
+                    <GridItem>
+                        <Button color="primary" disabled={this.state.uploading} onClick={this.handleSubmit}>
                             {this.state.uploading ? "Uploading..." : "Submit"}
                         </Button>
-                    </Grid>
+                    </GridItem>
                 </form>
-            </Grid>
+            </GridContainer>
             </Paper>
         )
     }
