@@ -10,8 +10,8 @@ import aws_exports from '../../../aws-exports'
 import { updateUser } from '../../../graphql/mutations'
 
 /** Material UI Stuff */
-import { Paper, Select, MenuItem, InputLabel} from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles";
+import {Select, MenuItem, InputLabel, FormControl} from "@material-ui/core"
+import { withStyles  } from "@material-ui/core/styles";
 import styles from "../../../assets/jss/material-kit-pro-react/customSelectStyle.js";
 import GridContainer from '../../../useful/Grid/GridContainer'
 import GridItem from '../../../useful/Grid/GridItem'
@@ -27,10 +27,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/picker
  * Initial Exploration Form when the user first signs in
  */
  
-const useStyles = makeStyles(styles);
 class Exploration extends React.Component {
-
-	const classes = useStyles();
 
     state = {
         firstname: "",
@@ -102,12 +99,14 @@ class Exploration extends React.Component {
 
 	/*[simpleSelect, setSimpleSelect] = React.useState("");
 	handleSimple = event => {
-	setSimpleSelect(event.target.value);
-	};*/
+		setSimpleSelect(event.target.value);
+	}*/
 	
     render() {
+		const {classes} = this.props;
+
         return (
-            <Paper style={{textAlign: 'center', color: '#E1B7BD', padding: '1rem'}}>
+		<FormControl fullWidth className={classes.selectFormControl}>
             <GridContainer
                 spacing={3}
                 direction="column"
@@ -142,11 +141,10 @@ class Exploration extends React.Component {
 						  />
                     </GridItem>
                     <GridItem>
-                    <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
-                            City
-                    </InputLabel>
-						
-                        <Select
+						<InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+								City
+						</InputLabel>
+                        <Select fullWidth
 							MenuProps={{
 							  className: classes.selectMenu
 							}}
@@ -183,25 +181,25 @@ class Exploration extends React.Component {
                         </Select>
                     </GridItem>
                     <GridItem>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="birthday"
-                                label="Birthday"
-                                format="yyyy-MM-dd"
-                                value={this.state.birthday}
-                                onChange={this.handleSelectedDate}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date'
-                                }}
-                            />
-                        </MuiPickersUtilsProvider>
+						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+							<KeyboardDatePicker
+								margin="normal"
+								label="Birthday"
+								id="birthday"
+								format="yyyy-MM-dd"
+								value={this.state.birthday}
+								onChange={this.handleSelectedDate}
+								KeyboardButtonProps={{
+									'aria-label': 'change date'
+								}}
+							/>
+						</MuiPickersUtilsProvider>
                     </GridItem>
                     <GridItem>
                         <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
                             Blood Type
-                </InputLabel>
-                        <Select
+						</InputLabel>
+                        <Select fullWidth
 							MenuProps={{
 							  className: classes.selectMenu
 							}}
@@ -247,8 +245,8 @@ class Exploration extends React.Component {
                     <GridItem>
                         <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
                             Blood RH
-                </InputLabel>
-                        <Select
+						</InputLabel>
+                        <Select fullWidth
 							MenuProps={{
 							  className: classes.selectMenu
 							}}
@@ -286,20 +284,23 @@ class Exploration extends React.Component {
                             theme={{
                                 formSection: {
                                     width: "15rem"
-                                }
+                                },
+								input: {
+									backgroundColor: "#833741"
+								}
                             }}
                         />
                     </GridItem>
                     <GridItem>
-                        <Button color="primary" disabled={this.state.uploading} onClick={this.handleSubmit}>
+                        <Button fullWidth color="primary" disabled={this.state.uploading} onClick={this.handleSubmit}>
                             {this.state.uploading ? "Uploading..." : "Submit"}
                         </Button>
                     </GridItem>
                 </form>
             </GridContainer>
-            </Paper>
+		</FormControl>
         )
     }
 }
 
-export default Exploration
+export default withStyles(styles)(Exploration);
