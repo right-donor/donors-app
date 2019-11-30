@@ -2,11 +2,23 @@ import React from "react"
 /** GraphQL Operations */
 import {createPatient} from '../../graphql/mutations'
 /** Amplify elements */
-import { PhotoPicker } from 'aws-amplify-react'
 import aws_exports from '../../aws-exports'
 import { Storage, Auth, API, graphqlOperation } from 'aws-amplify'
 /** Design elements */
-import { Form, Button, Input, Notification, Progress, Dialog, Select, DatePicker } from 'element-react'
+import {Input, Notification, Progress, Dialog, DatePicker } from 'element-react'
+/** Material UI Stuff */
+import {Select, MenuItem, InputLabel, FormControl} from "@material-ui/core"
+import { withStyles  } from "@material-ui/core/styles";
+import styles from "../../assets/jss/material-kit-pro-react/customSelectStyle.js";
+import GridContainer from '../../useful/Grid/GridContainer'
+import GridItem from '../../useful/Grid/GridItem'
+import Button from '../../useful/CustomButtons/Button'
+import Primary from '../../useful/Typography/Primary'
+import CustomInput from '../../useful/CustomInput/CustomInput'
+
+/** Date components */
+import DateFnsUtils from "@date-io/date-fns"
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers"
 
 const initialState = {
     firstname: "",
@@ -151,147 +163,176 @@ class NewPatient extends React.Component {
     }
 
     render() {
+		const {classes} = this.props;
         return (
-        <>
-            <div className="market-header">
-                {/** Title and edit button */}
-                <h1 className="market-title">
-                    Add a Patient 
-                    <Button 
-                        type="text" 
-                        icon="edit" 
-                        className="market-title-button" 
-                        onClick={() => this.setState({addPatientDialog: true})}/>
-                </h1>
-                {/** Elastic Search */}
-                <Form 
-                    inline={true}
-                    onSubmit={this.props.handleSearch}>
-                        <Form.Item>
-                            <Input
-                                placeholder="Search patients..."
-                                icon="circle-cross"
-                                onIconClick={this.props.handleClearSearch}
-                                onChange={this.props.handleSearchChange}
-                                value={this.props.searchTerm}/>
-
-                        </Form.Item>
-                        <Form.Item>
-                            <Button
-                                type="info"
-                                icon="search"
-                                onClick={this.props.handleSearch}
-                                loading={this.props.isSearching}>
-                                    Search
-                                </Button>
-                        </Form.Item>
-                    </Form>
-            </div>
-            {/** Patient Creation dialog */}
-            <Dialog
-                title="Add a new patient"
-                visible={this.state.addPatientDialog}
-                onCancel={() => this.setState({addPatientDialog: false})}
-                size="large"
-                customClass="dialog">
-                    <Dialog.Body>
-                        <Form labelPosition="top">
-                            <Form.Item
-                                label="First name">
-                                    <Input
-                                        placeholder="John"
-                                        trim={true}
-                                        onChange={firstname => this.setState({firstname})}/>
-                                </Form.Item>
-                                <Form.Item
-                                label="Last name">
-                                    <Input
-                                        placeholder="Wick"
-                                        trim={true}
-                                        onChange={lastname => this.setState({lastname})}/>
-                                </Form.Item>
-                                <Form.Item
-                                label="Day of Birth">
-                                    <DatePicker
-                                        isShowTime={true}
-                                        value={this.state.birthday}
-                                        placeholder="Pick a day"
-                                        onChange={date=>{this.setState({date})}}
-                                        disabledDate={time=>time.getTime() > Date.now()}
-                                        />
-                                </Form.Item>
-                                <Form.Item
-                                    label="Gender">
-                                        <Select 
-                                            value={this.state.gender}
-                                            onChange={gender => this.setState({gender})}>
-                                                {this.state.genderOptions.map(el => {
-                                                    return <Select.Option 
-                                                        key={el.value} 
-                                                        label={el.label}
-                                                        value={el.value}/>
-                                                })}
-                                        </Select>
-                                </Form.Item>
-                                <Form.Item
-                                    label="Blood Group">
-                                        <Select 
-                                            onChange={type => this.setState({blood: {...this.state.blood, type}})}
-                                            value={this.state.blood.type}>
-                                                {this.state.bloodOptions.map(el => {
-                                                    return <Select.Option 
-                                                        key={el.value} 
-                                                        label={el.label}
-                                                        value={el.value}/>
-                                                })}
-                                        </Select>
-                                </Form.Item>
-                                <Form.Item
-                                    label="Blood RH">
-                                        <Select
-                                            onChange={rh => this.setState({blood: {...this.state.blood, rh}})}
-                                            value={this.state.blood.rh}>
-                                                {this.state.rhOptions.map(el => {
-                                                    return <Select.Option 
-                                                        key={el.value} 
-                                                        label={el.label}
-                                                        value={el.value}/>
-                                                })}
-                                        </Select>
-                                </Form.Item>
-                                {this.state.percentUpload > 0 &&
-                                    <Progress
-                                        type="circle"
-                                        status="success"
-                                        className="progress"
-                                        percentage={this.state.percentUpload}/>
-                                }
-                                <PhotoPicker
-                                    title="Patient Photo"
-                                    onLoad={imagePreview => this.setState({imagePreview})}
-                                    onPick={image => this.setState({image})}
-                                    preview="visible"
-                                    />
-                                    <Form.Item>
-                                        <Button
-                                            loading={this.state.isUploading}
-                                            disabled={!this.state.firstname 
-                                                        || !this.state.lastname 
-                                                        || !this.state.birthday 
-                                                        || !this.state.gender 
-                                                        || !this.state.blood
-                                                        || !this.state.image}
-                                            type="primary"
-                                            onClick={this.handleAddPatient}>
-                                                {this.state.isUploading ? 'Uploading...' : 'Add Patient'}
-                                            </Button>
-                                    </Form.Item>
-                        </Form>
-                    </Dialog.Body>
-            </Dialog>
-        </>
+       <FormControl fullWidth className={classes.selectFormControl}>
+            <GridContainer
+                spacing={3}
+                direction="column"
+                justify="center"
+                alignItems="center">
+                <form className={""} autoComplete="on">
+                    <GridItem>
+                        <Primary>
+                            <h2>Agregar paciente</h2>
+                        </Primary>
+                    </GridItem>
+                    <GridItem>
+						<CustomInput
+							labelText="Nombre"
+							id="firstname"
+                            value={this.state.firstname}
+                            onChange={event => this.setState({ firstname: event.target.value })}
+							formControlProps={{
+							  fullWidth: true
+							}}
+						  />
+                    </GridItem>
+                    <GridItem>
+						<CustomInput
+							labelText="Apellido"
+							id="lastname"
+                            value={this.state.firstname}
+                            onChange={event => this.setState({ lastname: event.target.value })}
+							formControlProps={{
+							  fullWidth: true
+							}}
+						  />
+                    </GridItem>
+					<GridItem>
+						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+							<KeyboardDatePicker
+								margin="normal"
+								label="Birthday"
+								id="birthday"
+								format="yyyy-MM-dd"
+								value={this.state.birthday}
+								onChange={this.handleSelectedDate}
+								KeyboardButtonProps={{
+									'aria-label': 'change date'
+								}}
+							/>
+						</MuiPickersUtilsProvider>
+                    </GridItem>
+                    <GridItem>
+						<InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+								Sexo
+						</InputLabel>
+                        <Select fullWidth
+							MenuProps={{
+							  className: classes.selectMenu
+							}}
+							classes={{
+							  select: classes.select
+							}}
+                            value={this.state.gender}
+                            onChange={event => this.setState({gender: event.target.value})}>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"male"}>Hombre
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"female"}>Mujer
+							</MenuItem>
+                        </Select>
+                    </GridItem>
+                    <GridItem>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                            Grupo Sanguineo
+						</InputLabel>
+                        <Select fullWidth
+							MenuProps={{
+							  className: classes.selectMenu
+							}}
+							classes={{
+							  select: classes.select
+							}}
+                            value={this.state.blood.type}
+                            onChange={event => this.setState({ blood: { ...this.state.blood, type: event.target.value } })}
+                            inputProps={{
+                                name: "blood type",
+                                id: "bloodType"
+                            }}>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"A"}>A
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"B"}>B
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"AB"}>AB
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"O"}>O
+							</MenuItem>
+                        </Select>
+                    </GridItem>
+                    <GridItem>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                            Factor RH
+						</InputLabel>
+                        <Select fullWidth
+							MenuProps={{
+							  className: classes.selectMenu
+							}}
+							classes={{
+							  select: classes.select
+							}}
+                            value={this.state.blood.rh}
+                            onChange={event => this.setState({ blood: { ...this.state.blood, rh: event.target.value } })}
+                            inputProps={{
+                                name: "blood rh",
+                                id: "bloodRh"
+                            }}>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"+"}>+
+							</MenuItem>
+                            <MenuItem 
+								classes={{
+									root: classes.selectMenuItem,
+									selected: classes.selectMenuItemSelected
+								}}
+								value={"-"}>-
+							</MenuItem>
+                        </Select>
+                    </GridItem>
+                    <GridItem>
+                        <Button fullWidth color="primary" disabled={this.state.uploading} onClick={this.handleSubmit}>
+                            {this.state.uploading ? "Cargando..." : "Guardar"}
+                        </Button>
+                    </GridItem>
+                </form>
+            </GridContainer>
+		</FormControl>
         )
     }
 }
 
-export default NewPatient
+export default withStyles(styles)(NewPatient)
