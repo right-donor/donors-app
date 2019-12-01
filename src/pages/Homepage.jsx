@@ -450,16 +450,11 @@ class Homepage extends Component {
                             <CardHeader
                                 avatar={
                                 <Avatar aria-label="recipe" className={classes.avatar}>
-                                    {this.state.userData.firstname[0]}
+                                    {this.state.userData.firstname[0] ? this.state.userData.firstname[0] : "N"}
                                 </Avatar>
                                 }
-                                action={
-                                <IconButton aria-label="settings">
-                                    <MoreVertIcon />
-                                </IconButton>
-                                }
-                                title={this.state.userData.firstname+" "+this.state.userData.lastname}
-                                subheader={this.state.userData.city}
+                                title={this.state.userData.firstname?this.state.userData.firstname+" "+this.state.userData.lastname:"complete name"}
+                                subheader={this.state.userData.city ? this.state.userData.city : "CDMX"}
                             />
                             <CardMedia
                                 className={classes.media}
@@ -490,7 +485,7 @@ class Homepage extends Component {
                                             <PhoneAndroidIcon />
                                         </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText primary="{this.state.user.name}"/>
+                                        <ListItemText primary={this.state.userData?this.state.userData.phonenumber:"Phone Number"}/>
                                     </ListItem>
                                     <ListItem>
                                         <ListItemAvatar>
@@ -498,7 +493,7 @@ class Homepage extends Component {
                                             <LocalHospital />
                                         </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText primary="Blood type" secondary="{this.state.user.blood.type + +this.state.user.blood.rh}" />
+                                        <ListItemText primary="Blood type" secondary={this.state.userData?this.state.userData.blood.type +""+this.state.userData.blood.rh:"bloodType"} />
                                     </ListItem>
                                 </List>
                             </CardContent>

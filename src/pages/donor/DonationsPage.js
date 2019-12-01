@@ -3,6 +3,7 @@ import React from 'react'
 /** Amplify Components */
 import { API, graphqlOperation } from 'aws-amplify'
 
+import Parallax from '../../useful/Parallax/Parallax';
 import classNames from 'classnames';
 
 import AccountBox from '@material-ui/icons/AccountBox';
@@ -529,6 +530,8 @@ class DonationsPage extends React.Component {
                     }}
                     links={<HeaderLinks classes={classes} userType={userData ? userData.type : null} handleSignOut={this.handleSignOut} />}
                 />
+                <Parallax image={img ? img : require('../../assets/img/header.png')} filter='primary' className={classes.parallax} />
+                
                 <h1> Your donations </h1>
                 {/** Personal Donations */}
                 {this.state.user.donations.items.length !== 0 ?
