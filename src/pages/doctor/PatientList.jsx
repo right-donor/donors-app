@@ -42,7 +42,7 @@ const PatientList = ({searchResults}) => {
 		].map((prop, key) => {
 	return (
 		<Button round justIcon size="sm" color={prop.color} key={key}>
-		<prop.icon />
+			<prop.icon />
 		</Button>
 		);
 	});
