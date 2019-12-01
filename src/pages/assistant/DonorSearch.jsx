@@ -32,7 +32,6 @@ class DonorSearch extends React.Component {
                                 onIconClick={this.props.handleClearSearch}
                                 onChange={this.props.handleSearchChange}
                                 value={this.props.searchTerm}
-
                             />
                         </GridItem>
                         <GridItem>
