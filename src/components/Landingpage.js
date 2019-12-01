@@ -33,6 +33,10 @@ import fact4 from '../assets/img/fact-4.png';
 import fact5 from '../assets/img/fact-5.png';
 import fact6 from '../assets/img/fact-6.png';
 import footer from '../assets/img/footer.png';
+import hospital from '../assets/img/hospital.png';
+import rd from '../assets/img/rd.jpg';
+import tracking from '../assets/img/tracking.png';
+import store from '../assets/img/store.png';
 
 function Copyright() {
   return (
@@ -65,7 +69,8 @@ const theme2 = createMuiTheme({
 
 const useStyles = makeStyles(theme => ({
   image:{
-    width: '60%'
+    maxWidth: '50%',
+    minWidth:'50%'
   },
   img:{
     width: '100%',
@@ -75,16 +80,39 @@ const useStyles = makeStyles(theme => ({
     paddingTop:'3%',
     width: '60%',
     fontWeight:'400',
-    marginLeft:'auto'
+    marginLeft:'auto',
+    color: '#555E65',
+    "@media (max-width: 768px)": {
+      fontSize:'2.5rem',
+     },
+     "@media (max-width: 1199px)": {
+      paddingTop:'0'
+     },
+     "@media (max-width: 460px)":{
+     
+      fontSize:'2rem'
+     },
   },
   bannerText: {
     width: '60%',
-    marginLeft:'auto'
+    marginLeft:'auto',
+    "@media (max-width: 768px)": {
+      fontSize:'1.2rem',
+     
+     },
+     "@media (max-width: 460px)":{
+     
+      fontSize:'1rem'
+     },
   },
   aboutText: {
     padding:'2rem 2rem 0 0',
     fontSize: '1.2rem',
-    textAlign:'center'
+    textAlign:'center',
+    "@media (max-width: 768px)": {
+      fontSize:'1rem',
+     
+     },
   },
   toolbar: {
     backgroundColor: "#833741"
@@ -106,19 +134,46 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#ffffff',
     margin: '0',
     maxWidth:'100%',
-    paddingRight:'0'
+    paddingRight:'0',
+    "@media (max-width: 1199px)": {
+      flexWrap:'wrap',
+      paddingLeft:'4%'
+     }
   },
   aboutTitle:{
-    fontSize:'3rem'
+    fontSize:'3rem',
+    "@media (max-width: 768px)": {
+      fontSize:'2.2rem',
+    
+     },
   },
   aboutTitle2:{
     fontSize:'3rem',
-    paddingTop:'3rem'
+    paddingTop:'3rem',
+    "@media (max-width: 768px)": {
+      fontSize:'2.2rem',
+    
+     },
   },
   bloodContainer:{
     width:'40%',
     marginLeft:'auto',
-    marginRight:'auto'
+    marginRight:'auto',
+    "@media (max-width: 768px)": {
+      width:'60%'
+    
+     },
+  },
+  imgWrap:{
+    minwidth:'55%',
+    maxWidth:'55%',
+    marginLeft:'auto',
+    marginRight:'auto',
+
+    "@media (max-width: 1199px)": {
+      minWidth:'100%'
+    
+     },
   },
   blood:{
     height:'auto',
@@ -145,7 +200,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent:'center',
     width:'60%',
-    marginLeft:'auto'
+    marginLeft:'auto',
+    "@media (max-width: 768px)": {
+      marginTop:'1rem',
+    
+     },
+  
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
@@ -155,7 +215,8 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: '1.5rem'
+    marginRight: '1.5rem',
+
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
@@ -176,12 +237,24 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-    position:'relative'
+    display:'flex',
+    fontSize:'1rem',
+    alignItems:'center',
+    padding:'1rem 4rem',
+    justifyContent:'center',
+    "@media (max-width: 768px)": {
+      flexWrap:'wrap'
+     }
   },
   itemBox:{
     paddingRight:'2rem',
-    maxWidth:'200px'
+    maxWidth:'200px',
+    "@media (max-width: 1199px)": {
+      paddingBottom:'2rem'
+     },
+     "@media (max-width: 768px)": {
+      paddingRight:'0'
+    } 
   },
   row:{
     display:'flex',
@@ -213,7 +286,10 @@ const useStyles = makeStyles(theme => ({
   },
   factsTitle:{
     paddingBottom:'3rem',
-    fontSize:'3rem'
+    fontSize:'3rem',
+    "@media (max-width: 768px)": {
+      fontSize:'2.2rem'
+    } 
   },
   register:{
     backgroundImage:"url(" + reg + ")",
@@ -223,26 +299,88 @@ const useStyles = makeStyles(theme => ({
     padding: '7rem 3rem'
   },
   buttonWrapper:{
-    width:'300px',
+    
     marginLeft:'17%',
-    "@media (max-width: 576px)": {
+    "@media (max-width: 768px)": {
      marginLeft: 'auto',
      marginRight: 'auto'
     }
   },
+  btnWrp:{
+    width:'300px',
+    paddingLeft:'3rem',
+    "@media (max-width: 768px)": {
+     paddingLeft:'0',
+     marginLeft:'auto',
+     marginRight:'auto',
+     width:'50%'
+    }
+  },
   footerImageW:{
-    marginTop:'.5rem',
-    marginLeft:'auto',
-    marginRight:'auto',
-    width:'150px'
+    width:'100px',
+    marginLeft:'1rem'
   },
   ftImg:{
     width:'100%',
     height:'auto'
+  },
+  wrapper:{
+    display:'flex'
+  },
+  title2:{
+    fontSize:'2rem',
+    paddingBottom:'1.5rem',
+    color:'#545c60',
+    "@media (max-width: 768px)": {
+     textAlign:'center'
+     }
+  }
+  ,
+  rightDonor:{
+   
+    padding: '3rem 0',
+
+  },
+  process:{
+    backgroundColor:'rgba(0,177,243,0.9) ',
+    padding:'3rem 0',
+  },
+  wrapProcess:{
+    display:'flex',
+   
+    "@media (max-width: 1199px)": {
+      flexWrap:'wrap',
+     },
+  },
+  wrapProcess2:{
+    display:'flex',
+    justifyContent:'space-between',
+    width:'100%',
+    flexWrap:'wrap',
+    "@media (max-width: 1199px)": {
+      justifyContent:'space-around'
+     },
+  },
+  proccesTitle:{
+    display:'flex', 
+    flexDirection:'column', 
+    justifyContent:'center', 
+    marginRight:'5rem',
+    "@media (max-width: 1199px)": {
+      flexDirection:'row',
+      marginRight:'auto',
+      marginLeft:'auto',
+      paddingBottom:'3rem'
+    },
+  },
+  rdTitle:{
+    color: '#555E65',
+    fontSize:'3rem',
+    "@media (max-width: 768px)": {
+      fontSize:'2.2rem'
+    } 
   }
 }));
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function Album() {
   const classes = useStyles();
@@ -279,17 +417,15 @@ export default function Album() {
                 backgroundRepeat: 'no-repeat'}}>
           <Container>
             <Typography component="h1" variant="h2" align="center" className={classes.banner} gutterBottom>
-              Share <span className={classes.liveBlue}>Live</span>, Give <span className={classes.highlight}>Blood</span>
-            </Typography>
+              Dona  <span className={classes.highlight}>Sangre</span>, Dona <span className={classes.liveBlue}>Vida</span>            </Typography>
             <Typography variant="h5" align="center" color="textSecondary" className={classes.bannerText}paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan nec est quis pretium.
-			  Curabitur pretium eget ex nec iaculis. Pellentesque in porta dolor, eget eleifend lorem. Pellentesque in semper leo. 
-			  Ut molestie augue nec ullamcorper fringilla. Maecenas nisl tellus, varius a laoreet et, porttitor at quam.
+              En RightDonor, creemos en un mundo en el que podemos cuidarnos los unos a los otros. Donar sangre puede ser un regalo que cambia la vida y por ello, nos aseguramos de que tu regalo llegue a donde debe de llegar, de forma segura y transparente.
+              <br></br>¡Ayúdanos a cambiar el mundo!
             </Typography>
             <div className={classes.heroButtons}>
               <MuiThemeProvider theme={theme}>
                 <Button variant="contained" color='primary'>
-                  Login
+                  Ingresa
                 </Button> 
               </MuiThemeProvider>              
               
@@ -298,16 +434,75 @@ export default function Album() {
         </div>
 
          {/* ----------------------------------------------------------*/}
-        <Container className={classes.sectionAbout}>
-          <Typography variant="h5" align="center" paragraph className={classes.aboutTitle}>
-          <span className={classes.highlight.light}>Why </span> <span className={classes.highlight}>Matters? </span>
+         <Container className={classes.rightDonor}>
+              <Typography variant="h5" align="center" paragraph className={classes.rdTitle} >
+            Right <span className={classes.highlight}>Donor</span>
+             </Typography>
+            
+             <Typography style={{paddingRight:'0'}} variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
+              Somos un proyecto que integra diferentes tecnologías de última generación como <span style={{fontWeight:'bold'}}> BlockChain, AWS, RFID</span>, entre otras. Right Donor te permite rastrear y saber el estado de tus donaciones cuidando siempre de tu información.<br></br> Sabemos que la sangre es el regalo más valioso que podemos ofrecer a otra persona y por eso te reconocemos el detalle con algunos beneficios.
           </Typography>
-          <Typography variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan nec est quis pretium.
-			        Curabitur pretium eget ex nec iaculis. Pellentesque in porta dolor, eget eleifend lorem. Pellentesque in semper leo. 
-			        Ut molestie augue nec ullamcorper fringilla. Maecenas nisl tellus, varius a laoreet et, porttitor at quam.
-              Pellentesque in porta dolor, eget eleifend lorem. Pellentesque in semper leo. 
-			        Ut molestie augue nec ullamcorper fringilla. Maecenas nisl tellus, varius a laoreet et, porttitor at quam.
+          </Container>
+         {/* ----------------------------------------------------------*/}
+
+          <div className={classes.process}>
+            <Container className={classes.wrapProcess}>
+              <div className={classes.proccesTitle}>
+              <Typography variant="h5" align="center" paragraph className={classes.aboutTitle} style={{color: '#ffffff',fontSize:'3rem'}}>
+                ¿Cómo  <br></br><span  style={{color: '#555E65'}}>funciona</span>?
+                </Typography>
+              </div>
+               
+               <div className={classes.wrapProcess2}>
+                   <div className={classes.itemBox}>
+                     <div className={classes.photo}>
+                        <img src={hospital} className={classes.imgF} style={{backgroundColor:'#ffffff'}}></img>
+                      </div>
+                      <div className = {classes.fact}>Acude al centro de salud de tu preferencia para iniciar tu donación.</div>
+                  </div>
+                  <div className={classes.itemBox}>
+                      <div className={classes.photo} >
+                        <img src={rd} className={classes.imgF} style={{backgroundColor:'#ffffff'}}></img>
+                      </div>
+                      <div className = {classes.fact}>Regístrate en RightDonor con tu usuario.</div>
+                  </div>
+                  <div className={classes.itemBox}>
+                      <div className={classes.photo}>
+                        <img src={tracking} className={classes.imgF}style={{backgroundColor:'#ffffff'}}></img>
+                      </div>
+                      <div className = {classes.fact}>Rastrea y checa el estatus de tu donación.</div>
+                  </div>
+                  <div className={classes.itemBox}>
+                      <div className={classes.photo}>
+                        <img src={store} className={classes.imgF}></img>
+                      </div>
+                      <div className = {classes.fact}>Acumula puntos y canjéalos por beneficios en la tienda en línea.</div>
+                  </div>
+              </div>
+           </Container>
+          </div>
+
+
+          {/* ----------------------------------------------------------*/}
+        <Container className={classes.sectionAbout}>
+          <Typography variant="h5" align="center" paragraph className={classes.aboutTitle} style={{color: '#555E65'}}>
+          <span >¿Por qué </span> <span className={classes.highlight}>importa</span>?
+          </Typography>
+          <Typography style={{paddingRight:'0'}} variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
+          Todas las donaciones de sangre contribuyen a salvar vidas y a mejorar la salud, no sólo la de otras personas sino también la tuya. Algunas de las personas que necesitan 
+          transfusiones incluyen mujeres con complicaciones en el embarazo, niños con anemia grave, personas con traumatismos severos - debido a desastres naturales o causados por el hombre -, o personas con cáncer. 
+        
+          </Typography>
+          <Typography style={{paddingRight:'0'}} variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
+          Existe una necesidad constante de donaciones regulares, ya que la sangre sólo se puede conservar durante cierto tiempo y luego deja de ser utilizable. 
+          Las donaciones regulares de sangre por personas altruistas sanas son imprescindibles para garantizar la disponibilidad de sangre segura en el momento y el lugar en que se precise.
+         
+          </Typography>
+
+          <Typography style={{paddingRight:'0'}} variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
+          En  México  se  donan  diariamente  casi  cinco  mil  unidades  de  sangre,  sin  embargo,  como  en  muchos  países  latinoamericanos,  aún  se  depende  de  la  donación de familiares 
+          o de amigos para el abastecimiento y autosuficiencia. Por ello es vital generar consciencia sobre la importancia de la donación de sangre
+          ¡No importa qué tipo de sangre seas, todas pueden ayudar a otras personas!
           </Typography>
           <div className={classes.bloodContainer}>
             <img src={blood} className={classes.blood}></img>
@@ -317,26 +512,28 @@ export default function Album() {
 
 
         <Container className={classes.about}>
-          <div className={classes.image}>
-          <Typography variant="h5" align="center" paragraph className={classes.aboutTitle2}>
-           It's <span className={classes.highlight}>Easy</span>, It's <span className={classes.highlight}>Safe</span>
+          <div style={{width:'auto'}}>
+          <Typography variant="h5" align="center" paragraph className={classes.aboutTitle2} style={{color: '#555E65'}}>
+           Donar es <span className={classes.highlight}>Fácil</span>, Es<span className={classes.liveBlue}> Seguro</span>
           </Typography>
            <Typography variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan nec est quis pretium.
-			        Curabitur pretium eget ex nec iaculis. Pellentesque in porta dolor, eget eleifend lorem. Pellentesque in semper leo. 
-			        Ut molestie augue nec ullamcorper fringilla. Maecenas nisl tellus, varius a laoreet et, porttitor at quam.
+           Donar no significa quedarnos con menos sangre, ya que nuestro organismo es capaz de crear nueva. La Secretaría de Salud indicó que la cantidad máxima permitida para donar es de 450mls y esto representa solo el 10% de lo que hay en nuestro cuerpo, por lo que esta cantidad no interfiere con el funcionamiento normal de nuestro cuerpo.
+          </Typography>
+          <Typography variant="h5" align="center" color="textSecondary" className={classes.aboutText}paragraph>
+            No importa el lugar a donde vayas, el proceso se rige bajo las normas sanitarias el cual se realiza a través de una punción en la vena del pliegue en el brazo, con un equipo <span style={{fontWeight:'bold'}}>nuevo, estéril y desechable</span>.
           </Typography>
           </div>
-          <div className={classes.image}>
+          <div className={classes.imgWrap}>
             <img src={DescImage} className={classes.img}>
             </img>
           </div>  
         </Container>
 
+         {/* ----------------------------------------------------------*/}
 
         <Container className={classes.statistics}>
            <Typography variant="h5" align="center"  className={classes.factsTitle}>
-            Some <span className={classes.highlight}>Facts </span>
+            La <span className={classes.highlight}>Estadística </span>
           </Typography>
             <div className={classes.row}>
                   <div className={classes.itemBox}>
@@ -380,201 +577,27 @@ export default function Album() {
             </div>
         </Container>
 
-
-
-        <Container className={classes.cardGrid} maxWidth="md">
-        
-          <Grid container spacing={4}>
-            <Card className={classes.card}>
-              <CardHeader
-                title="�Atrevete!"
-                subheader="Beneficios de ser donante"
-              />
-              <CardMedia
-                className={classes.media}
-                image="/static/images/cards/paella.jpg"
-                title="Donante"
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  This impressive paella is a perfect party dish and a fun meal to cook together with your
-                  guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton
-                  className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded,
-                  })}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label="show more"
-                >
-                <ExpandMoreIcon />
-                </IconButton>
-              </CardActions>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                  <Typography paragraph>Method:</Typography>
-                  <Typography paragraph>
-                  Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                  minutes.
-                  </Typography>
-                  <Typography paragraph>
-                  Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-                  heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-                  browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-                  and chorizo in the pan. Add piment�n, bay leaves, garlic, tomatoes, onion, salt and
-                  pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-                  saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                  </Typography>
-                  <Typography paragraph>
-                  Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-                  without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-                  medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-                  again without stirring, until mussels have opened and rice is just tender, 5 to 7
-                  minutes more. (Discard any mussels that don�t open.)
-                  </Typography>
-                  <Typography>
-                  Set aside off of the heat to let rest for 10 minutes, and then serve.
-                  </Typography>
-                </CardContent>
-              </Collapse>
-		  	    </Card>
-            <Card className={classes.card}>
-              <CardHeader
-                title="�Atrevete!"
-                subheader="Beneficios de ser donante"
-              />
-              <CardMedia
-                className={classes.media}
-                image="/static/images/cards/paella.jpg"
-                title="Donante"
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  This impressive paella is a perfect party dish and a fun meal to cook together with your
-                  guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton
-                  className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded,
-                  })}
-                  onClick={handleExpandClick2}
-                  aria-exp={exp}
-                  aria-label="show more"
-                >
-                <ExpandMoreIcon />
-                </IconButton>
-              </CardActions>
-              <Collapse in={exp} timeout="auto" unmountOnExit>
-                <CardContent>
-                  <Typography paragraph>Method:</Typography>
-                  <Typography paragraph>
-                  Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                  minutes.
-                  </Typography>
-                  <Typography paragraph>
-                  Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-                  heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-                  browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-                  and chorizo in the pan. Add piment�n, bay leaves, garlic, tomatoes, onion, salt and
-                  pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-                  saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                  </Typography>
-                  <Typography paragraph>
-                  Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-                  without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-                  medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-                  again without stirring, until mussels have opened and rice is just tender, 5 to 7
-                  minutes more. (Discard any mussels that don�t open.)
-                  </Typography>
-                  <Typography>
-                  Set aside off of the heat to let rest for 10 minutes, and then serve.
-                  </Typography>
-                </CardContent>
-              </Collapse>
-		  	    </Card>
-
-            <Card className={classes.card}>
-              <CardHeader
-                title="�Atrevete!"
-                subheader="Beneficios de ser donante"
-              />
-              <CardMedia
-                className={classes.media}
-                image="/static/images/cards/paella.jpg"
-                title="Donante"
-              />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  This impressive paella is a perfect party dish and a fun meal to cook together with your
-                  guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton
-                  className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded,
-                  })}
-                  onClick={handleExpandClick3}
-                  aria-exp1={exp1}
-                  aria-label="show more"
-                >
-                <ExpandMoreIcon />
-                </IconButton>
-              </CardActions>
-              <Collapse in={exp1} timeout="auto" unmountOnExit>
-                <CardContent>
-                  <Typography paragraph>Method:</Typography>
-                  <Typography paragraph>
-                  Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                  minutes.
-                  </Typography>
-                  <Typography paragraph>
-                  Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-                  heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-                  browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-                  and chorizo in the pan. Add piment�n, bay leaves, garlic, tomatoes, onion, salt and
-                  pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-                  saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                  </Typography>
-                  <Typography paragraph>
-                  Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-                  without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-                  medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-                  again without stirring, until mussels have opened and rice is just tender, 5 to 7
-                  minutes more. (Discard any mussels that don�t open.)
-                  </Typography>
-                  <Typography>
-                  Set aside off of the heat to let rest for 10 minutes, and then serve.
-                  </Typography>
-                </CardContent>
-              </Collapse>
-		  	    </Card>
-          </Grid>
-        </Container>
-        
+          {/* ----------------------------------------------------------*/}
         <div className={classes.register}>
+        
           <MuiThemeProvider theme={theme2}>
             <div className={classes.buttonWrapper}>
-              <Button variant="contained" color='primary' fullWidth="true" size="large">
+            <Typography  className={classes.title2}>
+            ¡Únete a nuestro proyecto!
+             </Typography>
+             <div className={classes.btnWrp}>  <Button variant="contained" color='primary' fullWidth="true" size="large">
                   Register
-                </Button> 
+                </Button> </div>
+            
             </div> 
           </MuiThemeProvider>   
         </div>
         
-
+        {/* ----------------------------------------------------------*/}
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Right Donor
-        </Typography>
-        <Copyright />
+        <div style={{textAlign:'center'}}> RightDonor &copy; 2019, Todos los derechos reservados </div>
         <div className={classes.footerImageW}>
         <img src={footer} className={classes.ftImg}></img>
         </div>
