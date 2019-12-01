@@ -507,6 +507,19 @@ class DonationsPage extends React.Component {
                 case 'O-': default:
                     break
             }
+            // console.log("donaciones");
+            // donationListing.push({
+            //     "id":"123",
+            //     "donatedBy":{
+            //         "id":"daf"
+            //         },
+            //     "bloodBagId":"blood123",
+            //     "hospital":{
+            //         "name":"angeles",
+            //         "address_line1":"por ahi"
+            //     }
+            // })
+            // console.log(donationListing);
             this.setState({ availableDonations: donationListing })
         }
     }
