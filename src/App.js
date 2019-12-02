@@ -24,14 +24,7 @@ import { getUser } from './graphql/queries'
 import { createUser } from './graphql/mutations'
 
 /** Donor's pages */
-//import Homepage from './pages/doctor/Homepage.jsx'
-
-import Homepage from "../src/pages/Homepage"
-//import Homepage from "./pages/assistant/ListInterview" //"../src/pages/Homepage"
-import PatientPage from './pages/doctor/PatientPage.jsx'
-import DonationsPage from './pages/donor/DonationsPage'
-import DonorPage from './pages/assistant/DonorPage'
-
+import Homepage from "../src/pages/doctor/NewDonation.jsx"//"../src/pages/Homepage"
 /** External APIs */
 import axios from 'axios'
 import { Notification } from 'element-react';
@@ -66,16 +59,7 @@ class App extends React.Component {
    */
   getUserData = async () => {
     const user = await Auth.currentAuthenticatedUser()
-    user ? this.setState({ user }, () => this.getUserAttributes(this.state.user)) : this.setState({ user: null })
-  }
-
-  /**
-   * Retrieves the most current attributes from an user
-   */
-  getUserAttributes = async authUserData => {
-    const attributesArr = await Auth.userAttributes(authUserData)
-    const attributesObj = Auth.attributesToObject(attributesArr)
-    this.setState({ userAttributes: attributesObj })
+    user ? this.setState({ user }) : this.setState({ user: null })
   }
 
   /**
@@ -156,21 +140,16 @@ class App extends React.Component {
 
   render() {
     const { match } = this.props
-    const { user, userAttributes, dbuser } = this.state
+    const { user } = this.state
     return !user ? <Authenticator theme={AmplifyTheme} usernameAttributes='email' signUpConfig={{ hiddenDefaults: 'phone_numbers' }} /> : (
-      <UserContext.Provider value={{ user, userAttributes }}>
         <>
-          {/** Always present Navigation Bar */}
-          {/** <Navbar user={user} handleSignout={this.handleSignOut} /> */}
-          {/** Application Routes */}
           <div className="app-container">
-            <Route exact path={match.path} render={
-              () => <PatientPage patientId={'787afe61-e55d-4740-b5a4-2f9dcc98d1e0'}></PatientPage>
+            <Route path={match.path} render={
+              () => <Homepage userC={user} />
             } />
 
           </div>
         </>
-      </UserContext.Provider>
     )
   }
 }

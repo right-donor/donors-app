@@ -6,7 +6,7 @@ import { Auth, API, graphqlOperation } from 'aws-amplify'
 
 /** Redux imports */
 import { connect } from 'react-redux';
-import { donationSaved } from '../../actions';
+//import { donationSaved } from '../../actions';
 
 /** Design elements */
 import { Notification } from 'element-react'
@@ -38,10 +38,10 @@ class NewDonation extends React.Component {
 
         this.state = {
 			dateNeeded: new Date(),
-            donationAssignedToId : this.state.patient.id,
-            bloodType: this.state.patient.blood,
-            bagAmount: this.state.bagAmount,
-            donationHospitalId: this.state.patient.hospital.id
+            donationAssignedToId : "787afe61-e55d-4740-b5a4-2f9dcc98d1e0",
+            bloodType: "O -",
+            bagAmount: "500",
+            donationHospitalId: "HGM106720"
         };
     }
 
@@ -94,7 +94,7 @@ class NewDonation extends React.Component {
                 <form className={""} autoComplete="on" style={{ maxWidth: '100%', backgroundColor: '#fff', padding: '2.5rem 2rem', borderRadius: '.7rem', marginLeft: 'auto', marginRight: 'auto' }}>
                     <GridItem>
                         <Primary>
-                            <h2>Agregar donación</h2>
+                            <h2>Agregar donacion</h2>
                         </Primary>
                     </GridItem>
                     <GridItem>
@@ -125,7 +125,7 @@ class NewDonation extends React.Component {
                                 select: classes.select
                             }}
                             value={this.state.bloodType}
-                            onChange={event => this.setState({ bloodbloodType { ...this.state.bloodType, type: event.target.value } })}
+                            //onChange={event => this.setState({{ this.state.bloodType, type: event.target.value } })}
                             inputProps={{
                                 name: "blood type",
                                 id: "bloodType"
@@ -203,7 +203,7 @@ class NewDonation extends React.Component {
                     </GridItem>
                     <GridItem>
                         <Button fullWidth color="primary" onClick={this.handleAddDonation}>
-                            "Guardar"}
+                            "Guardar"
                         </Button>
                     </GridItem>
                 </form>
@@ -215,7 +215,7 @@ class NewDonation extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
     saveDonation: (patientID) => {
-        dispatch(donationSaved(patientID));
+        //dispatch(donationSaved(patientID));
     }
 });
 
