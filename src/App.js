@@ -165,7 +165,7 @@ class App extends React.Component {
           {/** Application Routes */}
           <div className="app-container">
             <Route exact path={match.path} render={
-              () => <Homepage userC={user} userDB={dbuser} />
+              () => <PatientPage patientId={'787afe61-e55d-4740-b5a4-2f9dcc98d1e0'}></PatientPage>
             } />
 
           </div>
