@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // prop validation import
 import PropTypes from 'prop-types';
 // react components for routing without refresh
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 
@@ -334,9 +334,11 @@ class Homepage extends Component {
      * Sign out of Cognito Auth component
      */
     handleSignOut = async () => {
+        const { history } = this.props;
         try {
             await Auth.signOut();
             this.props.logout();
+            history.push('/');
         } catch (err) {
             alert("An error has occured while trying to sign out")
         }
@@ -346,10 +348,12 @@ class Homepage extends Component {
         const {
             classes,
             img,
-            userC
+            userC,
+            match,
+            history
         } = this.props;
         const { userData } = this.state;
-        console.log(userC);
+        console.log('Match and History: ', match, history);
 
         return (
             <div>
@@ -468,7 +472,7 @@ Homepage.propTypes = {
     logout: PropTypes.func.isRequired,
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(Homepage));
+)(withStyles(styles)(Homepage)));

@@ -7,7 +7,7 @@ import 'typeface-roboto';
 import './assets/scss/material-kit-pro-react.scss?v=1.8.0'
 
 /** React Router */
-import { Router, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
 /** AWS Amplify Components */
@@ -147,6 +147,7 @@ class App extends React.Component {
   }
 
   render() {
+    const { match } = this.props
     const { user, userAttributes, dbuser } = this.state
     return !user ? <Authenticator theme={AmplifyTheme} usernameAttributes='email' signUpConfig={{ hiddenDefaults: 'phone_numbers' }} /> : (
       <UserContext.Provider value={{ user, userAttributes }}>
@@ -155,21 +156,10 @@ class App extends React.Component {
           {/** <Navbar user={user} handleSignout={this.handleSignOut} /> */}
           {/** Application Routes */}
           <div className="app-container">
-            <Route exact path="/app" component={
+            <Route exact path={match.path} render={
               () => <Homepage userC={user} userDB={dbuser} />
             } />
 
-            <Route path="/patient/:patientId" component={
-              ({ match }) => <PatientPage user={user} patientId={match.params.patientId} />
-            } />
-
-            <Route path="/donations" component={
-              () => <DonationsPage user={user} />
-            } />
-
-            <Route path="/donor/:donorId/:userId" component={
-              ({ match }) => <DonorPage userId={match.params.userId} donorId={match.params.donorId} />
-            } />
           </div>
         </>
       </UserContext.Provider>
