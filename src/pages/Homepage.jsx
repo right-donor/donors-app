@@ -245,10 +245,10 @@ const HeaderLinks = ({ classes, userType, handleSignOut, match }) => {
                             </Link>
                         </ListItem>
                         <ListItem className={classes.listItem}>
-                            <Link to={`${match.path}/store`} className={classes.navLink}>
+                            <a href='https://shop.rightdonor.org' target='_blank' textDecoration='none' >
                                 <Store />
                                 Tienda
-                            </Link>
+                            </a>
                         </ListItem>
                         <ListItem className={classes.listItem}>
                             <Link to={`${match.path}/donaciones`} className={classes.navLink}>
