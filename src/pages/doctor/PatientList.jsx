@@ -41,14 +41,14 @@ const PatientList = ({searchResults}) => {
 		{ color: "danger", icon: Close }
 		].map((prop, key) => {
 	return (
-		<Button round justIcon size="sm" color={prop.color} key={key}>
+		<Button style={{marginRight:'1rem'}} round justIcon size="sm" color={prop.color} key={key}>
 			<prop.icon />
 		</Button>
 		);
 	});
 
 	return(
-		<div style={{ padding: 100 }}>
+		<div style={{ padding: '50px 100px' }}>
 			 <GridContainer
 					spacing={3}
 					direction="column"
@@ -61,6 +61,7 @@ const PatientList = ({searchResults}) => {
 					</GridItem>
 					<GridItem>
 						<Table
+							
 							tableHead={["#", "Nombre", "Apellido(s)", "Edad", "Sexo", "Estado", "Actions"]}
 							tableData={[
 								["1", "Miguel", "Martinez", "58", "Hombre", "En espera", roundButtons],

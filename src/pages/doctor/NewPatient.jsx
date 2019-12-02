@@ -149,15 +149,12 @@ class NewPatient extends React.Component {
     }
 
     render() {
-		const {classes} = this.props;
+        const {classes} = this.props;
+      
         return (
-       <FormControl fullWidth className={classes.selectFormControl}>
-            <GridContainer
-                spacing={3}
-                direction="column"
-                justify="center"
-                alignItems="center">
-                <form className={""} autoComplete="on">
+       <FormControl className={classes.selectFormControl} style={{marginLeft:'auto',marginRight:'auto'}}>
+            
+                <form className={""} autoComplete="on" style={{maxWidth:'100%',backgroundColor:'#fff',padding:'2.5rem 2rem', borderRadius:'.7rem',marginLeft:'auto',marginRight:'auto'}}>
                     <GridItem>
                         <Primary>
                             <h2>Agregar paciente</h2>
@@ -186,7 +183,7 @@ class NewPatient extends React.Component {
 						  />
                     </GridItem>
 					<GridItem>
-						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<MuiPickersUtilsProvider utils={DateFnsUtils} >
 							<KeyboardDatePicker
 								margin="normal"
 								label="Birthday"
@@ -196,12 +193,13 @@ class NewPatient extends React.Component {
 								onChange={this.handleSelectedDate}
 								KeyboardButtonProps={{
 									'aria-label': 'change date'
-								}}
+                                }}
+                                style={{width:'100%'}}
 							/>
 						</MuiPickersUtilsProvider>
                     </GridItem>
                     <GridItem>
-						<InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+						<InputLabel htmlFor="blood-type" className={classes.selectLabel} style={{paddingLeft:'15px'}}>
 								Sexo
 						</InputLabel>
                         <Select fullWidth
@@ -230,7 +228,7 @@ class NewPatient extends React.Component {
                         </Select>
                     </GridItem>
                     <GridItem>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}style={{paddingLeft:'15px', "&:focus":{display:'none'}}}>
                             Grupo Sanguineo
 						</InputLabel>
                         <Select fullWidth
@@ -276,11 +274,12 @@ class NewPatient extends React.Component {
 							</MenuItem>
                         </Select>
                     </GridItem>
-                    <GridItem>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                    <GridItem style={{ marginBottom:'2rem'}}>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}style={{paddingLeft:'15px'}}>
                             Factor RH
 						</InputLabel>
                         <Select fullWidth
+                           
 							MenuProps={{
 							  className: classes.selectMenu
 							}}
@@ -315,7 +314,7 @@ class NewPatient extends React.Component {
                         </Button>
                     </GridItem>
                 </form>
-            </GridContainer>
+           
 		</FormControl>
         )
     }
