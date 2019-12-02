@@ -96,3 +96,5 @@ aws-exports.js
 awsconfiguration.json
 
 src/App.js
+
+/.vs

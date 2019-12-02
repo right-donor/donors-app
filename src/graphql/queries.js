@@ -1,4 +1,4 @@
-/* eslint-disable */
+// eslint-disable
 // this is an auto generated file. This will be overwritten
 
 export const getUser = `query GetUser($id: ID!) {
@@ -202,11 +202,6 @@ export const getDonation = `query GetDonation($id: ID!) {
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -318,11 +313,6 @@ export const getPatient = `query GetPatient($id: ID!) {
     lastname
     birthday
     gender
-    photo {
-      bucket
-      region
-      key
-    }
     blood {
       type
       rh
@@ -418,11 +408,6 @@ export const listPatients = `query ListPatients(
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -534,7 +519,7 @@ export const searchUsers = `query SearchUsers(
   $filter: SearchableUserFilterInput
   $sort: SearchableUserSortInput
   $limit: Int
-  $nextToken: String
+  $nextToken: Int
 ) {
   searchUsers(
     filter: $filter
@@ -599,7 +584,7 @@ export const searchDonations = `query SearchDonations(
   $filter: SearchableDonationFilterInput
   $sort: SearchableDonationSortInput
   $limit: Int
-  $nextToken: String
+  $nextToken: Int
 ) {
   searchDonations(
     filter: $filter
@@ -654,7 +639,7 @@ export const searchPatients = `query SearchPatients(
   $filter: SearchablePatientFilterInput
   $sort: SearchablePatientSortInput
   $limit: Int
-  $nextToken: String
+  $nextToken: Int
 ) {
   searchPatients(
     filter: $filter
@@ -668,11 +653,6 @@ export const searchPatients = `query SearchPatients(
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh

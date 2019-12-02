@@ -38,6 +38,9 @@ import { getUser } from '../graphql/queries';
 import { connect } from 'react-redux';
 import { masterLogin, logout } from '../actions';
 
+/** DOCTOR COMPONENTS */
+import DoctorHomepage from './doctor/Homepage.jsx';
+
 // styles imports
 import {
     container,
@@ -221,7 +224,7 @@ const styles = theme => ({
     }
 });
 
-const HeaderLinks = ({ classes, userType, handleSignOut }) => {
+const HeaderLinks = ({ classes, userType, handleSignOut, match }) => {
     return (
         <List className={classNames(classes.listNav, classes.mlAuto)}>
             {userType &&
@@ -249,13 +252,13 @@ const HeaderLinks = ({ classes, userType, handleSignOut }) => {
                 ) : userType === 'doctor' ? (
                     <>
                         <ListItem className={classes.listItem}>
-                            <Link to='/' className={classes.navLink}>
+                            <Link to={match.path} className={classes.navLink}>
                                 <AccountBox />
                                 Perfil
                             </Link>
                         </ListItem>
                         <ListItem className={classes.listItem}>
-                            <Link to='/' className={classes.navLink}>
+                            <Link to={`${match.path}/pacientes`} className={classes.navLink}>
                                 <LocalHospital />
                                 Pacientes
                             </Link>
@@ -362,17 +365,17 @@ class Homepage extends Component {
                     fixed
                     color='transparent'
                     changeColorOnScroll={{
-                        height: 300,
+                        height: 200,
                         color: 'primary'
                     }}
-                    links={<HeaderLinks classes={classes} userType={userData ? userData.type : null} handleSignOut={this.handleSignOut} />}
+                    links={<HeaderLinks match={match} classes={classes} userType={userData ? userData.type : null} handleSignOut={this.handleSignOut} />}
                 />
                 <Parallax image={img ? img : require('../assets/img/header.png')} filter='primary' className={classes.parallax} />
 
                 <div className={classNames(classes.main, classes.mainRaised)}>
                     <div className={classes.container}>
                         <GridContainer justify='center'>
-                            <GridItem xs={12} sm={12} md={6}>
+                            <GridItem xs={12} sm={12} md={12}>
 
                                 {!userData ? <CircularProgress color='primary' /> :
 
@@ -384,7 +387,7 @@ class Homepage extends Component {
                                         </>
                                     ) : userData.type === 'doctor' ? (
                                         <>
-                                            <Route path='/doctor' />
+                                            <DoctorHomepage />
                                             <Route path='/doctor/perfil' />
                                         </>
                                     ) :

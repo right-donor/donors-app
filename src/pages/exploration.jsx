@@ -5,13 +5,16 @@ import { API, graphqlOperation, Storage, Auth } from 'aws-amplify'
 import { PhotoPicker } from 'aws-amplify-react'
 import aws_exports from '../aws-exports'
 
+/** Redux imports */
+import { connect } from 'react-redux';
+import { saveUserExploration } from '../actions';
 
 /** API and GraphQL Calls */
 import { updateUser } from '../graphql/mutations'
 
 /** Material UI Stuff */
-import {Select, MenuItem, InputLabel, FormControl} from "@material-ui/core"
-import { withStyles  } from "@material-ui/core/styles";
+import { Select, MenuItem, InputLabel, FormControl } from "@material-ui/core"
+import { withStyles } from "@material-ui/core/styles";
 import styles from "../assets/jss/material-kit-pro-react/customSelectStyle.js";
 import GridContainer from '../useful/Grid/GridContainer'
 import GridItem from '../useful/Grid/GridItem'
@@ -26,23 +29,27 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/picker
 /**
  * Initial Exploration Form when the user first signs in
  */
- 
+
 class Exploration extends React.Component {
 
-    state = {
-        firstname: "",
-        lastname: "",
-        birthday: new Date(),
-        photo: "",
-        blood: {
-            type: "",
-            rh: ""
-        },
-        city: "",
-        imagePreview: "",
-        image: "",
-        uploading: false,
-        percentUploaded: 0
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            firstname: "",
+            lastname: "",
+            birthday: new Date(),
+            photo: "",
+            blood: {
+                type: "",
+                rh: ""
+            },
+            city: "",
+            imagePreview: "",
+            image: "",
+            uploading: false,
+            percentUploaded: 0
+        };
     }
 
     componentDidMount = () => {
@@ -89,9 +96,12 @@ class Exploration extends React.Component {
                 blood: this.state.blood,
                 canDonateFrom: new Date().toISOString()
             }
+            console.log(input)
             //Commit it to the database
-            await API.graphql(graphqlOperation(updateUser, { input }))
-            this.props.refresh()
+            API.graphql(graphqlOperation(updateUser, { input })).then(({ data }) => {
+                console.log('Here I am, after updating.')
+                this.props.saveUser(data.updateUser);
+            })
         } catch (err) {
             alert(JSON.stringify(err))
         }
@@ -101,206 +111,217 @@ class Exploration extends React.Component {
 	handleSimple = event => {
 		setSimpleSelect(event.target.value);
 	}*/
-	
+
     render() {
-		const {classes} = this.props;
+        const { classes } = this.props;
 
         return (
-		<FormControl fullWidth className={classes.selectFormControl}>
-            <GridContainer
-                spacing={3}
-                direction="column"
-                justify="center"
-                alignItems="center">
-                <form className={""} autoComplete="on">
-                    <GridItem>
-                        <Primary>
-                            <h2>Exploratory Form</h2>
-                        </Primary>
-                    </GridItem>
-                    <GridItem>
-						<CustomInput
-							labelText="First Name"
-							id="firstname"
-                            value={this.state.firstname}
-                            onChange={event => this.setState({ firstname: event.target.value })}
-							formControlProps={{
-							  fullWidth: true
-							}}
-						  />
-                    </GridItem>
-                    <GridItem>
-						<CustomInput
-							labelText="Last Name"
-							id="lastname"
-                            value={this.state.firstname}
-                            onChange={event => this.setState({ lastname: event.target.value })}
-							formControlProps={{
-							  fullWidth: true
-							}}
-						  />
-                    </GridItem>
-                    <GridItem>
-						<InputLabel htmlFor="blood-type" className={classes.selectLabel}>
-								City
+            <FormControl fullWidth className={classes.selectFormControl}>
+                <GridContainer
+                    spacing={3}
+                    direction="column"
+                    justify="center"
+                    alignItems="center">
+                    <form className={""} autoComplete="on">
+                        <GridItem>
+                            <Primary>
+                                <h2>Exploratory Form</h2>
+                            </Primary>
+                        </GridItem>
+                        <GridItem>
+                            <CustomInput
+                                labelText="First Name"
+                                id="firstname"
+                                value={this.state.firstname}
+                                inputProps={{
+                                    onChange: event => this.setState({ firstname: event.target.value })
+                                }}
+                                formControlProps={{
+                                    fullWidth: true
+                                }}
+                            />
+                        </GridItem>
+                        <GridItem>
+                            <CustomInput
+                                labelText="Last Name"
+                                id="lastname"
+                                value={this.state.lastname}
+                                inputProps={{
+                                    onChange: event => this.setState({ lastname: event.target.value })
+                                }}
+                                formControlProps={{
+                                    fullWidth: true
+                                }}
+                            />
+                        </GridItem>
+                        <GridItem>
+                            <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                                City
 						</InputLabel>
-                        <Select fullWidth
-							MenuProps={{
-							  className: classes.selectMenu
-							}}
-							classes={{
-							  select: classes.select
-							}}
-                            value={this.state.city}
-                            onChange={event => this.setState({city: event.target.value})}
-                            inputProps={{
-                                name: "city",
-                                id: "city"
-                            }}>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"CDMX"}>CDMX
+                            <Select fullWidth
+                                MenuProps={{
+                                    className: classes.selectMenu
+                                }}
+                                classes={{
+                                    select: classes.select
+                                }}
+                                value={this.state.city}
+                                onChange={event => this.setState({ city: event.target.value })}
+                                inputProps={{
+                                    name: "city",
+                                    id: "city"
+                                }}>
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"CDMX"}>CDMX
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"Guadalajara"}>Guadalajara
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"Guadalajara"}>Guadalajara
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"Monterrey"}>Monterrey
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"Monterrey"}>Monterrey
 							</MenuItem>
-                        </Select>
-                    </GridItem>
-                    <GridItem>
-						<MuiPickersUtilsProvider utils={DateFnsUtils}>
-							<KeyboardDatePicker
-								margin="normal"
-								label="Birthday"
-								id="birthday"
-								format="yyyy-MM-dd"
-								value={this.state.birthday}
-								onChange={this.handleSelectedDate}
-								KeyboardButtonProps={{
-									'aria-label': 'change date'
-								}}
-							/>
-						</MuiPickersUtilsProvider>
-                    </GridItem>
-                    <GridItem>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
-                            Blood Type
+                            </Select>
+                        </GridItem>
+                        <GridItem>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    margin="normal"
+                                    label="Birthday"
+                                    id="birthday"
+                                    format="yyyy-MM-dd"
+                                    value={this.state.birthday}
+                                    onChange={this.handleSelectedDate}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date'
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </GridItem>
+                        <GridItem>
+                            <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                                Blood Type
 						</InputLabel>
-                        <Select fullWidth
-							MenuProps={{
-							  className: classes.selectMenu
-							}}
-							classes={{
-							  select: classes.select
-							}}
-                            value={this.state.blood.type}
-                            onChange={event => this.setState({ blood: { ...this.state.blood, type: event.target.value } })}
-                            inputProps={{
-                                name: "blood type",
-                                id: "bloodType"
-                            }}>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"A"}>A
+                            <Select fullWidth
+                                MenuProps={{
+                                    className: classes.selectMenu
+                                }}
+                                classes={{
+                                    select: classes.select
+                                }}
+                                value={this.state.blood.type}
+                                onChange={event => this.setState({ blood: { ...this.state.blood, type: event.target.value } })}
+                                inputProps={{
+                                    name: "blood type",
+                                    id: "bloodType"
+                                }}>
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"A"}>A
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"B"}>B
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"B"}>B
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"AB"}>AB
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"AB"}>AB
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"O"}>O
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"O"}>O
 							</MenuItem>
-                        </Select>
-                    </GridItem>
-                    <GridItem>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
-                            Blood RH
+                            </Select>
+                        </GridItem>
+                        <GridItem>
+                            <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                                Blood RH
 						</InputLabel>
-                        <Select fullWidth
-							MenuProps={{
-							  className: classes.selectMenu
-							}}
-							classes={{
-							  select: classes.select
-							}}
-                            value={this.state.blood.rh}
-                            onChange={event => this.setState({ blood: { ...this.state.blood, rh: event.target.value } })}
-                            inputProps={{
-                                name: "blood rh",
-                                id: "bloodRh"
-                            }}>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"+"}>+
+                            <Select fullWidth
+                                MenuProps={{
+                                    className: classes.selectMenu
+                                }}
+                                classes={{
+                                    select: classes.select
+                                }}
+                                value={this.state.blood.rh}
+                                onChange={event => this.setState({ blood: { ...this.state.blood, rh: event.target.value } })}
+                                inputProps={{
+                                    name: "blood rh",
+                                    id: "bloodRh"
+                                }}>
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"+"}>+
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"-"}>-
+                                <MenuItem
+                                    classes={{
+                                        root: classes.selectMenuItem,
+                                        selected: classes.selectMenuItemSelected
+                                    }}
+                                    value={"-"}>-
 							</MenuItem>
-                        </Select>
-                    </GridItem>
-                    <GridItem>
-                        <PhotoPicker
-                            title="Profile Image"
-                            preview="visible"
-                            onLoad={imagePreview => this.setState({ imagePreview })}
-                            onPick={image => this.setState({ image })}
-                            theme={{
-                                formSection: {
-                                    width: "15rem"
-                                },
-								input: {
-									backgroundColor: "#833741"
-								}
-                            }}
-                        />
-                    </GridItem>
-                    <GridItem>
-                        <Button fullWidth color="primary" disabled={this.state.uploading} onClick={this.handleSubmit}>
-                            {this.state.uploading ? "Uploading..." : "Submit"}
-                        </Button>
-                    </GridItem>
-                </form>
-            </GridContainer>
-		</FormControl>
+                            </Select>
+                        </GridItem>
+                        <GridItem>
+                            <PhotoPicker
+                                title="Profile Image"
+                                preview="visible"
+                                onLoad={imagePreview => this.setState({ imagePreview })}
+                                onPick={image => this.setState({ image })}
+                                theme={{
+                                    formSection: {
+                                        width: "15rem"
+                                    },
+                                    input: {
+                                        backgroundColor: "#833741"
+                                    }
+                                }}
+                            />
+                        </GridItem>
+                        <GridItem>
+                            <Button fullWidth color="primary" disabled={this.state.uploading} onClick={this.handleSubmit}>
+                                {this.state.uploading ? "Uploading..." : "Submit"}
+                            </Button>
+                        </GridItem>
+                    </form>
+                </GridContainer>
+            </FormControl>
         )
     }
 }
 
-export default withStyles(styles)(Exploration);
+const mapDispatchToProps = dispatch => ({
+    saveUser: (newUser) => { dispatch(saveUserExploration(newUser)) }
+});
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(withStyles(styles)(Exploration));

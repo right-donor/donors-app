@@ -15,5 +15,22 @@
                 "donorsapp77758946": {}
             }
         }
+    },
+    "devtwo": {
+        "awscloudformation": {
+            "AuthRoleName": "donors-app-devtwo-20191201233023-authRole",
+            "UnauthRoleArn": "arn:aws:iam::241714989434:role/donors-app-devtwo-20191201233023-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::241714989434:role/donors-app-devtwo-20191201233023-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "donors-app-devtwo-20191201233023-deployment",
+            "UnauthRoleName": "donors-app-devtwo-20191201233023-unauthRole",
+            "StackName": "donors-app-devtwo-20191201233023",
+            "StackId": "arn:aws:cloudformation:us-east-1:241714989434:stack/donors-app-devtwo-20191201233023/d6f99d90-14c4-11ea-81d6-0abf94ca9997"
+        },
+        "categories": {
+            "auth": {
+                "donorsapp77758946": {}
+            }
+        }
     }
 }

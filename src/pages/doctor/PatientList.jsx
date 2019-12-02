@@ -47,6 +47,7 @@ const PatientList = ({searchResults}) => {
 		);
 	});
 
+	const { patients } = this.props;
 	return(
 		<div style={{ padding: '50px 100px' }}>
 			 <GridContainer

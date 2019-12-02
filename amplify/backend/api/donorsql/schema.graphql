@@ -60,7 +60,6 @@ type Patient @model @searchable {
   lastname: String!
   birthday: AWSDateTime!
   gender: String!
-  photo: S3Object!
   blood: BloodData
   donations: [Donation] @connection(name: "PatientDonation")
   doctor: User @connection(name: "DoctorPatient")

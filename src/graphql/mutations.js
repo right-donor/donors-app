@@ -1,4 +1,4 @@
-/* eslint-disable */
+// eslint-disable
 // this is an auto generated file. This will be overwritten
 
 export const createUser = `mutation CreateUser($input: CreateUserInput!) {
@@ -307,11 +307,6 @@ export const createDonation = `mutation CreateDonation($input: CreateDonationInp
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -427,11 +422,6 @@ export const updateDonation = `mutation UpdateDonation($input: UpdateDonationInp
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -547,11 +537,6 @@ export const deleteDonation = `mutation DeleteDonation($input: DeleteDonationInp
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -614,11 +599,6 @@ export const createPatient = `mutation CreatePatient($input: CreatePatientInput!
     lastname
     birthday
     gender
-    photo {
-      bucket
-      region
-      key
-    }
     blood {
       type
       rh
@@ -709,11 +689,6 @@ export const updatePatient = `mutation UpdatePatient($input: UpdatePatientInput!
     lastname
     birthday
     gender
-    photo {
-      bucket
-      region
-      key
-    }
     blood {
       type
       rh
@@ -804,11 +779,6 @@ export const deletePatient = `mutation DeletePatient($input: DeletePatientInput!
     lastname
     birthday
     gender
-    photo {
-      bucket
-      region
-      key
-    }
     blood {
       type
       rh

@@ -1,16 +1,20 @@
 import React from "react"
 /** GraphQL Operations */
-import {createPatient} from '../../graphql/mutations'
+import { createPatient } from '../../graphql/mutations'
 /** Amplify elements */
-import aws_exports from '../../aws-exports'
-import { Storage, Auth, API, graphqlOperation } from 'aws-amplify'
+import { Auth, API, graphqlOperation } from 'aws-amplify'
+
+/** Redux imports */
+import { connect } from 'react-redux';
+import { patientSaved } from '../../actions';
+
 /** Design elements */
-import {Notification} from 'element-react'
+import { Notification } from 'element-react'
+
 /** Material UI Stuff */
-import {Select, MenuItem, InputLabel, FormControl} from "@material-ui/core"
-import { withStyles  } from "@material-ui/core/styles";
+import { Select, MenuItem, InputLabel, FormControl } from "@material-ui/core"
+import { withStyles } from "@material-ui/core/styles";
 import styles from "../../assets/jss/material-kit-pro-react/customSelectStyle.js";
-import GridContainer from '../../useful/Grid/GridContainer'
 import GridItem from '../../useful/Grid/GridItem'
 import Button from '../../useful/CustomButtons/Button'
 import Primary from '../../useful/Typography/Primary'
@@ -30,20 +34,20 @@ const initialState = {
     hospital: {},
     isUploading: false,
     percentUpload: 0,
-    genderOptions:[{
+    genderOptions: [{
         value: 'male',
         label: 'male'
-    },{
+    }, {
         value: 'female',
         label: 'female'
-    },{
+    }, {
         value: 'other',
         label: 'other'
     }],
-    bloodOptions:[{
+    bloodOptions: [{
         value: 'A',
         label: 'A'
-    },{
+    }, {
         value: 'B',
         label: 'B'
     },
@@ -58,66 +62,70 @@ const initialState = {
     rhOptions: [{
         value: '+',
         label: '+'
-    },{
+    }, {
         value: '-',
         label: '-'
     }]
 }
 
 class NewPatient extends React.Component {
-    state = {
-        firstname: "",
-        lastname: "",
-        birthday: new Date(),
-        blood: {},
-        doctor: "",
-        hospital: {},
-        isUploading: false,
-        percentUpload: 0,
-        genderOptions:[{
-            value: 'male',
-            label: 'male'
-        },{
-            value: 'female',
-            label: 'female'
-        },{
-            value: 'other',
-            label: 'other'
-        }],
-        bloodOptions:[{
-            value: 'A',
-            label: 'A'
-        },{
-            value: 'B',
-            label: 'B'
-        },
-        {
-            value: 'AB',
-            label: 'AB'
-        },
-        {
-            value: 'O',
-            label: 'O'
-        }],
-        rhOptions: [{
-            value: '+',
-            label: '+'
-        },{
-            value: '-',
-            label: '-'
-        }]
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            firstname: "",
+            lastname: "",
+            birthday: new Date(),
+            blood: {},
+            doctor: "",
+            hospital: {},
+            isUploading: false,
+            percentUpload: 0,
+            genderOptions: [{
+                value: 'male',
+                label: 'male'
+            }, {
+                value: 'female',
+                label: 'female'
+            }, {
+                value: 'other',
+                label: 'other'
+            }],
+            bloodOptions: [{
+                value: 'A',
+                label: 'A'
+            }, {
+                value: 'B',
+                label: 'B'
+            },
+            {
+                value: 'AB',
+                label: 'AB'
+            },
+            {
+                value: 'O',
+                label: 'O'
+            }],
+            rhOptions: [{
+                value: '+',
+                label: '+'
+            }, {
+                value: '-',
+                label: '-'
+            }]
+        };
     }
 
-	handleSelectedDate = birthday => {
-		this.setState({ birthday })
-	}
+    handleSelectedDate = birthday => {
+        this.setState({ birthday })
+    }
 
     handleAddPatient = async () => {
         // Retrieve the hospital Id from the props
         const hospitalId = this.props.user.hospital.id
         // Add visibility
         const visibility = "public"
-		const { identityId } = await Auth.currentCredentials()
+        const { identityId } = await Auth.currentCredentials()
         //const filename = `/${visibility}/${identityId}/${Date.now()}-${this.state.image.name}`
 
         const input = {
@@ -131,14 +139,16 @@ class NewPatient extends React.Component {
         }
 
         try {
-            const result = await API.graphql(graphqlOperation(createPatient, {input}))
-            console.log(result)
-            Notification({
-                title: "Success!",
-                message: "Added patient successfully!",
-                type: 'success'
+            API.graphql(graphqlOperation(createPatient, { input })).then(({ data }) => {
+                console.log(data.createPatient)
+                Notification({
+                    title: "Success!",
+                    message: "Added patient successfully!",
+                    type: 'success'
+                })
+                this.setState({ ...initialState })
+                this.props.savePatient(this.props.user.id);
             })
-            this.setState({...initialState})
         } catch (err) {
             Notification({
                 title: "Error",
@@ -149,162 +159,166 @@ class NewPatient extends React.Component {
     }
 
     render() {
-        const {classes} = this.props;
-      
+        const { classes } = this.props;
+
         return (
-       <FormControl className={classes.selectFormControl} style={{marginLeft:'auto',marginRight:'auto'}}>
-            
-                <form className={""} autoComplete="on" style={{maxWidth:'100%',backgroundColor:'#fff',padding:'2.5rem 2rem', borderRadius:'.7rem',marginLeft:'auto',marginRight:'auto'}}>
+            <FormControl className={classes.selectFormControl} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+
+                <form className={""} autoComplete="on" style={{ maxWidth: '100%', backgroundColor: '#fff', padding: '2.5rem 2rem', borderRadius: '.7rem', marginLeft: 'auto', marginRight: 'auto' }}>
                     <GridItem>
                         <Primary>
                             <h2>Agregar paciente</h2>
                         </Primary>
                     </GridItem>
                     <GridItem>
-						<CustomInput
-							labelText="Nombre"
-							id="firstname"
+                        <CustomInput
+                            labelText="Nombre"
+                            id="firstname"
                             value={this.state.firstname}
-                            onChange={event => this.setState({ firstname: event.target.value })}
-							formControlProps={{
-							  fullWidth: true
-							}}
-						  />
+                            inputProps={{
+                                onChange: event => this.setState({ firstname: event.target.value })
+                            }}
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                        />
                     </GridItem>
                     <GridItem>
-						<CustomInput
-							labelText="Apellido"
-							id="lastname"
+                        <CustomInput
+                            labelText="Apellido"
+                            id="lastname"
                             value={this.state.firstname}
-                            onChange={event => this.setState({ lastname: event.target.value })}
-							formControlProps={{
-							  fullWidth: true
-							}}
-						  />
+                            inputProps={{
+                                onChange: event => this.setState({ lastname: event.target.value })
+                            }}
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                        />
                     </GridItem>
-					<GridItem>
-						<MuiPickersUtilsProvider utils={DateFnsUtils} >
-							<KeyboardDatePicker
-								margin="normal"
-								label="Birthday"
-								id="birthday"
-								format="yyyy-MM-dd"
-								value={this.state.birthday}
-								onChange={this.handleSelectedDate}
-								KeyboardButtonProps={{
-									'aria-label': 'change date'
+                    <GridItem>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                            <KeyboardDatePicker
+                                margin="normal"
+                                label="Birthday"
+                                id="birthday"
+                                format="yyyy-MM-dd"
+                                value={this.state.birthday}
+                                onChange={this.handleSelectedDate}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date'
                                 }}
-                                style={{width:'100%'}}
-							/>
-						</MuiPickersUtilsProvider>
+                                style={{ width: '100%' }}
+                            />
+                        </MuiPickersUtilsProvider>
                     </GridItem>
                     <GridItem>
-						<InputLabel htmlFor="blood-type" className={classes.selectLabel} style={{paddingLeft:'15px'}}>
-								Sexo
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel} style={{ paddingLeft: '15px' }}>
+                            Sexo
 						</InputLabel>
                         <Select fullWidth
-							MenuProps={{
-							  className: classes.selectMenu
-							}}
-							classes={{
-							  select: classes.select
-							}}
+                            MenuProps={{
+                                className: classes.selectMenu
+                            }}
+                            classes={{
+                                select: classes.select
+                            }}
                             value={this.state.gender}
-                            onChange={event => this.setState({gender: event.target.value})}>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"male"}>Hombre
+                            onChange={event => this.setState({ gender: event.target.value })}>
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"male"}>Hombre
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"female"}>Mujer
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"female"}>Mujer
 							</MenuItem>
                         </Select>
                     </GridItem>
                     <GridItem>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}style={{paddingLeft:'15px', "&:focus":{display:'none'}}}>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel} style={{ paddingLeft: '15px', "&:focus": { display: 'none' } }}>
                             Grupo Sanguineo
 						</InputLabel>
                         <Select fullWidth
-							MenuProps={{
-							  className: classes.selectMenu
-							}}
-							classes={{
-							  select: classes.select
-							}}
+                            MenuProps={{
+                                className: classes.selectMenu
+                            }}
+                            classes={{
+                                select: classes.select
+                            }}
                             value={this.state.blood.type}
                             onChange={event => this.setState({ blood: { ...this.state.blood, type: event.target.value } })}
                             inputProps={{
                                 name: "blood type",
                                 id: "bloodType"
                             }}>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"A"}>A
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"A"}>A
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"B"}>B
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"B"}>B
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"AB"}>AB
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"AB"}>AB
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"O"}>O
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"O"}>O
 							</MenuItem>
                         </Select>
                     </GridItem>
-                    <GridItem style={{ marginBottom:'2rem'}}>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}style={{paddingLeft:'15px'}}>
+                    <GridItem style={{ marginBottom: '2rem' }}>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel} style={{ paddingLeft: '15px' }}>
                             Factor RH
 						</InputLabel>
                         <Select fullWidth
-                           
-							MenuProps={{
-							  className: classes.selectMenu
-							}}
-							classes={{
-							  select: classes.select
-							}}
+
+                            MenuProps={{
+                                className: classes.selectMenu
+                            }}
+                            classes={{
+                                select: classes.select
+                            }}
                             value={this.state.blood.rh}
                             onChange={event => this.setState({ blood: { ...this.state.blood, rh: event.target.value } })}
                             inputProps={{
                                 name: "blood rh",
                                 id: "bloodRh"
                             }}>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"+"}>+
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"+"}>+
 							</MenuItem>
-                            <MenuItem 
-								classes={{
-									root: classes.selectMenuItem,
-									selected: classes.selectMenuItemSelected
-								}}
-								value={"-"}>-
+                            <MenuItem
+                                classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                }}
+                                value={"-"}>-
 							</MenuItem>
                         </Select>
                     </GridItem>
@@ -314,10 +328,16 @@ class NewPatient extends React.Component {
                         </Button>
                     </GridItem>
                 </form>
-           
-		</FormControl>
+
+            </FormControl>
         )
     }
 }
 
-export default withStyles(styles)(NewPatient)
+const mapDispatchToProps = dispatch => ({
+    savePatient: (userID) => {
+        dispatch(patientSaved(userID));
+    }
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(NewPatient))

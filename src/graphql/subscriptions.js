@@ -1,4 +1,4 @@
-/* eslint-disable */
+// eslint-disable
 // this is an auto generated file. This will be overwritten
 
 export const onCreateUser = `subscription OnCreateUser {
@@ -307,11 +307,6 @@ export const onCreateDonation = `subscription OnCreateDonation {
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -427,11 +422,6 @@ export const onUpdateDonation = `subscription OnUpdateDonation {
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -547,11 +537,6 @@ export const onDeleteDonation = `subscription OnDeleteDonation {
       lastname
       birthday
       gender
-      photo {
-        bucket
-        region
-        key
-      }
       blood {
         type
         rh
@@ -614,11 +599,6 @@ export const onCreatePatient = `subscription OnCreatePatient {
     lastname
     birthday
     gender
-    photo {
-      bucket
-      region
-      key
-    }
     blood {
       type
       rh
@@ -709,11 +689,6 @@ export const onUpdatePatient = `subscription OnUpdatePatient {
     lastname
     birthday
     gender
-    photo {
-      bucket
-      region
-      key
-    }
     blood {
       type
       rh
@@ -804,11 +779,6 @@ export const onDeletePatient = `subscription OnDeletePatient {
     lastname
     birthday
     gender
-    photo {
-      bucket
-      region
-      key
-    }
     blood {
       type
       rh

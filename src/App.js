@@ -6,6 +6,10 @@ import 'typeface-roboto';
 /** Styles */
 import './assets/scss/material-kit-pro-react.scss?v=1.8.0'
 
+/** Redux imports */
+import { connect } from 'react-redux';
+import { logout } from './actions';
+
 /** React Router */
 import { Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -138,6 +142,7 @@ class App extends React.Component {
         break
       case 'signOut':
         console.log('The user signed out')
+        this.props.logout()
         this.setState({ user: null })
         break
       case 'signIn_failure':
@@ -169,4 +174,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  logout: () => {
+      dispatch(logout());
+  }
+});
+
+export default connect(null, mapDispatchToProps)(App);
