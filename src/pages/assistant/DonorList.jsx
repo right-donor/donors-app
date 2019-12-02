@@ -76,7 +76,7 @@ const DonorList = ({ searchResults, classes, match, history }) => {
                         )}
                         {users.map(donor => (
                             <>
-                            {donor.type === 'donor' &&  (
+                            {donor.type === 'donor' && donor.firstname !== null &&  (
                                 <div key={donor.id} className='my-2'>
                                     <Card
                                         bodyStyle={{
