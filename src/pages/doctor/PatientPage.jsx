@@ -1,4 +1,7 @@
 import React from 'react'
+
+import { connect } from 'react-redux';
+
 import { API, graphqlOperation } from 'aws-amplify'
 import { getPatient } from '../../graphql/queries'
 import { Loading, Dialog, Form, DatePicker, Input, Notification } from 'element-react'
@@ -24,8 +27,8 @@ class PatientPage extends React.Component {
     }
 
     componentDidMount = () => {
-        if(this.props.patientId) {
-            this.getPatientInformation(this.props.patientId)
+        if(this.props.match.params.pacientId) {
+            this.getPatientInformation(this.props.match.params.pacientId)
         }
         //Creation listener
         this.createDonationListener = API.graphql(graphqlOperation(onCreateDonation))
@@ -74,6 +77,12 @@ class PatientPage extends React.Component {
         })
     }
 
+    componentWillUpdate() {
+        if(this.props.match.params.pacientId) {
+            this.getPatientInformation(this.props.match.params.pacientId)
+        }
+    }
+    
     componentWillUnmount = () => {
         this.updateDonationListener.unsubscribe()
         this.createDonationListener.unsubscribe()
@@ -117,9 +126,6 @@ class PatientPage extends React.Component {
         return this.state.isLoading ? <Loading fullscreen={true}/> : (<>
             {/** Back Button */}
                 <Container maxWidth='lg' style={{padding:'3rem 0'}}>
-                    <Link className="link" to="/" style={{color:'#833741', fontWeight:'bold'}}>
-                       {'<'} Volver a Pacientes
-                    </Link>
                     {/** Patient's profile */}
                     <Avatar user={patient}/>
                     {/** Donations */}
@@ -153,7 +159,7 @@ class PatientPage extends React.Component {
                 size="large"
                 customClass="dialog">
                     <Dialog.Body>
-                     <NewDonation></NewDonation>
+                        <NewDonation user={this.props.user} patient={patient} />
                     </Dialog.Body>
             </Dialog>
             
@@ -161,4 +167,8 @@ class PatientPage extends React.Component {
     }
 }
 
-export default PatientPage
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps, null)(PatientPage)

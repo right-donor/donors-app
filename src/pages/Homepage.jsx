@@ -44,6 +44,7 @@ import Donations from './donor/DonationsPage.jsx';
 import Profile from './Profile.jsx';
 /** DOCTOR COMPONENTS */
 import DoctorHomepage from './doctor/Homepage.jsx';
+import PatientPage from './doctor/PatientPage.jsx';
 /** ASSISTANT COMPONENTS */
 import AssistantHomepage from './assistant/Homepage.js';
 import DonorPage from './assistant/DonorPage.jsx';
@@ -384,6 +385,7 @@ class Homepage extends Component {
                                     ) : userData.type === 'doctor' ? (
                                         <>
                                             <DoctorHomepage />
+                                            <Route path={`${match.path}/:pacientId`} component={PatientPage} />
                                             <Route path={`${match.path}/doctor/perfil`} component={Profile} />
                                         </>
                                     ) :

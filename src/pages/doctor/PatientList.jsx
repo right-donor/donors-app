@@ -23,7 +23,7 @@ import {Connect} from "aws-amplify-react"
 import {listPatients} from "../../graphql/queries"
 import {onCreatePatient} from "../../graphql/subscriptions"
 
-const PatientList = ({searchResults, patients}) => {
+const PatientList = ({searchResults, patients, match, history	}) => {
 
     const onNewPatient = (prevQuery, newData) => {
         let updatedQuery = {...prevQuery}
@@ -35,17 +35,21 @@ const PatientList = ({searchResults, patients}) => {
         return updatedQuery
     }
 	const classes = withStyles();
-	const roundButtons = [
+	const roundButtons = (id) => ([
 		{ color: "primary", icon: Person },
-		{ color: "info", icon: Edit },
-		{ color: "danger", icon: Close }
 		].map((prop, key) => {
 	return (
 		<Button style={{marginRight:'1rem'}} round justIcon size="sm" color={prop.color} key={key}>
-			<prop.icon />
+			<Link to={`${match.path}/${id}`}>
+				<prop.icon />
+			</Link>
 		</Button>
 		);
-	});
+	}));
+
+	const patientsList = patients.map((patient, index) => {
+		return [index+1, patient.firstname, patient.lastname, new Date().getFullYear() - new Date(patient.birthday).getFullYear(), patient.gender, "En espera", roundButtons(patient.id)]
+	})
 
 	return(
 		<div style={{ padding: '50px 100px' }}>
@@ -61,13 +65,8 @@ const PatientList = ({searchResults, patients}) => {
 					</GridItem>
 					<GridItem>
 						<Table
-							
 							tableHead={["#", "Nombre", "Apellido(s)", "Edad", "Sexo", "Estado", "Actions"]}
-							tableData={[
-								["1", "Miguel", "Martinez", "58", "Hombre", "En espera", roundButtons],
-								["2", "Ana", "Holmes", "32", "Mujer","", roundButtons],
-								["3", "Ricardo", "Clooney", "18", "Hombre","En espera", roundButtons]
-							]}
+							tableData={patientsList}
 							customCellClasses={[
 								classes.textCenter,
 								classes.textRight,

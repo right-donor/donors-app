@@ -6,7 +6,7 @@ import { Auth, API, graphqlOperation } from 'aws-amplify'
 
 /** Redux imports */
 import { connect } from 'react-redux';
-//import { donationSaved } from '../../actions';
+import { patientSaved } from '../../actions';
 
 /** Design elements */
 import { Notification } from 'element-react'
@@ -50,19 +50,16 @@ class NewDonation extends React.Component {
     }
 
     handleAddDonation = async () => {
-        // Retrieve the hospital Id from the props
-        const hospitalId = this.props.user.hospital.id
-        // Add visibility
-        const visibility = "public"
-        const { identityId } = await Auth.currentCredentials()
-        //const filename = `/${visibility}/${identityId}/${Date.now()}-${this.state.image.name}`
-
+        const blood = this.state.bloodType.split(' ')
         const input = {
             dateNeeded: this.state.dateNeeded,
-            donationAssignedToId : this.state.patient.id,
-            bloodType: this.state.patient.blood,
+            donationAssignedToId : this.props.patient.id,
+            bloodType: {
+                type: blood[0],
+                rh: blood[1]
+            },
             bagAmount: this.state.bagAmount,
-            donationHospitalId: this.state.patient.hospital.id
+            donationHospitalId: this.props.patient.hospital.id
         }
 
         try {
@@ -87,6 +84,8 @@ class NewDonation extends React.Component {
 
     render() {
         const { classes } = this.props;
+        console.log('Paciente', this.props.patient)
+        console.log('User ', this.props.user)
 
         return (
             <FormControl className={classes.selectFormControl} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
@@ -101,7 +100,7 @@ class NewDonation extends React.Component {
                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
                             <KeyboardDatePicker
                                 margin="normal"
-                                label="Birthday"
+                                label="Para cuando"
                                 id="birthday"
                                 format="yyyy-MM-dd"
                                 value={this.state.dateNeeded}
@@ -125,7 +124,7 @@ class NewDonation extends React.Component {
                                 select: classes.select
                             }}
                             value={this.state.bloodType}
-                            //onChange={event => this.setState({{ this.state.bloodType, type: event.target.value } })}
+                            onChange={event => this.setState({ bloodType: event.target.value })}
                             inputProps={{
                                 name: "blood type",
                                 id: "bloodType"
@@ -214,8 +213,8 @@ class NewDonation extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    saveDonation: (patientID) => {
-        //dispatch(donationSaved(patientID));
+    saveDonation: (userID) => {
+        dispatch(patientSaved(userID));
     }
 });
 

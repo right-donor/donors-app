@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { searchPatients } from '../../graphql/queries'
 import { API, graphqlOperation } from 'aws-amplify'
 
+import { withRouter } from 'react-router-dom';
+
 /** Manmade components */
 import NewPatient from './NewPatient'
 import PatientList from './PatientList'
@@ -74,7 +76,7 @@ class Homepage extends React.Component {
         })
     }
     render() {
-        const { classes, user } = this.props;
+        const { classes, user, match, history } = this.props;
         return user ? (user.firstname === null ? <Exploration
             user={user} /> : (
                 <>
@@ -105,7 +107,7 @@ class Homepage extends React.Component {
                             </Fade>
                         </Modal>
 
-                        <PatientList patients={user.patients.items} style={{ textAlign: 'center' }} searchResults={this.state.searchResults} />
+                        <PatientList match={match} history={history} patients={user.patients.items} style={{ textAlign: 'center' }} searchResults={this.state.searchResults} />
                     </Container>
 
                 </>
@@ -121,7 +123,7 @@ const mapStateToProps = state => ({
     user: state.user
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     null
-)(withStyles(styles)(Homepage));
+)(withStyles(styles)(Homepage)));

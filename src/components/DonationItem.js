@@ -114,7 +114,11 @@ class DonationItem extends React.Component {
                         </>)}
                         {user.hospital === null && (<>
                             <span>
-                                <p> <b>{donation.hospital.name}</b> - {donation.hospital.address_line1} </p>
+                                {donation.hospital ? (
+                                    <p> <b>{donation.hospital.name}</b> - {donation.hospital.address_line1} </p>
+                                ) : (
+                                    <p> Donation in process </p>
+                                )}
                             </span>
                             <span>
                                 {donation.donatedBy === null && (

@@ -266,6 +266,7 @@ class ListInterviews extends React.Component {
                 type: "success"
             })
         } catch (error) {
+            console.log(error)
             Notification({
                 title: "Error",
                 message: "Couldnt append an interview to this user",
@@ -397,7 +398,7 @@ class ListInterviews extends React.Component {
                             <GridItem>
                                 <CustomInput
                                     labelText="Peso"
-                                    inputProps={{ onChange: weight => this.setState({weight}) }}
+                                    inputProps={{ onChange: event => this.setState({weight: event.target.value}) }}
                                 />
                             </GridItem>
                             <GridItem>
@@ -1147,7 +1148,7 @@ class ListInterviews extends React.Component {
                         <GridItem>
                             <CustomInput
                                 labelText="ID"
-                                onChange={event => this.setState({bloodBagId: event.target.id})}
+                                inputProps={{ onChange: event => this.setState({bloodBagId: event.target.value}) }}
                             />
                         </GridItem>
                         <GridItem>

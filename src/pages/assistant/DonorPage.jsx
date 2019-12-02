@@ -2,9 +2,9 @@ import React from 'react'
 
 /*** AWS Components */
 import {API, graphqlOperation} from 'aws-amplify'
-/** GraphQL Operations */
-/** Element UI */
-import { Loading } from 'element-react'
+
+import { Link } from 'react-router-dom'
+
 /** Material UI Stuff */
 import { withStyles } from "@material-ui/core/styles";
 import styles from '../../assets/jss/material-kit-pro-react/customSelectStyle.js';
@@ -121,7 +121,8 @@ class DonorPage extends React.Component {
   render () {
       const { donor } = this.state
       return (!donor) ? null : (
-          <>
+          <> 
+              <Link to='/app' >{'< '}Regresar a donadores</Link>
               <Avatar user={donor}/>
               <ListInterviews donor={donor} />
           </>
