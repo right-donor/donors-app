@@ -1,13 +1,16 @@
 import React from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 import { getPatient } from '../../graphql/queries'
-import { Loading, Button, Dialog, Form, DatePicker, Input, Notification } from 'element-react'
+import { Loading, Dialog, Form, DatePicker, Input, Notification } from 'element-react'
 import {Link} from 'react-router-dom'
 import Avatar from '../../components/avatar'
 import { createDonation } from '../../graphql/mutations'
 import { onCreateDonation, onDeleteDonation, onUpdateDonation } from '../../graphql/subscriptions'
-
+import Container from "@material-ui/core/Container";
+import { Typography} from '@material-ui/core'
+import Button from '../../useful/CustomButtons/Button'
 import DonationItem from '../../components/DonationItem'
+import NewDonation from './NewDonation'
 
 class PatientPage extends React.Component {
 
@@ -113,59 +116,47 @@ class PatientPage extends React.Component {
         const {patient} = this.state
         return this.state.isLoading ? <Loading fullscreen={true}/> : (<>
             {/** Back Button */}
-            <Link className="link" to="/">
-                Back to Patient's List
-            </Link>
-            {/** Patient's profile */}
-            <Avatar user={patient}/>
-            {/** Donations */}
-            {patient.donations.items.length > 0 ? (<>
-                <h2> Donations </h2>
-                {patient.donations.items.map(donation => (
-                    <DonationItem user={this.props.user} donation={donation}/>
-                ))}
-            </>) : (<>
-                <h2> No Blood Donations have been received </h2>
-            </>)}
-            <Button color="primary" onClick={() => this.setState({showDonationForm: true})}> Ask for new donation </Button>
+                <Container maxWidth='lg' style={{padding:'3rem 0'}}>
+                    <Link className="link" to="/" style={{color:'#833741', fontWeight:'bold'}}>
+                       {'<'} Volver a Pacientes
+                    </Link>
+                    {/** Patient's profile */}
+                    <Avatar user={patient}/>
+                    {/** Donations */}
+                    {patient.donations.items.length > 0 ? (<>
+                        <h2> Donations </h2>
+                        {patient.donations.items.map(donation => (
+                            <DonationItem user={this.props.user} donation={donation}/>
+                        ))}
+                    </>) : (<>
+                      
+                        <Typography variant="h2" style={{
+                            color:'#555E65', 
+                            fontWeight:'200',
+                            fontSize:'2rem',
+                            textAlign:'center', 
+                            paddingTop:'2rem',
+                            marginBottom:'2rem'}}> Este paciente no ha recibido donaciones </Typography>
+
+                    </>)}
+                    <div style={{display:'flex', justifyContent:'center'}}>
+                    <Button color="primary" onClick={() => this.setState({showDonationForm: true})}> Pedir Donación</Button>
+
+                    </div>
+                
+                </Container>
+                
             {/** Dialog for New Blood */}
             <Dialog
-                title="Ask for a donation"
                 visible={this.state.showDonationForm}
                 onCancel={() => this.setState({showDonationForm: false})}
                 size="large"
                 customClass="dialog">
                     <Dialog.Body>
-                        <Form labelPosition="top">
-                            <Form.Item 
-                                label="Deadline">
-                                    <DatePicker
-                                        isShowTime={true}
-                                        value={this.state.dateNeeded}
-                                        placeholder="Pick a day"
-                                        onChange={dateNeeded=>{this.setState({dateNeeded})}}
-                                        disabledDate={time=>time.getTime() < Date.now()}/>
-                            </Form.Item>
-                            <Form.Item
-                                label="Milliliters needed">
-                                    <Input
-                                        type="number"
-                                        placeholder="650"
-                                        trim={true}
-                                        onChange={bagAmount => this.setState({bagAmount})}/>
-                            </Form.Item>
-                            <Form.Item>
-                                <Button
-                                    disabled={!this.state.bagAmount || !this.state.dateNeeded}
-                                    type="primary"
-                                    onClick={this.handleAddDonation}
-                                    loading={this.isCreatingDonation}>
-                                        {this.state.isCreatingDonation ? "Adding Donation..." : "Add donation"}
-                                </Button>
-                            </Form.Item>
-                        </Form>
+                     <NewDonation></NewDonation>
                     </Dialog.Body>
             </Dialog>
+            
             </>)
     }
 }
