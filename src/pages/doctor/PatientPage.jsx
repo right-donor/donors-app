@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import Avatar from '../../components/avatar'
 import { createDonation } from '../../graphql/mutations'
 import { onCreateDonation, onDeleteDonation, onUpdateDonation } from '../../graphql/subscriptions'
+import Container from "@material-ui/core/Container";
 
 import DonationItem from '../../components/DonationItem'
 
@@ -113,21 +114,23 @@ class PatientPage extends React.Component {
         const {patient} = this.state
         return this.state.isLoading ? <Loading fullscreen={true}/> : (<>
             {/** Back Button */}
-            <Link className="link" to="/">
-                Back to Patient's List
-            </Link>
-            {/** Patient's profile */}
-            <Avatar user={patient}/>
-            {/** Donations */}
-            {patient.donations.items.length > 0 ? (<>
-                <h2> Donations </h2>
-                {patient.donations.items.map(donation => (
-                    <DonationItem user={this.props.user} donation={donation}/>
-                ))}
-            </>) : (<>
-                <h2> No Blood Donations have been received </h2>
-            </>)}
-            <Button color="primary" onClick={() => this.setState({showDonationForm: true})}> Ask for new donation </Button>
+            
+                <Link className="link" to="/">
+                    Back to Patient's Listaasdass
+                </Link>
+                {/** Patient's profile */}
+                <Avatar user={patient}/>
+                {/** Donations */}
+                {patient.donations.items.length > 0 ? (<>
+                    <h2> Donations </h2>
+                    {patient.donations.items.map(donation => (
+                        <DonationItem user={this.props.user} donation={donation}/>
+                    ))}
+                </>) : (<>
+                    <h2> No Blood Donations have been asdadreceived </h2>
+                </>)}
+                <Button color="primary" onClick={() => this.setState({showDonationForm: true})}> Ask for new donation </Button>
+            
             {/** Dialog for New Blood */}
             <Dialog
                 title="Ask for a donation"
@@ -166,6 +169,7 @@ class PatientPage extends React.Component {
                         </Form>
                     </Dialog.Body>
             </Dialog>
+            
             </>)
     }
 }
