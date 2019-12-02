@@ -221,8 +221,8 @@ const styles = theme => ({
     }
 });
 
-const HeaderLinks = ({classes, userType, handleSignOut}) => {
-    return(
+const HeaderLinks = ({ classes, userType, handleSignOut }) => {
+    return (
         <List className={classNames(classes.listNav, classes.mlAuto)}>
             {userType &&
                 userType === 'donor' ? (
@@ -262,16 +262,16 @@ const HeaderLinks = ({classes, userType, handleSignOut}) => {
                         </ListItem>
                     </>
                 ) :
-                (
-                    <>
-                        <ListItem className={classes.listItem}>
-                            <Link to='/' className={classes.navLink}>
-                                <Healing />
-                                Donadores
+                    (
+                        <>
+                            <ListItem className={classes.listItem}>
+                                <Link to='/' className={classes.navLink}>
+                                    <Healing />
+                                    Donadores
                             </Link>
-                        </ListItem>
-                    </>
-                )
+                            </ListItem>
+                        </>
+                    )
             }
             <ListItem className={classes.listItem}>
                 <Button
@@ -285,7 +285,7 @@ const HeaderLinks = ({classes, userType, handleSignOut}) => {
             </ListItem>
         </List>
     )
-} 
+}
 
 class Homepage extends Component {
     _isMounted = false;
@@ -313,14 +313,14 @@ class Homepage extends Component {
         window.scrollTo(0, 0);
         document.body.scrollTop = 0;
     }
-    
+
     componentWillUnmount() {
         this._isMounted = false;
     }
 
     getUserFromDB = () => {
-        API.graphql(graphqlOperation(getUser, {id: this.props.userC.username}))
-            .then(({data}) => {
+        API.graphql(graphqlOperation(getUser, { id: this.props.userC.username }))
+            .then(({ data }) => {
                 if (data.getUser && this._isMounted) {
                     console.log(data.getUser);
                     this.setState({ userData: data.getUser });
@@ -335,23 +335,23 @@ class Homepage extends Component {
      */
     handleSignOut = async () => {
         try {
-          await Auth.signOut();
-          this.props.logout();
+            await Auth.signOut();
+            this.props.logout();
         } catch (err) {
-          alert("An error has occured while trying to sign out")
+            alert("An error has occured while trying to sign out")
         }
     }
 
     render() {
-        const { 
-            classes, 
+        const {
+            classes,
             img,
             userC
         } = this.props;
         const { userData } = this.state;
         console.log(userC);
 
-        return(
+        return (
             <div>
                 <Header
                     brand='Right Donor'
@@ -369,9 +369,9 @@ class Homepage extends Component {
                     <div className={classes.container}>
                         <GridContainer justify='center'>
                             <GridItem xs={12} sm={12} md={6}>
-                                
+
                                 {!userData ? <CircularProgress color='primary' /> :
-                                
+
                                     userData.type === 'donor' ? (
                                         <>
                                             <Route path='/donor/perfil' />
@@ -384,11 +384,11 @@ class Homepage extends Component {
                                             <Route path='/doctor/perfil' />
                                         </>
                                     ) :
-                                    (
-                                        <>
-                                            <Route path='/asistente/donadores' />
-                                        </>
-                                    )
+                                            (
+                                                <>
+                                                    <Route path='/asistente/donadores' />
+                                                </>
+                                            )
 
                                 }
 
@@ -426,7 +426,7 @@ class Homepage extends Component {
                             </div>
                             <div className={classes.right}>
                                 &copy; {1900 + new Date().getYear()} , made with {" "}
-                                <Favorite className={classes.icon} /> by{' '} 
+                                <Favorite className={classes.icon} /> by{' '}
                                 <a
                                     href='https://github.com/right-donor'
                                     rel='noopener noreferrer'
@@ -443,7 +443,7 @@ class Homepage extends Component {
             </div>
         );
     }
-    
+
 }
 
 const mapStateToProps = state => ({

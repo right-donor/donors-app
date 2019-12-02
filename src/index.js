@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import App from './App';
+import LandingPage from './Landingpage';
+
 import * as serviceWorker from './serviceWorker';
 import 'element-theme-default'
-import Landingpage from './components/Landingpage';
 
+/** React Router */
+import { Router, Route, Switch } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 
 /** AWS Amplify setup */
 import Amplify from 'aws-amplify'
@@ -31,9 +36,16 @@ store.subscribe(throttle(() => {
     StateLoader.saveState(store.getState())
 }, 1000))
 
+const history = createBrowserHistory()
+
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router history={history}>
+            <Switch>
+                <Route path='/' exact component={LandingPage} />
+                <Route path='/app' exact component={App} />
+            </Switch>
+        </Router>
     </Provider>,
     document.getElementById('root'));
 

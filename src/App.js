@@ -97,7 +97,7 @@ class App extends React.Component {
         console.error("User Creation failed!", err)
       }
     } else {
-      this.setState({dbuser: data.getUser})
+      this.setState({ dbuser: data.getUser })
     }
   }
 
@@ -150,30 +150,28 @@ class App extends React.Component {
     const { user, userAttributes, dbuser } = this.state
     return !user ? <Authenticator theme={AmplifyTheme} usernameAttributes='email' signUpConfig={{ hiddenDefaults: 'phone_numbers' }} /> : (
       <UserContext.Provider value={{ user, userAttributes }}>
-        <Router history={history}>
-          <>
-            {/** Always present Navigation Bar */}
-            {/** <Navbar user={user} handleSignout={this.handleSignOut} /> */}
-            {/** Application Routes */}
-            <div className="app-container">
-              <Route exact path="/" component={
-                () => <Homepage userC={user} userDB={dbuser} />
-              } />
+        <>
+          {/** Always present Navigation Bar */}
+          {/** <Navbar user={user} handleSignout={this.handleSignOut} /> */}
+          {/** Application Routes */}
+          <div className="app-container">
+            <Route exact path="/app" component={
+              () => <Homepage userC={user} userDB={dbuser} />
+            } />
 
-              <Route path="/patient/:patientId" component={
-                ({ match }) => <PatientPage user={user} patientId={match.params.patientId} />
-              } />
+            <Route path="/patient/:patientId" component={
+              ({ match }) => <PatientPage user={user} patientId={match.params.patientId} />
+            } />
 
-              <Route path="/donations" component={
-                () => <DonationsPage user={user}/>
-              }/>
+            <Route path="/donations" component={
+              () => <DonationsPage user={user} />
+            } />
 
-              <Route path="/donor/:donorId/:userId" component={
-                ({match}) => <DonorPage userId={match.params.userId} donorId={match.params.donorId}/>
-              }/>
-            </div>
-          </>
-        </Router>
+            <Route path="/donor/:donorId/:userId" component={
+              ({ match }) => <DonorPage userId={match.params.userId} donorId={match.params.donorId} />
+            } />
+          </div>
+        </>
       </UserContext.Provider>
     )
   }

@@ -18,25 +18,21 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import App from '../App';
-import {Router} from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory';
-import clsx from 'clsx';
-import BackgroundHero from '../assets/img/donor-2.jpeg';
-import DescImage from '../assets/img/preparing.jpeg';
-import blood from '../assets/img/blood-types.png';
-import reg from '../assets/img/register.jpeg';
-import fact1 from '../assets/img/fact-1.png';
-import fact2 from '../assets/img/fact-2.png';
-import fact3 from '../assets/img/fact-3.png';
-import fact4 from '../assets/img/fact-4.png';
-import fact5 from '../assets/img/fact-5.png';
-import fact6 from '../assets/img/fact-6.png';
-import footer from '../assets/img/footer.png';
-import hospital from '../assets/img/hospital.png';
-import rd from '../assets/img/rd.jpg';
-import tracking from '../assets/img/tracking.png';
-import store from '../assets/img/store.png';
+import BackgroundHero from './assets/img/donor-2.jpeg';
+import DescImage from './assets/img/preparing.jpeg';
+import blood from './assets/img/blood-types.png';
+import reg from './assets/img/register.jpeg';
+import fact1 from './assets/img/fact-1.png';
+import fact2 from './assets/img/fact-2.png';
+import fact3 from './assets/img/fact-3.png';
+import fact4 from './assets/img/fact-4.png';
+import fact5 from './assets/img/fact-5.png';
+import fact6 from './assets/img/fact-6.png';
+import footer from './assets/img/footer.png';
+import hospital from './assets/img/hospital.png';
+import rd from './assets/img/rd.jpg';
+import tracking from './assets/img/tracking.png';
+import store from './assets/img/store.png';
 
 function Copyright() {
   return (
@@ -382,27 +378,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Album() {
+export default function Album({ history }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const [exp, setExp] = React.useState(false);
-  const [exp1, setExp1] = React.useState(false);
-
-  const handleExpandClick = () => {
-	setExpanded(!expanded);
+  
+  const handleLogin = () => {
+    history.push('/app');
   };
-  const handleExpandClick2 = () => {
-    setExp(!exp);
-  };
-  const handleExpandClick3 = () => {
-    setExp1(!exp1);
-  };
-
 
   return (
     <React.Fragment>
       <CssBaseline />
-		<AppBar position="static">
+		<AppBar position="fixed">
 			<Toolbar className={classes.toolbar}>
 			  <Typography variant="h6" className={classes.title}>
 				Right Donor
@@ -424,7 +410,7 @@ export default function Album() {
             </Typography>
             <div className={classes.heroButtons}>
               <MuiThemeProvider theme={theme}>
-                <Button variant="contained" color='primary'>
+                <Button onClick={() => handleLogin()} variant="contained" color='primary'>
                   Ingresa
                 </Button> 
               </MuiThemeProvider>              
@@ -585,9 +571,11 @@ export default function Album() {
             <Typography  className={classes.title2}>
             ¡Únete a nuestro proyecto!
              </Typography>
-             <div className={classes.btnWrp}>  <Button variant="contained" color='primary' fullWidth="true" size="large">
+             <div className={classes.btnWrp}>  
+                <Button onClick={() => handleLogin()} variant="contained" color='primary' fullWidth="true" size="large">
                   Register
-                </Button> </div>
+                </Button> 
+              </div>
             
             </div> 
           </MuiThemeProvider>   
