@@ -3,21 +3,21 @@ import React from 'react'
 /** Amplify Libraries */
 import { API, graphqlOperation, Storage, Auth } from 'aws-amplify'
 import { PhotoPicker } from 'aws-amplify-react'
-import aws_exports from '../../../aws-exports'
+import aws_exports from '../aws-exports'
 
 
 /** API and GraphQL Calls */
-import { updateUser } from '../../../graphql/mutations'
+import { updateUser } from '../graphql/mutations'
 
 /** Material UI Stuff */
 import {Select, MenuItem, InputLabel, FormControl} from "@material-ui/core"
 import { withStyles  } from "@material-ui/core/styles";
-import styles from "../../../assets/jss/material-kit-pro-react/customSelectStyle.js";
-import GridContainer from '../../../useful/Grid/GridContainer'
-import GridItem from '../../../useful/Grid/GridItem'
-import Button from '../../../useful/CustomButtons/Button'
-import Primary from '../../../useful/Typography/Primary'
-import CustomInput from '../../../useful/CustomInput/CustomInput'
+import styles from "../assets/jss/material-kit-pro-react/customSelectStyle.js";
+import GridContainer from '../useful/Grid/GridContainer'
+import GridItem from '../useful/Grid/GridItem'
+import Button from '../useful/CustomButtons/Button'
+import Primary from '../useful/Typography/Primary'
+import CustomInput from '../useful/CustomInput/CustomInput'
 
 /** Date components */
 import DateFnsUtils from "@date-io/date-fns"
@@ -115,7 +115,7 @@ class Exploration extends React.Component {
                 <form className={""} autoComplete="on">
                     <GridItem>
                         <Primary>
-                            <h3>Exploratory Form</h3>
+                            <h2>Exploratory Form</h2>
                         </Primary>
                     </GridItem>
                     <GridItem>
