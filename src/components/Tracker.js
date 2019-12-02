@@ -25,6 +25,17 @@ class Tracker extends React.Component {
         try {
             const donation = await API.graphql(graphqlOperation(getDonation, { id: donationId }))
             this.setState({ donation: donation.data.getDonation, isLoading: false })
+            // this.setState({ donation: {
+            //     "id":"123",
+            //     "donatedBy":{
+            //         "id":"daf"
+            //         },
+            //     "bloodBagId":"blood123",
+            //     "hospital":{
+            //         "name":"angeles",
+            //         "address_line1":"por ahi"
+            //     }
+            // }, isLoading: false })
             await this.handleGetBagHistory()
         } catch (error) {
             console.error(error)

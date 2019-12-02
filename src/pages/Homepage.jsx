@@ -12,6 +12,22 @@ import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import { red } from '@material-ui/core/colors';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import OpacityIcon from '@material-ui/icons/Opacity';
+import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 // @material-ui/icons
 import Favorite from '@material-ui/icons/Favorite';
@@ -19,6 +35,8 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import Store from '@material-ui/icons/Store';
 import Healing from '@material-ui/icons/Healing';
 import LocalHospital from '@material-ui/icons/LocalHospital';
+
+import Paper from '@material-ui/core/Paper';
 
 // useful components
 import Header from '../useful/Header/Header';
@@ -224,6 +242,31 @@ const styles = theme => ({
         '& $icons': {
             marginRight: '3px'
         }
+    },
+    card: {
+    maxWidth: 345,
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+        },
+    avatar: {
+        backgroundColor: red[500],
+    },
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
     }
 });
 
@@ -359,9 +402,18 @@ class Homepage extends Component {
             history
         } = this.props;
         const { userData } = this.state;
+<<<<<<< HEAD
         console.log('Match and History: ', match, history);
 
         return (
+=======
+        console.log(userC);
+        // const [expanded, setExpanded] = React.useState(false);
+        // const handleExpandClick = () => {
+        //     setExpanded(!expanded);
+        // };
+        return(
+>>>>>>> DonatorPages
             <div>
                 <Header
                     brand='Right Donor'
@@ -406,8 +458,74 @@ class Homepage extends Component {
                             </GridItem>
                         </GridContainer>
                     </div>
+                    <Paper className={classes.root}>
+                        <Typography variant="h5" component="h3">
+                            YOUR PROFILE
+                        </Typography>
+                        
+                        <Card className={classes.card}>
+                            <CardHeader
+                                avatar={
+                                <Avatar aria-label="recipe" className={classes.avatar}>
+                                    {this.state.userData.firstname[0] ? this.state.userData.firstname[0] : "N"}
+                                </Avatar>
+                                }
+                                title={this.state.userData.firstname?this.state.userData.firstname+" "+this.state.userData.lastname:"complete name"}
+                                subheader={this.state.userData.city ? this.state.userData.city : "CDMX"}
+                            />
+                            <CardMedia
+                                className={classes.media}
+                                image="data:image/jpeg;base64,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"
+                                title="IDK"
+                            />
+                            <CardContent>
+                                <List className={classes.root}>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                        <Avatar>
+                                            <MonetizationOnIcon />
+                                        </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary="Tokens" secondary="131" />
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                        <Avatar>
+                                            <OpacityIcon />
+                                        </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary="Donator since" secondary="Jan 9, 2014" />
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                        <Avatar>
+                                            <PhoneAndroidIcon />
+                                        </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={this.state.userData?this.state.userData.phonenumber:"Phone Number"}/>
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                        <Avatar>
+                                            <LocalHospital />
+                                        </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary="Blood type" secondary={this.state.userData?this.state.userData.blood.type +""+this.state.userData.blood.rh:"bloodType"} />
+                                    </ListItem>
+                                </List>
+                            </CardContent>
+                            {/* <CardActions disableSpacing>
+                                <IconButton aria-label="add to favorites">
+                                <FavoriteIcon />
+                                </IconButton>
+                                <IconButton aria-label="share">
+                                <ShareIcon />
+                                </IconButton>
+                            </CardActions> */}
+                        </Card>
+                    </Paper>
                 </div>
-
+                
                 <Footer
                     content={
                         <div>
