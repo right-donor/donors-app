@@ -24,13 +24,7 @@ import { getUser } from './graphql/queries'
 import { createUser } from './graphql/mutations'
 
 /** Donor's pages */
-<<<<<<< HEAD
-//import Homepage from './pages/doctor/Homepage.jsx'
-
-import Homepage from "../src/pages/Homepage"
-=======
 import Homepage from "./pages/assistant/ListInterview" //"../src/pages/Homepage"
->>>>>>> Assistant
 import PatientPage from './pages/doctor/PatientPage'
 import DonationsPage from './pages/donor/DonationsPage'
 import DonorPage from './pages/assistant/DonorPage'
