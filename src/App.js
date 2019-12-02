@@ -28,7 +28,7 @@ import { createUser } from './graphql/mutations'
 
 import Homepage from "../src/pages/Homepage"
 //import Homepage from "./pages/assistant/ListInterview" //"../src/pages/Homepage"
-import PatientPage from './pages/doctor/PatientPage'
+import PatientPage from './pages/doctor/PatientPage.jsx'
 import DonationsPage from './pages/donor/DonationsPage'
 import DonorPage from './pages/assistant/DonorPage'
 
