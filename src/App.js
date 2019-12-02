@@ -20,7 +20,7 @@ import { getUser } from './graphql/queries'
 import { createUser } from './graphql/mutations'
 
 /** Donor's pages */
-//import Homepage from './pages/doctor/Homepage.jsx'//"../src/pages/Homepage"
+//import Homepage from './pages/doctor/Homepage.jsx'
 
 import Homepage from "../src/pages/Homepage"
 import PatientPage from './pages/doctor/PatientPage'
