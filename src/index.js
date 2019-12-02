@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'element-theme-default'
+import Landingpage from './components/Landingpage';
+
 
 /** AWS Amplify setup */
 import Amplify from 'aws-amplify'
@@ -32,7 +34,7 @@ store.subscribe(throttle(() => {
 ReactDOM.render(
     <Provider store={store}>
         <App />
-    </Provider>, 
+    </Provider>,
     document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
