@@ -24,7 +24,7 @@ import { getUser } from './graphql/queries'
 import { createUser } from './graphql/mutations'
 
 /** Donor's pages */
-import Homepage from "../src/pages/doctor/NewDonation.jsx"//"../src/pages/Homepage"
+import Homepage from "../src/pages/doctor/PatientPage.jsx"//"../src/pages/Homepage"
 /** External APIs */
 import axios from 'axios'
 import { Notification } from 'element-react';
@@ -145,9 +145,9 @@ class App extends React.Component {
         <>
           <div className="app-container">
             <Route path={match.path} render={
-              () => <Homepage userC={user} />
+              () => <Homepage patientId={'787afe61-e55d-4740-b5a4-2f9dcc98d1e0'}  />
             } />
-
+            {/*userC={user}*/}
           </div>
         </>
     )
