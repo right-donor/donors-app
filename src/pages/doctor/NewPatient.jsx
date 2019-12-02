@@ -5,7 +5,7 @@ import {createPatient} from '../../graphql/mutations'
 import aws_exports from '../../aws-exports'
 import { Storage, Auth, API, graphqlOperation } from 'aws-amplify'
 /** Design elements */
-import {Input, Notification, Progress, Dialog, DatePicker } from 'element-react'
+import {Notification} from 'element-react'
 /** Material UI Stuff */
 import {Select, MenuItem, InputLabel, FormControl} from "@material-ui/core"
 import { withStyles  } from "@material-ui/core/styles";
@@ -69,7 +69,6 @@ class NewPatient extends React.Component {
         firstname: "",
         lastname: "",
         birthday: new Date(),
-        photo: "",
         blood: {},
         doctor: "",
         hospital: {},
@@ -109,36 +108,23 @@ class NewPatient extends React.Component {
         }]
     }
 
+	handleSelectedDate = birthday => {
+		this.setState({ birthday })
+	}
+
     handleAddPatient = async () => {
         // Retrieve the hospital Id from the props
         const hospitalId = this.props.user.hospital.id
-        // Start uploading the photo to S3
-        this.setState({isUploading: true})
         // Add visibility
         const visibility = "public"
 		const { identityId } = await Auth.currentCredentials()
-        const filename = `/${visibility}/${identityId}/${Date.now()}-${this.state.image.name}`
-        
-		const uploadedFile = await Storage.put(filename, this.state.image.file, {
-			contentType: this.state.image.type,
-			progressCallback: progress => {
-			console.log(`Uploaded: ${progress.loaded}/${progress.total}`)
-			const percentUploaded = Math.round((progress.loaded / progress.total) * 100)
-				this.setState({percentUploaded})
-			}})
-			
-        const file = {
-            key: uploadedFile.key,
-            bucket: aws_exports.aws_user_files_s3_bucket,
-            region: aws_exports.aws_project_region
-        }
+        //const filename = `/${visibility}/${identityId}/${Date.now()}-${this.state.image.name}`
 
         const input = {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             birthday: this.state.birthday,
             gender: this.state.gender,
-            photo: file,
             blood: this.state.blood,
             patientDoctorId: this.props.user.id,
             patientHospitalId: hospitalId
@@ -163,15 +149,12 @@ class NewPatient extends React.Component {
     }
 
     render() {
-		const {classes} = this.props;
+        const {classes} = this.props;
+      
         return (
-       <FormControl fullWidth className={classes.selectFormControl}>
-            <GridContainer
-                spacing={3}
-                direction="column"
-                justify="center"
-                alignItems="center">
-                <form className={""} autoComplete="on">
+       <FormControl className={classes.selectFormControl} style={{marginLeft:'auto',marginRight:'auto'}}>
+            
+                <form className={""} autoComplete="on" style={{maxWidth:'100%',backgroundColor:'#fff',padding:'2.5rem 2rem', borderRadius:'.7rem',marginLeft:'auto',marginRight:'auto'}}>
                     <GridItem>
                         <Primary>
                             <h2>Agregar paciente</h2>
@@ -200,7 +183,7 @@ class NewPatient extends React.Component {
 						  />
                     </GridItem>
 					<GridItem>
-						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<MuiPickersUtilsProvider utils={DateFnsUtils} >
 							<KeyboardDatePicker
 								margin="normal"
 								label="Birthday"
@@ -210,12 +193,13 @@ class NewPatient extends React.Component {
 								onChange={this.handleSelectedDate}
 								KeyboardButtonProps={{
 									'aria-label': 'change date'
-								}}
+                                }}
+                                style={{width:'100%'}}
 							/>
 						</MuiPickersUtilsProvider>
                     </GridItem>
                     <GridItem>
-						<InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+						<InputLabel htmlFor="blood-type" className={classes.selectLabel} style={{paddingLeft:'15px'}}>
 								Sexo
 						</InputLabel>
                         <Select fullWidth
@@ -244,7 +228,7 @@ class NewPatient extends React.Component {
                         </Select>
                     </GridItem>
                     <GridItem>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}style={{paddingLeft:'15px', "&:focus":{display:'none'}}}>
                             Grupo Sanguineo
 						</InputLabel>
                         <Select fullWidth
@@ -290,11 +274,12 @@ class NewPatient extends React.Component {
 							</MenuItem>
                         </Select>
                     </GridItem>
-                    <GridItem>
-                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}>
+                    <GridItem style={{ marginBottom:'2rem'}}>
+                        <InputLabel htmlFor="blood-type" className={classes.selectLabel}style={{paddingLeft:'15px'}}>
                             Factor RH
 						</InputLabel>
                         <Select fullWidth
+                           
 							MenuProps={{
 							  className: classes.selectMenu
 							}}
@@ -324,12 +309,12 @@ class NewPatient extends React.Component {
                         </Select>
                     </GridItem>
                     <GridItem>
-                        <Button fullWidth color="primary" disabled={this.state.uploading} onClick={this.handleSubmit}>
+                        <Button fullWidth color="primary" disabled={this.state.uploading} onClick={this.handleAddPatient}>
                             {this.state.uploading ? "Cargando..." : "Guardar"}
                         </Button>
                     </GridItem>
                 </form>
-            </GridContainer>
+           
 		</FormControl>
         )
     }

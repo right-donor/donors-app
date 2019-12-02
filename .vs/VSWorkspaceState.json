@@ -2,14 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\assets",
     "\\src\\assets\\jss",
     "\\src\\components\\forms",
-    "\\src\\components\\forms\\donor",
     "\\src\\pages",
-    "\\src\\useful",
     "\\src\\useful\\Grid"
   ],
-  "SelectedNode": "\\src\\useful\\Grid\\GridContainer.js",
+  "SelectedNode": "\\src\\App.js",
   "PreviewInSolutionExplorer": false
 }
