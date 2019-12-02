@@ -23,7 +23,7 @@ import {Connect} from "aws-amplify-react"
 import {listPatients} from "../../graphql/queries"
 import {onCreatePatient} from "../../graphql/subscriptions"
 
-const PatientList = ({searchResults}) => {
+const PatientList = ({searchResults, patients}) => {
 
     const onNewPatient = (prevQuery, newData) => {
         let updatedQuery = {...prevQuery}
@@ -47,7 +47,6 @@ const PatientList = ({searchResults}) => {
 		);
 	});
 
-	const { patients } = this.props;
 	return(
 		<div style={{ padding: '50px 100px' }}>
 			 <GridContainer
