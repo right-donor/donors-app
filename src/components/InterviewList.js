@@ -19,9 +19,8 @@ class InterviewList extends React.Component {
     render () {
         return this.state.user === null ? <Loading/> : (
             <>
-            <Typography variant="h3"> Recent Interviews </Typography>
             {this.state.user.interviews === null ?
-            <Typography component="p"> You haven't had any recent medical interviews </Typography> :
+            <Typography component="p"> No has tenido entrevistas recientes </Typography> :
                 <>
                     {this.state.user.interviews.map(interview => (
                         <ExpansionPanel>

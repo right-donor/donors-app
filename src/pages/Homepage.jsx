@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // prop validation import
 import PropTypes from 'prop-types';
 // react components for routing without refresh
-import { Link, Route, withRouter } from 'react-router-dom';
+import { Link, Route, withRouter, Switch } from 'react-router-dom';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 
@@ -40,6 +40,9 @@ import { masterLogin, logout } from '../actions';
 
 /** DOCTOR COMPONENTS */
 import DoctorHomepage from './doctor/Homepage.jsx';
+/** ASSISTANT COMPONENTS */
+import AssistantHomepage from './assistant/Homepage.js';
+import DonorPage from './assistant/DonorPage.jsx';
 
 // styles imports
 import {
@@ -391,11 +394,12 @@ class Homepage extends Component {
                                             <Route path='/doctor/perfil' />
                                         </>
                                     ) :
-                                            (
-                                                <>
-                                                    <Route path='/asistente/donadores' />
-                                                </>
-                                            )
+                                    (
+                                        <Switch>
+                                            <Route path={`${match.path}/:donorId`} component={DonorPage} />
+                                            <Route path={match.path} exact component={AssistantHomepage} />
+                                        </Switch>
+                                    )
 
                                 }
 

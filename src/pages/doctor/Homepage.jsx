@@ -75,7 +75,7 @@ class Homepage extends React.Component {
     }
     render() {
         const { classes, user } = this.props;
-        return user.firstname === null ? <Exploration
+        return user ? (user.firstname === null ? <Exploration
             user={user} /> : (
                 <>
                     {/*<div style={{marginBottom:'3rem',height:'25vh', backgroundImage:'url('+ doc+')', backgroundPosition:'center',backgroundSize:'cover'}}>
@@ -109,7 +109,7 @@ class Homepage extends React.Component {
                     </Container>
 
                 </>
-            )
+            )) : null
     }
 }
 

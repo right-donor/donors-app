@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import 'element-theme-default'
 
 /** React Router */
-import { Router, Route, Switch } from 'react-router-dom'
+import { Router, Route } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
 /** AWS Amplify setup */
@@ -41,10 +41,8 @@ const history = createBrowserHistory()
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Switch>
-                <Route path='/' exact component={LandingPage} />
-                <Route path='/app' exact component={App} />
-            </Switch>
+            <Route path='/' exact component={LandingPage} />
+            <Route path='/app' component={App} />
         </Router>
     </Provider>,
     document.getElementById('root'));

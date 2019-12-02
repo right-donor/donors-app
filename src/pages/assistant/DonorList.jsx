@@ -2,7 +2,6 @@ import React from 'react'
 
 /** Element UI Elements */
 import {Loading} from "element-react"
-import {Link} from 'react-router-dom'
 /** AWS Amplify components */
 import {graphqlOperation} from "aws-amplify"
 import {Connect} from "aws-amplify-react"
@@ -10,13 +9,25 @@ import {Connect} from "aws-amplify-react"
 import {listUsers} from "../../graphql/queries"
 import {onCreateUser} from "../../graphql/subscriptions"
 
+// React router
+import { Link, Route } from 'react-router-dom';
+
 /** Material UI Stuff */
 import { withStyles } from "@material-ui/core/styles";
-import styles from '../../assets/jss/material-kit-pro-react/customSelectStyle.js';
 import Card from '../../useful/Card/Card'
+import GridCointainer from '../../useful/Grid/GridContainer';
+import GridItem from '../../useful/Grid/GridItem';
+import Primary from '../../useful/Typography/Primary';
+import Info from '../../useful/Typography/Info';
 import Icon from "@material-ui/core/Icon";
 
-const DonorList = ({searchResults, user}) => {
+const styles = theme => ({
+    card: {
+        padding: '20px',
+    },
+});
+
+const DonorList = ({ searchResults, classes, match, history }) => {
     const onNewUser = (prevQuery, newData) => {
         let updatedQuery = {...prevQuery}
         const updatedUserList = [
@@ -31,65 +42,66 @@ const DonorList = ({searchResults, user}) => {
         <Connect
             subscription={graphqlOperation(onCreateUser)}
             onSubscriptionMsg={onNewUser}
-            query={graphqlOperation(listUsers)}>
+            query={graphqlOperation(listUsers)}
+        >
             {({data,loading,errors}) => {
+                console.log(data)
                 if(errors.length > 0) {
                     return <h1> Ha ocurrido un error </h1>
                 }
 
                 if(loading || !data.listUsers) {
-                    return <Loading fullscreen={true}/>
+                    return <Loading fullscreen />
                 }
 
                 const users = searchResults.length > 0 ? searchResults : data.listUsers.items
+                console.log('Users', users)
 
                 return (
                     <>
                         {/** Section Title */}
                         {searchResults.length > 0 ? (
-                            <h2 className="text-green">
+                            <h3 className="text-green">
                                 <Icon
                                     className="icon"
                                 >
                                     done
                                 </Icon>
                                 {searchResults.length} Resultados
-                            </h2>
+                            </h3>
                         ) : (
-                            <h2 className="header">
+                            <h3 className="header">
                                 Donadores
-                            </h2>
+                            </h3>
                         )}
-                        {/** Mapping of existing donors */}
                         {users.map(donor => (
                             <>
-                                {donor.type === "donor" && (
-                                    <div key={donor.id} className="my-2">
-                                        <Card
-                                            bodyStyle={{
-                                                padding: "0.7em",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between"
-                                            }}>
-                                            <div>
-                                                {/** Patient's name */}
-                                                <span className="flex">
-                                                <Link className="link" to={`/donor/${donor.id}/${user.id}`}>
-                                                    {donor.firstname} {donor.lastname}
+                            {donor.type === 'donor' &&  (
+                                <div key={donor.id} className='my-2'>
+                                    <Card
+                                        bodyStyle={{
+                                            padding: '0.7rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between'
+                                        }}
+                                    >
+                                        <GridCointainer className={classes.card} direction='column'>
+                                            <GridItem xs={6}>
+                                                <Link to={`${match.path}/${donor.id}`}>
+                                                    <Primary>
+                                                        <h4>{donor.firstname} {donor.lastname}</h4>
+                                                    </Primary> {' – '}
                                                 </Link>
-                                                <span style={{ color: 'var(--darkAmazonOrange)' }}>
-                                                    {donor.gender}
-                                                </span>
-                                                <img src="https://icon.now.sh/user" alt="Check Now" />
-                                            </span>
-                                                <div style={{color: "var(--lightSquidInk)"}}>
-                                                    Age: {new Date().getFullYear() - new Date(donor.birthday).getFullYear()}
-                                                </div>
-                                                {donor.blood.type}{donor.blood.rh}
-                                            </div>
-                                        </Card>
-                                    </div>)}
+                                                <Info><strong>{donor.blood.type}{donor.blood.rh}</strong></Info>
+                                            </GridItem>
+                                            <GridItem xs={6}>
+                                                Edad: {new Date().getFullYear() - new Date(donor.birthday).getFullYear()}
+                                            </GridItem>
+                                        </GridCointainer>
+                                    </Card>
+                                </div>
+                            )}
                             </>
                         ))}
                     </>

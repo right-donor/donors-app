@@ -13,6 +13,9 @@ import Button from '../../useful/CustomButtons/Button'
 import Primary from '../../useful/Typography/Primary'
 import CustomInput from '../../useful/CustomInput/CustomInput'
 
+// Redux imports
+import { connect } from 'react-redux';
+
 /** Other components */
 import InterviewList from '../../components/InterviewList'
 
@@ -339,6 +342,11 @@ class ListInterviews extends React.Component {
 
     render () {
         const {donor,user,classes} = this.props;
+        const {
+            showInterviewDialog,
+            showStepTwoDialog,
+            showStepThreeDialog
+        } = this.state;
         /* TO DO:
         * Diferenciar cuándo mostrar cada formulario
         * return (!donor && !user) ? <Loading/> : (
@@ -346,14 +354,17 @@ class ListInterviews extends React.Component {
         * {donor.interviews !== null && ( Entrevistas recientes -> paso 1 -> paso 2 -> paso 3
         */
         return(
-            /*<FormControl fullWidth className={classes.selectFormControl}>
+            <>
+            <FormControl fullWidth className={classes.selectFormControl}>
                 <GridContainer spacing={3} direction="column" justify="center" alignItems="center">
                     <form className={""} autoComplete="on">
-                        <GridItem>
-                            <Primary>
-                                <h2>No se han encontrado donaciones recientes</h2>
-                            </Primary>
-                        </GridItem>
+                        {donor.interviews === null && (
+                            <GridItem>
+                                <Primary>
+                                    <h3>No se han encontrado donaciones recientes</h3>
+                                </Primary>
+                            </GridItem>
+                        )}
                         <GridItem>
                             <Button
                                 onClick={() => this.setState({showInterviewDialog: true})}
@@ -365,486 +376,495 @@ class ListInterviews extends React.Component {
                         </GridItem>
                     </form>
                 </GridContainer>
-            </FormControl>*/
-            /*<FormControl fullWidth className={classes.selectFormControl}>
+            </FormControl>
+            <FormControl fullWidth className={classes.selectFormControl}>
                 <GridContainer spacing={3} direction="column" justify="center" alignItems="center">
                     <form className={""} autoComplete="on">
-                        <GridItem>
-                            <Primary>
-                                    <h2>Entrevistas recientes</h2>
-                            </Primary>
-                        </GridItem>
-                        <GridItem>
-                            <InterviewList user={this.props.donor}/>
-                        </GridItem>
-                        <GridItem>
-                            <CustomInput
-                                labelText="Peso"
-                                onChange={weight => this.setState({weight})}
-                            />
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="recent-sickness"
-                                className={classes.selectLabel}
-                            >
-                                ¿Te has enfermado recientemente?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.recentSickness}
-                                onChange={event => this.setState({recentSickness: event.target.value})}
-                                inputProps={{
-                                    name: "recentSickness",
-                                    id: "recent-sickness"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                        {donor.interviews !== null && (
+                            <>
+                            <GridItem>
+                                <Primary>
+                                        <h3>Entrevistas recientes</h3>
+                                </Primary>
+                            </GridItem>
+                            <GridItem>
+                                <InterviewList user={this.props.donor}/>
+                            </GridItem>
+                            </>
+                        )}
+                        {showInterviewDialog && (
+                            <>
+                            <GridItem>
+                                <CustomInput
+                                    labelText="Peso"
+                                    inputProps={{ onChange: weight => this.setState({weight}) }}
+                                />
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="recent-sickness"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Te has enfermado recientemente?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.recentSickness}
+                                    onChange={event => this.setState({recentSickness: event.target.value})}
+                                    inputProps={{
+                                        name: "recentSickness",
+                                        id: "recent-sickness"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="recent-antibiotics"
-                                className={classes.selectLabel}
-                            >
-                                ¿Has tomado antibióticos recientemente?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.recentAntibiotics}
-                                onChange={event => this.setState({recentAntibiotics: event.target.value})}
-                                inputProps={{
-                                    name: "recentAntibiotics",
-                                    id: "recent-antibiotics"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Te has enfermado recientemente?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="recent-antibiotics"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Has tomado antibióticos recientemente?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.recentAntibiotics}
+                                    onChange={event => this.setState({recentAntibiotics: event.target.value})}
+                                    inputProps={{
+                                        name: "recentAntibiotics",
+                                        id: "recent-antibiotics"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="recent-pregnancy"
-                                className={classes.selectLabel}
-                            >
-                                ¿Estuviste embarazada recientemente?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.recentPregnancy}
-                                onChange={event => this.setState({recentPregnancy: event.target.value})}
-                                inputProps={{
-                                    name: "recentPregnancy",
-                                    id: "recent-pregnancy"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Has tomado antibióticos recientemente?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="recent-pregnancy"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Estuviste embarazada recientemente?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.recentPregnancy}
+                                    onChange={event => this.setState({recentPregnancy: event.target.value})}
+                                    inputProps={{
+                                        name: "recentPregnancy",
+                                        id: "recent-pregnancy"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="recent-alcohol"
-                                className={classes.selectLabel}
-                            >
-                                ¿Has tomado alcohol en las últimas 24h?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.recentAlcohol}
-                                onChange={event => this.setState({recentAlcohol: event.target.value})}
-                                inputProps={{
-                                    name: "recentAlcohol",
-                                    id: "recent-alcohol"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Estuviste embarazada recientemente?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="recent-alcohol"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Has tomado alcohol en las últimas 24h?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.recentAlcohol}
+                                    onChange={event => this.setState({recentAlcohol: event.target.value})}
+                                    inputProps={{
+                                        name: "recentAlcohol",
+                                        id: "recent-alcohol"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="recent-tattoos"
-                                className={classes.selectLabel}
-                            >
-                                ¿Te has tatuado en el último año?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.recentTattoos}
-                                onChange={event => this.setState({recentTattoos: event.target.value})}
-                                inputProps={{
-                                    name: "recentTattoos",
-                                    id: "recent-tattoos"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Has tomado alcohol en las últimas 24h?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="recent-tattoos"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Te has tatuado en el último año?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.recentTattoos}
+                                    onChange={event => this.setState({recentTattoos: event.target.value})}
+                                    inputProps={{
+                                        name: "recentTattoos",
+                                        id: "recent-tattoos"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="recent-menstrual-cycle"
-                                className={classes.selectLabel}
-                            >
-                                ¿Estás en tu periodo?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.recentMenstrualCycle}
-                                onChange={event => this.setState({recentMenstrualCycle: event.target.value})}
-                                inputProps={{
-                                    name: "recentMenstrualCycle",
-                                    id: "recent-menstrual-cycle"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Te has tatuado en el último año?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="recent-menstrual-cycle"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Estás en tu periodo?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.recentMenstrualCycle}
+                                    onChange={event => this.setState({recentMenstrualCycle: event.target.value})}
+                                    inputProps={{
+                                        name: "recentMenstrualCycle",
+                                        id: "recent-menstrual-cycle"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="diabetic"
-                                className={classes.selectLabel}
-                            >
-                                ¿Eres diabético?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.diabetic}
-                                onChange={event => this.setState({diabetic: event.target.value})}
-                                inputProps={{
-                                    name: "diabetic",
-                                    id: "diabetic"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Estás en tu periodo?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="diabetic"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Eres diabético?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.diabetic}
+                                    onChange={event => this.setState({diabetic: event.target.value})}
+                                    inputProps={{
+                                        name: "diabetic",
+                                        id: "diabetic"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="hypertension"
-                                className={classes.selectLabel}
-                            >
-                                ¿Sufres de hipertensión?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.hypertension}
-                                onChange={event => this.setState({hypertension: event.target.value})}
-                                inputProps={{
-                                    name: "hypertension",
-                                    id: "hypertension"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Eres diabético?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="hypertension"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Sufres de hipertensión?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={this.state.hypertension}
+                                    onChange={event => this.setState({hypertension: event.target.value})}
+                                    inputProps={{
+                                        name: "hypertension",
+                                        id: "hypertension"
+                                    }}
                                 >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value="false"
-                                >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <InputLabel
-                                htmlFor="recent-vaccines"
-                                className={classes.selectLabel}
-                            >
-                                ¿Te has vacunado en las últimas dos semanas?
-                            </InputLabel>
-                            <Select
-                                fullWidth
-                                MenuProps={{
-                                    className: classes.selectMenu
-                                }}
-                                classes={{
-                                    select: classes.select
-                                }}
-                                value={this.state.recentVaccines}
-                                onChange={event => this.setState({recentVaccines: event.target.value})}
-                                inputProps={{
-                                    name: "recentVaccines",
-                                    id: "recent-vaccines"
-                                }}
-                            >
-                                <MenuItem
-                                    disabled
-                                    classes={{
-                                        root: classes.selectMenuItem
-                                    }}
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Sufres de hipertensión?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <InputLabel
+                                    htmlFor="recent-vaccines"
+                                    className={classes.selectLabel}
                                 >
                                     ¿Te has vacunado en las últimas dos semanas?
-                                </MenuItem>
-                                <MenuItem
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    MenuProps={{
+                                        className: classes.selectMenu
                                     }}
-                                    value="true"
-                                >
-                                    Sí
-                                </MenuItem>
-                                <MenuItem
                                     classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
+                                        select: classes.select
                                     }}
-                                    value="false"
+                                    value={this.state.recentVaccines}
+                                    onChange={event => this.setState({recentVaccines: event.target.value})}
+                                    inputProps={{
+                                        name: "recentVaccines",
+                                        id: "recent-vaccines"
+                                    }}
                                 >
-                                    No
-                                </MenuItem>
-                            </Select>
-                        </GridItem>
-                        <GridItem>
-                            <Button fullWidth
-                                    color="primary"
-                                    onClick={() => this.checkForStep2Interview()}
-                            >
-                                Enviar
-                            </Button>
-                        </GridItem>
+                                    <MenuItem
+                                        disabled
+                                        classes={{
+                                            root: classes.selectMenuItem
+                                        }}
+                                    >
+                                        ¿Te has vacunado en las últimas dos semanas?
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={true}
+                                    >
+                                        Sí
+                                    </MenuItem>
+                                    <MenuItem
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={false}
+                                    >
+                                        No
+                                    </MenuItem>
+                                </Select>
+                            </GridItem>
+                            <GridItem>
+                                <Button fullWidth
+                                        color="primary"
+                                        onClick={() => this.checkForStep2Interview()}
+                                >
+                                    Enviar
+                                </Button>
+                            </GridItem>
+                            </>
+                        )}
                     </form>
                 </GridContainer>
-            </FormControl>*/
-            /*<FormControl fullWidth className={classes.selectFormControl}>
+            </FormControl>
+            {showStepTwoDialog && (
+            <FormControl fullWidth className={classes.selectFormControl}>
                 <GridContainer
                     spacing={3}
                     direction="column"
@@ -890,7 +910,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="true"
+                                    value={true}
                                 >
                                     Positivo
                                 </MenuItem>
@@ -899,7 +919,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="false"
+                                    value={false}
                                 >
                                     Negativo
                                 </MenuItem>
@@ -939,7 +959,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="true"
+                                    value={true}
                                 >
                                     Positivo
                                 </MenuItem>
@@ -948,7 +968,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="false"
+                                    value={false}
                                 >
                                     Negativo
                                 </MenuItem>
@@ -988,7 +1008,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="true"
+                                    value={true}
                                 >
                                     Positivo
                                 </MenuItem>
@@ -997,7 +1017,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="false"
+                                    value={false}
                                 >
                                     Negativo
                                 </MenuItem>
@@ -1037,7 +1057,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="true"
+                                    value={true}
                                 >
                                     Positivo
                                 </MenuItem>
@@ -1046,7 +1066,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="false"
+                                    value={false}
                                 >
                                     Negativo
                                 </MenuItem>
@@ -1086,7 +1106,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="true"
+                                    value={true}
                                 >
                                     Positivo
                                 </MenuItem>
@@ -1095,7 +1115,7 @@ class ListInterviews extends React.Component {
                                         root: classes.selectMenuItem,
                                         selected: classes.selectMenuItemSelected
                                     }}
-                                    value="false"
+                                    value={false}
                                 >
                                     Negativo
                                 </MenuItem>
@@ -1109,7 +1129,9 @@ class ListInterviews extends React.Component {
                         </Button>
                     </form>
                 </GridContainer>
-            </FormControl>*/
+            </FormControl>
+            )}
+            {showStepThreeDialog && (
             <FormControl fullWidth className={classes.selectFormControl}>
                 <GridContainer
                     spacing={3}
@@ -1139,8 +1161,14 @@ class ListInterviews extends React.Component {
                     </form>
                 </GridContainer>
             </FormControl>
-
+            )}
+            </>
         )
     }
 }
-export default withStyles(styles)(ListInterviews)
+
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps, null)(withStyles(styles)(ListInterviews))

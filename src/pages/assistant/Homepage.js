@@ -1,78 +1,50 @@
 import React from 'react'
 
+// REDUX IMPORT
+import { connect } from 'react-redux';
+
 /** UI Components */
 import { Loading, Notification } from 'element-react'
 /** GraphQL Queries */
-import { searchUsers, getUser } from '../../graphql/queries'
+import { searchUsers } from '../../graphql/queries'
 /** AWS Amplify */
 import { API, graphqlOperation } from 'aws-amplify'
 /** Man made components */
-import DonorSearch from '../../components/DonorSearch'
-import DonorList from '../../components/DonorList'
-import Exploration from '../../components/forms/donor/exploration'
-import { createHospital, updateUser } from '../../graphql/mutations'
+import DonorSearch from './DonorSearch'
+import DonorList from './DonorList'
+import { updateUser } from '../../graphql/mutations'
 
 class Homepage extends React.Component {
-    state = {
-        user: {},
-        userdb: {},
-        searchTerm: "",
-        searchResults: [],
-        isSearching: false,
-        showInitialForm: false
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            user: null,
+            searchTerm: "",
+            searchResults: [],
+            isSearching: false,
+        };
     }
 
     componentDidMount = () => {
-        if (this.props.user && this.props.userdb) {
-            this.setState({
-                user: this.props.user,
-                userdb: this.props.userdb,
-                showInitialForm: this.props.userdb.firstname === null
-            })
-            if(this.props.userdb.hospital === null) {
-                this.createNewHospitalAndAssignToAssistant()
+        if (this.props.user) {
+            this.setState({ user: this.props.user })
+            if(this.props.user.hospital === null) {
+                this.assignHospitalToAssistant("HGM106720")
             }            
         }
     }
 
-    createNewHospitalAndAssignToAssistant = async () => {
-        const input = {
-            name : "Hospital General de Mexico",
-            country : "MX",
-            address_line1: "Dr. Balmis 148, Doctores",
-            address_state: "CDMX",
-            address_zip: "06720"
-        }
-        const result = await API.graphql(graphqlOperation(createHospital,{input}))
-        await this.assignHospitalToAssistant(result.data.createHospital.id)
-    }
-
     assignHospitalToAssistant = async hospitalId => {
         const input = {
-            id: this.props.userdb.id,
+            id: this.props.user.id,
             userHospitalId : hospitalId
         }
         const result = await API.graphql(graphqlOperation(updateUser, {input}))
         console.log(result.data.updateUser)
     }
 
-    refreshUserData = () => {
-        this.retrieveUserFromDB(this.props.user.username)
-    }
-
-    retrieveUserFromDB = async (id) => {
-        const qparams = {
-            id,
-            userHospitalId: "bba6f559-52be-4e0d-8700-60cea7918889"
-        }
-        const userdb = await API.graphql(graphqlOperation(getUser, qparams))
-        this.setState({
-            userdb: userdb.data.getUser,
-            showInitialForm: false
-        })
-    }
-
-    handleSearchChange = searchTerm => this.setState({ searchTerm })
+    handleSearchChange = searchTerm => this.setState({ searchTerm: searchTerm.target.value })
     handleSearchClear = () => this.setState({ searchTerm: "", searchResults: [] })
     handleSearch = async event => {
         try {
@@ -98,24 +70,25 @@ class Homepage extends React.Component {
     }
 
     render() {
-        const { user, userdb, showInitialForm } = this.state
-        return !user && !userdb ? <Loading fullscreen="true" /> : (
+        const { user } = this.state
+        const { match, history } = this.props
+        return !user ? <Loading fullscreen /> : (
             <>
-                {showInitialForm ? <Exploration refresh={this.state.refreshUserData} user={userdb} /> : (
-                    <>
-                        <DonorSearch
-                            handleSearch={this.handleSearch}
-                            isSearching={this.state.isSearching}
-                            searchTerm={this.state.searchTerm}
-                            handleSearchChange={this.handleSearchChange}
-                            handleClearSearch={this.handleSearchClear}
-                            user={this.state.userdb} />
-                        <DonorList user={userdb} searchResults={this.state.searchResults} />
-                    </>
-                )}
+                <DonorSearch
+                    handleSearch={this.handleSearch}
+                    isSearching={this.state.isSearching}
+                    searchTerm={this.state.searchTerm}
+                    handleSearchChange={this.handleSearchChange}
+                    handleClearSearch={this.handleSearchClear}
+                    user={user} />
+                <DonorList match={match} history={history} user={user} searchResults={this.state.searchResults} />
             </>
         )
     }
 }
 
-export default Homepage
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps, null)(Homepage)

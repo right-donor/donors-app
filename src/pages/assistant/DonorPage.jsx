@@ -10,7 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from '../../assets/jss/material-kit-pro-react/customSelectStyle.js';
 /** Manmade components */
 import Avatar from '../../components/avatar'
-import ListInterviews from "ListInterview"
+import ListInterviews from "./ListInterview"
 
 const getUser = `query GetUser($id: ID!) {
     getUser(id: $id) {
@@ -102,34 +102,32 @@ const getUser = `query GetUser($id: ID!) {
   `
 
 class DonorPage extends React.Component {
+  constructor(props) {
+    super(props);
 
-    state = {
-        donor: null,
-        userdb: null
+    this.state = {
+      donor: null
     }
 
-    componentDidMount = async () => {
-        if(this.props.donorId && this.props.userId) {
-            await this.getDonorInformation()
-            await this.getAssistantInformation()
-        }
-    }
+    this.getDonorInformation()
+  }
 
-    getDonorInformation = async () => {
-        const result = await API.graphql(graphqlOperation(getUser,{id: this.props.donorId}))
-        this.setState({donor: result.data.getUser})
-    }
+  getDonorInformation = async () => {
+    console.log(this.props.match)
+      const result = await API.graphql(graphqlOperation(getUser,{id: this.props.match.params.donorId}))
+      this.setState({donor: result.data.getUser})
+  }
 
-    render () {
-        const {donor,userdb} = this.state
-        return (!donor && !userdb) ? <Loading fullscreen="true"/> : (
-            <>
-                <Avatar user={donor}/>
-                <ListInterviews donor={donor} user={userdb}/>
-            </>
-        )
-    }
+  render () {
+      const { donor } = this.state
+      return (!donor) ? null : (
+          <>
+              <Avatar user={donor}/>
+              <ListInterviews donor={donor} />
+          </>
+      )
+  }
 
 }
 
-export default withStyle(styles)(DonorPage)
+export default withStyles(styles)(DonorPage)

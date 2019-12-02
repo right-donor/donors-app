@@ -15,23 +15,23 @@ class DonorSearch extends React.Component {
         const {classes} = this.props;
         return(
             <FormControl fullWidth className={classes.selectFormControl}>
-                <GridContainer spacing={3} direction="column" justify="center" alignItems="center">
-                    <form className={""} autoComplete="on" onSubmit={this.handleSearch}>
+                <GridContainer spacing={3} direction="column" justify="center" alignItems="start">
+                    <form className={""} autoComplete="on" onSubmit={this.props.handleSearch}>
                         <GridItem>
                             <Primary>
                                 {/* Title */}
-                                <h1>Búsqueda del donador</h1>
+                                <h2>Búsqueda del donador</h2>
                             </Primary>
                         </GridItem>
                         {/* Elastic Search*/}
-                        <GridItem>
+                        <GridItem xs={4} sm={4} md={4}>
                             <CustomInput
-                                fullWidth
+                                formControlProps= {{ fullWidth: true }}
                                 labelText="Busca donadores"
                                 id="donorSearch"
                                 icon="circle-cross"
                                 onIconClick={this.props.handleClearSearch}
-                                onChange={this.props.handleSearchChange}
+                                inputProps={{ onChange: this.props.handleSearchChange }}
                                 value={this.props.searchTerm}
                             />
                         </GridItem>
@@ -39,7 +39,6 @@ class DonorSearch extends React.Component {
                             <Button
                                 type="info"
                                 icon="search"
-                                fullWidth
                                 color="primary"
                             >
                                 Buscar
