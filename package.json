@@ -18,7 +18,7 @@
     "element-theme-default": "^1.4.13",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-animate-on-scroll": "^2.1.5",
